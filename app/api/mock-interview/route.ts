@@ -1,61 +1,35 @@
-import OpenAI from 'openai';
-
 import { NextResponse } from 'next/server';
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+import { getOpenAI } from '@/lib/openai';
 
 export async function POST(req: Request) {
   try {
-    const { role, answer } = await req.json();
+    const openai = getOpenAI();
+    const { answer, question } = await req.json();
 
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
-
       messages: [
         {
           role: 'system',
-
-          content: `
-              You are an AI mock interviewer.
-
-              Evaluate:
-              - Technical accuracy
-              - Communication
-              - Clarity
-              - Confidence
-              - Improvements
-              - Interview readiness
-              `,
+          content:
+            'You are a technical interview evaluator. Evaluate the answer to the question and provide constructive feedback. Include: Correctness, Clarity, Areas for improvement.',
         },
-
         {
           role: 'user',
-
-          content: `
-              Role:
-              ${role}
-
-              Candidate Answer:
-              ${answer}
-              `,
+          content: `Question: ${question}\n\nAnswer: ${answer}`,
         },
       ],
     });
 
     return NextResponse.json({
       success: true,
-
       feedback: completion.choices[0].message.content,
     });
   } catch (error) {
     console.log(error);
-
     return NextResponse.json({
       success: false,
-
-      message: 'Interview Error',
+      message: 'Mock Interview failed',
     });
   }
 }

@@ -8,7 +8,7 @@ interface Stats {
   totalUsers: number;
   totalTutorials: number;
   latestUsers: Array<{ _id: string; name: string; email: string }>;
-  latestTutorials: Array<{ _id: string; title: string }>;
+  latestTutorials: Array<{ _id: string; title: string; category?: string }>;
 }
 
 export default function AdminPage() {
@@ -131,7 +131,7 @@ export default function AdminPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div className="border border-white/5 rounded-xl p-6 bg-white/[0.02]">
             <h2 className="font-semibold mb-4">Recent Users</h2>
-            {stats?.latestUsers?.length > 0 ? (
+            {stats && stats.latestUsers && stats.latestUsers.length > 0 ? (
               <div className="space-y-3">
                 {stats.latestUsers.map((user) => (
                   <div
@@ -155,7 +155,9 @@ export default function AdminPage() {
 
           <div className="border border-white/5 rounded-xl p-6 bg-white/[0.02]">
             <h2 className="font-semibold mb-4">Latest Tutorials</h2>
-            {stats?.latestTutorials?.length > 0 ? (
+            {stats &&
+            stats.latestTutorials &&
+            stats.latestTutorials.length > 0 ? (
               <div className="space-y-3">
                 {stats.latestTutorials.map((tutorial) => (
                   <div

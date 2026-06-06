@@ -13,7 +13,7 @@ export async function validateRequest<T>(
     const validation = schema.safeParse(body);
 
     if (!validation.success) {
-      const errors = validation.error.errors
+      const errors = validation.error.issues
         .map((e) => `${e.path.join('.')}: ${e.message}`)
         .join(', ');
       return {

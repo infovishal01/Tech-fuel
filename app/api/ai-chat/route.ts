@@ -1,51 +1,51 @@
-import OpenAI from 'openai';
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+import { NextResponse } from 'next/server';
+import { getOpenAI } from '@/lib/openai';
 
 export async function POST(req: Request) {
-  const { message } = await req.json();
+  try {
+    const openai = getOpenAI();
+    const { message } = await req.json();
 
-  // Stream
-  const stream = await openai.chat.completions.create({
-    model: 'gpt-4o-mini',
+    const stream = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      stream: true,
+      messages: [
+        {
+          role: 'system',
+          content:
+            'You are a helpful AI tutor for developers. Explain concepts clearly and provide code examples when relevant.',
+        },
+        {
+          role: 'user',
+          content: message,
+        },
+      ],
+    });
 
-    stream: true,
-
-    messages: [
-      {
-        role: 'system',
-
-        content: `
-            You are Tech Fuel AI Assistant.
-            Help with coding, AI, cloud,
-            DevOps, and careers.
-            `,
+    const encoder = new TextEncoder();
+    const customReadable = new ReadableStream({
+      async start(controller) {
+        for await (const chunk of stream) {
+          const content = chunk.choices[0]?.delta?.content || '';
+          if (content) {
+            controller.enqueue(encoder.encode(content));
+          }
+        }
+        controller.close();
       },
+    });
 
-      {
-        role: 'user',
-
-        content: message,
+    return new NextResponse(customReadable, {
+      headers: {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
       },
-    ],
-  });
-
-  // Create Stream
-  const encoder = new TextEncoder();
-
-  const readable = new ReadableStream({
-    async start(controller) {
-      for await (const chunk of stream) {
-        const text = chunk.choices[0]?.delta?.content || '';
-
-        controller.enqueue(encoder.encode(text));
-      }
-
-      controller.close();
-    },
-  });
-
-  return new Response(readable);
+    });
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({
+      success: false,
+      message: 'AI Chat failed',
+    });
+  }
 }
