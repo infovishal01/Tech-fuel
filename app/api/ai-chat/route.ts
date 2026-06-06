@@ -1,79 +1,51 @@
-import OpenAI from "openai";
+import OpenAI from 'openai';
 
 const openai = new OpenAI({
-
-  apiKey:
-    process.env
-      .OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
-export async function POST(
-  req: Request
-) {
-
-  const { message } =
-    await req.json();
+export async function POST(req: Request) {
+  const { message } = await req.json();
 
   // Stream
-  const stream =
-    await openai.chat.completions.create({
+  const stream = await openai.chat.completions.create({
+    model: 'gpt-4o-mini',
 
-      model:
-        "gpt-4o-mini",
+    stream: true,
 
-      stream: true,
+    messages: [
+      {
+        role: 'system',
 
-      messages: [
-
-        {
-          role: "system",
-
-          content:
-            `
+        content: `
             You are Tech Fuel AI Assistant.
             Help with coding, AI, cloud,
             DevOps, and careers.
             `,
-        },
+      },
 
-        {
-          role: "user",
+      {
+        role: 'user',
 
-          content:
-            message,
-        },
-      ],
-    });
+        content: message,
+      },
+    ],
+  });
 
   // Create Stream
-  const encoder =
-    new TextEncoder();
+  const encoder = new TextEncoder();
 
-  const readable =
-    new ReadableStream({
+  const readable = new ReadableStream({
+    async start(controller) {
+      for await (const chunk of stream) {
+        const text = chunk.choices[0]?.delta?.content || '';
 
-      async start(controller) {
+        controller.enqueue(encoder.encode(text));
+      }
 
-        for await (
-          const chunk of stream
-        ) {
+      controller.close();
+    },
+  });
 
-          const text =
-            chunk
-              .choices[0]
-              ?.delta
-              ?.content || "";
-
-          controller.enqueue(
-            encoder.encode(text)
-          );
-        }
-
-        controller.close();
-      },
-    });
-
-  return new Response(
-    readable
-  );
+  return new Response(readable);
 }

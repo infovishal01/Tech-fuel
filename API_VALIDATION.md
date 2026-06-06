@@ -16,7 +16,12 @@ The validation utilities are in `lib/api-validation.ts` and include:
 ### Basic Validation
 
 ```typescript
-import { validateRequest, schemas, errorResponse, successResponse } from '@/lib/api-validation';
+import {
+  validateRequest,
+  schemas,
+  errorResponse,
+  successResponse,
+} from '@/lib/api-validation';
 import { z } from 'zod';
 
 export async function POST(req: Request) {
@@ -99,7 +104,7 @@ const schema = z.object({
 ✅ **Clear Errors** — Helpful validation messages  
 ✅ **DRY** — Reusable schemas across routes  
 ✅ **Security** — Catch invalid requests early  
-✅ **Consistency** — Standard response format  
+✅ **Consistency** — Standard response format
 
 ## Response Format
 

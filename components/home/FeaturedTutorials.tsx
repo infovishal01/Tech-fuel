@@ -1,24 +1,24 @@
-import Link from "next/link";
-import { ArrowRight, BookOpen, Code, Brain } from "lucide-react";
+import Link from 'next/link';
+import { ArrowRight, BookOpen, Code, Brain } from 'lucide-react';
 
 const tutorials = [
   {
-    title: "Master ChatGPT Prompts",
-    desc: "Learn advanced prompting techniques to get better results from AI models.",
+    title: 'Master ChatGPT Prompts',
+    desc: 'Learn advanced prompting techniques to get better results from AI models.',
     icon: Brain,
-    category: "AI",
+    category: 'AI',
   },
   {
-    title: "Build with Next.js 16",
-    desc: "Create modern web applications with the latest Next.js features.",
+    title: 'Build with Next.js 16',
+    desc: 'Create modern web applications with the latest Next.js features.',
     icon: Code,
-    category: "Development",
+    category: 'Development',
   },
   {
-    title: "AI Tools for Developers",
-    desc: "Boost your productivity with AI-powered development tools.",
+    title: 'AI Tools for Developers',
+    desc: 'Boost your productivity with AI-powered development tools.',
     icon: BookOpen,
-    category: "Productivity",
+    category: 'Productivity',
   },
 ];
 

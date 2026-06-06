@@ -1,41 +1,41 @@
-import ToolCard from "./ToolCard";
+import ToolCard from './ToolCard';
 
 const tools = [
   {
-    name: "ChatGPT",
-    company: "OpenAI",
-    emoji: "🤖",
-    desc: "AI assistant for coding, writing, and reasoning",
+    name: 'ChatGPT',
+    company: 'OpenAI',
+    emoji: '🤖',
+    desc: 'AI assistant for coding, writing, and reasoning',
   },
   {
-    name: "Claude",
-    company: "Anthropic",
-    emoji: "🧠",
-    desc: "Best for long documents and analysis",
+    name: 'Claude',
+    company: 'Anthropic',
+    emoji: '🧠',
+    desc: 'Best for long documents and analysis',
   },
   {
-    name: "Gemini",
-    company: "Google",
-    emoji: "✨",
-    desc: "Multimodal AI with Google integration",
+    name: 'Gemini',
+    company: 'Google',
+    emoji: '✨',
+    desc: 'Multimodal AI with Google integration',
   },
   {
-    name: "Perplexity",
-    company: "Perplexity AI",
-    emoji: "🔍",
-    desc: "AI search engine with real-time web results",
+    name: 'Perplexity',
+    company: 'Perplexity AI',
+    emoji: '🔍',
+    desc: 'AI search engine with real-time web results',
   },
   {
-    name: "DeepSeek",
-    company: "DeepSeek AI",
-    emoji: "🚀",
-    desc: "Powerful AI model for coding and reasoning",
+    name: 'DeepSeek',
+    company: 'DeepSeek AI',
+    emoji: '🚀',
+    desc: 'Powerful AI model for coding and reasoning',
   },
   {
-    name: "Midjourney",
-    company: "Midjourney",
-    emoji: "🎨",
-    desc: "AI image generation for creative projects",
+    name: 'Midjourney',
+    company: 'Midjourney',
+    emoji: '🎨',
+    desc: 'AI image generation for creative projects',
   },
 ];
 

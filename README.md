@@ -12,14 +12,14 @@ A modern AI-powered developer learning platform built with Next.js 16, Tailwind 
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
+| Layer    | Technology                            |
+| -------- | ------------------------------------- |
 | Frontend | Next.js 16, React 19, Tailwind CSS v4 |
-| Backend | Next.js API Routes, MongoDB, Mongoose |
-| AI | OpenAI SDK (gpt-4o-mini) |
-| Auth | JWT, bcryptjs, NextAuth (Google) |
-| Charts | Recharts |
-| Icons | Lucide React |
+| Backend  | Next.js API Routes, MongoDB, Mongoose |
+| AI       | OpenAI SDK (gpt-4o-mini)              |
+| Auth     | JWT, bcryptjs, NextAuth (Google)      |
+| Charts   | Recharts                              |
+| Icons    | Lucide React                          |
 
 ## Getting Started
 
@@ -79,17 +79,17 @@ OPENAI_API_KEY=your_openai_api_key
 
 ## API Routes
 
-| Route | Method | Description |
-|-------|--------|-------------|
-| `/api/auth/[...nextauth]` | GET/POST | NextAuth Google OAuth |
-| `/api/tutorials` | GET/POST | List/create tutorials |
-| `/api/ai-chat` | POST | AI chat (streaming) |
-| `/api/code-generator` | POST | Code generation |
-| `/api/mock-interview` | POST | Mock interview feedback |
-| `/api/project-generator` | POST | Project idea generation |
-| `/api/roadmap` | POST | Career roadmap generation |
-| `/api/profile` | GET | Get user profile (auth required) |
-| `/api/test` | GET | Test MongoDB connection |
+| Route                     | Method   | Description                      |
+| ------------------------- | -------- | -------------------------------- |
+| `/api/auth/[...nextauth]` | GET/POST | NextAuth Google OAuth            |
+| `/api/tutorials`          | GET/POST | List/create tutorials            |
+| `/api/ai-chat`            | POST     | AI chat (streaming)              |
+| `/api/code-generator`     | POST     | Code generation                  |
+| `/api/mock-interview`     | POST     | Mock interview feedback          |
+| `/api/project-generator`  | POST     | Project idea generation          |
+| `/api/roadmap`            | POST     | Career roadmap generation        |
+| `/api/profile`            | GET      | Get user profile (auth required) |
+| `/api/test`               | GET      | Test MongoDB connection          |
 
 ## Design
 

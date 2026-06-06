@@ -1,84 +1,58 @@
-import { NextRequest, NextResponse }
-from "next/server";
+import { NextRequest, NextResponse } from 'next/server';
 
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-import { connectDB }
-from "@/lib/mongodb";
+import { connectDB } from '@/lib/mongodb';
 
 // =======================
 // Tutorial Schema
 // =======================
 
-const TutorialSchema =
-  new mongoose.Schema(
+const TutorialSchema = new mongoose.Schema(
+  {
+    title: String,
 
-    {
-      title: String,
+    slug: String,
 
-      slug: String,
+    description: String,
 
-      description: String,
+    content: String,
 
-      content: String,
+    category: String,
 
-      category: String,
+    author: String,
+  },
 
-      author: String,
-    },
-
-    {
-      timestamps: true,
-    }
-  );
+  {
+    timestamps: true,
+  }
+);
 
 // Prevent Recompile Error
 const Tutorial =
-  mongoose.models.Tutorial ||
-
-  mongoose.model(
-    "Tutorial",
-    TutorialSchema
-  );
+  mongoose.models.Tutorial || mongoose.model('Tutorial', TutorialSchema);
 
 // =======================
 // CREATE TUTORIAL
 // =======================
 
-export async function POST(
-  req: NextRequest
-) {
-
+export async function POST(req: NextRequest) {
   try {
-
     // Connect DB
     await connectDB();
 
     // Body
-    const body =
-      await req.json();
+    const body = await req.json();
 
-    const {
-      title,
-      description,
-      content,
-      category,
-    } = body;
+    const { title, description, content, category } = body;
 
     // Validation
-    if (
-      !title ||
-      !description ||
-      !content
-    ) {
-
+    if (!title || !description || !content) {
       return NextResponse.json(
-
         {
           success: false,
 
-          message:
-            "All fields required",
+          message: 'All fields required',
         },
 
         {
@@ -88,52 +62,37 @@ export async function POST(
     }
 
     // Slug
-    const slug =
-      title
-        .toLowerCase()
-        .replace(/\s+/g, "-");
+    const slug = title.toLowerCase().replace(/\s+/g, '-');
 
     // Create
-    const tutorial =
-      await Tutorial.create({
+    const tutorial = await Tutorial.create({
+      title,
 
-        title,
+      slug,
 
-        slug,
+      description,
 
-        description,
+      content,
 
-        content,
+      category: category || 'AI',
 
-        category:
-          category || "AI",
-
-        author:
-          "Tech Fuel",
-      });
+      author: 'Tech Fuel',
+    });
 
     // Response
     return NextResponse.json({
-
       success: true,
 
       tutorial,
     });
-
   } catch (error) {
-
-    console.log(
-      "POST ERROR:",
-      error
-    );
+    console.log('POST ERROR:', error);
 
     return NextResponse.json(
-
       {
         success: false,
 
-        message:
-          "Server Error",
+        message: 'Server Error',
       },
 
       {
@@ -148,40 +107,28 @@ export async function POST(
 // =======================
 
 export async function GET() {
-
   try {
-
     // Connect DB
     await connectDB();
 
     // Fetch Tutorials
-    const tutorials =
-      await Tutorial.find()
-        .sort({
-          createdAt: -1,
-        });
+    const tutorials = await Tutorial.find().sort({
+      createdAt: -1,
+    });
 
     return NextResponse.json({
-
       success: true,
 
       tutorials,
     });
-
   } catch (error) {
-
-    console.log(
-      "GET ERROR:",
-      error
-    );
+    console.log('GET ERROR:', error);
 
     return NextResponse.json(
-
       {
         success: false,
 
-        message:
-          "Server Error",
+        message: 'Server Error',
       },
 
       {

@@ -1,20 +1,35 @@
-"use client";
+'use client';
 
-import DashboardLayout from "@/components/dashboard/DashboardLayout";
-import { BookOpen, Bot, FolderKanban, TrendingUp } from "lucide-react";
+import DashboardLayout from '@/components/dashboard/DashboardLayout';
+import { BookOpen, Bot, FolderKanban, TrendingUp } from 'lucide-react';
 
 const stats = [
-  { label: "Tutorials Completed", value: "12", icon: BookOpen, change: "+3 this week" },
-  { label: "AI Chats", value: "48", icon: Bot, change: "+8 today" },
-  { label: "Projects", value: "5", icon: FolderKanban, change: "2 in progress" },
-  { label: "Learning Streak", value: "7d", icon: TrendingUp, change: "Keep it up!" },
+  {
+    label: 'Tutorials Completed',
+    value: '12',
+    icon: BookOpen,
+    change: '+3 this week',
+  },
+  { label: 'AI Chats', value: '48', icon: Bot, change: '+8 today' },
+  {
+    label: 'Projects',
+    value: '5',
+    icon: FolderKanban,
+    change: '2 in progress',
+  },
+  {
+    label: 'Learning Streak',
+    value: '7d',
+    icon: TrendingUp,
+    change: 'Keep it up!',
+  },
 ];
 
 const recentActivity = [
-  { action: "Completed", item: "Master ChatGPT Prompts", time: "2 hours ago" },
-  { action: "Started", item: "Build with Next.js 16", time: "5 hours ago" },
-  { action: "Generated", item: "REST API boilerplate", time: "1 day ago" },
-  { action: "Practiced", item: "System Design Interview", time: "2 days ago" },
+  { action: 'Completed', item: 'Master ChatGPT Prompts', time: '2 hours ago' },
+  { action: 'Started', item: 'Build with Next.js 16', time: '5 hours ago' },
+  { action: 'Generated', item: 'REST API boilerplate', time: '1 day ago' },
+  { action: 'Practiced', item: 'System Design Interview', time: '2 days ago' },
 ];
 
 export default function DashboardPage() {

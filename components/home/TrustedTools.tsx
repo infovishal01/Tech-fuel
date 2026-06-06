@@ -1,10 +1,10 @@
 const tools = [
-  { name: "ChatGPT", icon: "🤖" },
-  { name: "Claude", icon: "🧠" },
-  { name: "Gemini", icon: "✨" },
-  { name: "DeepSeek", icon: "🔍" },
-  { name: "Perplexity", icon: "🔎" },
-  { name: "Midjourney", icon: "🎨" },
+  { name: 'ChatGPT', icon: '🤖' },
+  { name: 'Claude', icon: '🧠' },
+  { name: 'Gemini', icon: '✨' },
+  { name: 'DeepSeek', icon: '🔍' },
+  { name: 'Perplexity', icon: '🔎' },
+  { name: 'Midjourney', icon: '🎨' },
 ];
 
 export default function TrustedTools() {

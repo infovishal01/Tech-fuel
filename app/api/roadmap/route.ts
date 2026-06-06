@@ -1,37 +1,23 @@
-import OpenAI from "openai";
+import OpenAI from 'openai';
 
-import { NextResponse }
-from "next/server";
+import { NextResponse } from 'next/server';
 
 const openai = new OpenAI({
-
-  apiKey:
-    process.env
-      .OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
-export async function POST(
-  req: Request
-) {
-
+export async function POST(req: Request) {
   try {
+    const { career } = await req.json();
 
-    const { career } =
-      await req.json();
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
 
-    const completion =
-      await openai.chat.completions.create({
+      messages: [
+        {
+          role: 'system',
 
-        model:
-          "gpt-4o-mini",
-
-        messages: [
-
-          {
-            role: "system",
-
-            content:
-              `
+          content: `
               You are an AI career roadmap generator.
 
               Generate:
@@ -42,40 +28,31 @@ export async function POST(
               - Career guidance
               - Resources
               `,
-          },
+        },
 
-          {
-            role: "user",
+        {
+          role: 'user',
 
-            content:
-              `
+          content: `
               Create a complete roadmap for:
               ${career}
               `,
-          },
-        ],
-      });
-
-    return NextResponse.json({
-
-      success: true,
-
-      roadmap:
-        completion
-          .choices[0]
-          .message.content,
+        },
+      ],
     });
 
-  } catch (error) {
+    return NextResponse.json({
+      success: true,
 
+      roadmap: completion.choices[0].message.content,
+    });
+  } catch (error) {
     console.log(error);
 
     return NextResponse.json({
-
       success: false,
 
-      message:
-        "Roadmap Error",
+      message: 'Roadmap Error',
     });
   }
 }

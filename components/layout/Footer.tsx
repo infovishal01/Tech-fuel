@@ -1,20 +1,20 @@
-import Link from "next/link";
-import { Zap } from "lucide-react";
+import Link from 'next/link';
+import { Zap } from 'lucide-react';
 
 const footerLinks = {
   Platform: [
-    { href: "/tutorials", label: "Tutorials" },
-    { href: "/ai-tools", label: "AI Tools" },
-    { href: "/dashboard", label: "Dashboard" },
+    { href: '/tutorials', label: 'Tutorials' },
+    { href: '/ai-tools', label: 'AI Tools' },
+    { href: '/dashboard', label: 'Dashboard' },
   ],
   Company: [
-    { href: "/about", label: "About" },
-    { href: "/about", label: "Contact" },
-    { href: "/about", label: "Careers" },
+    { href: '/about', label: 'About' },
+    { href: '/about', label: 'Contact' },
+    { href: '/about', label: 'Careers' },
   ],
   Legal: [
-    { href: "/about", label: "Privacy" },
-    { href: "/about", label: "Terms" },
+    { href: '/about', label: 'Privacy' },
+    { href: '/about', label: 'Terms' },
   ],
 };
 
@@ -67,13 +67,22 @@ export default function Footer() {
             © {new Date().getFullYear()} TechFuel. All rights reserved.
           </p>
           <div className="flex gap-4">
-            <a href="#" className="text-xs text-zinc-600 hover:text-white transition-colors">
+            <a
+              href="#"
+              className="text-xs text-zinc-600 hover:text-white transition-colors"
+            >
               Twitter
             </a>
-            <a href="#" className="text-xs text-zinc-600 hover:text-white transition-colors">
+            <a
+              href="#"
+              className="text-xs text-zinc-600 hover:text-white transition-colors"
+            >
               GitHub
             </a>
-            <a href="#" className="text-xs text-zinc-600 hover:text-white transition-colors">
+            <a
+              href="#"
+              className="text-xs text-zinc-600 hover:text-white transition-colors"
+            >
               LinkedIn
             </a>
           </div>

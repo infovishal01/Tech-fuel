@@ -1,37 +1,37 @@
-"use client";
+'use client';
 
-import MainLayout from "@/components/layout/MainLayout";
-import { Target, BookOpen, Users, Zap } from "lucide-react";
+import MainLayout from '@/components/layout/MainLayout';
+import { Target, BookOpen, Users, Zap } from 'lucide-react';
 
 const values = [
   {
     icon: Target,
-    title: "Our Mission",
-    desc: "Make AI and technology learning accessible to everyone, regardless of their background or experience level.",
+    title: 'Our Mission',
+    desc: 'Make AI and technology learning accessible to everyone, regardless of their background or experience level.',
   },
   {
     icon: BookOpen,
-    title: "What We Teach",
-    desc: "Practical AI tools, coding skills, prompt engineering, and modern development workflows.",
+    title: 'What We Teach',
+    desc: 'Practical AI tools, coding skills, prompt engineering, and modern development workflows.',
   },
   {
     icon: Users,
     title: "Who It's For",
-    desc: "Students, developers, creators, and anyone who wants to build future-ready skills with AI.",
+    desc: 'Students, developers, creators, and anyone who wants to build future-ready skills with AI.',
   },
   {
     icon: Zap,
-    title: "Why Tech Fuel",
-    desc: "Learn by doing with hands-on tutorials, AI-powered tools, and a supportive community.",
+    title: 'Why Tech Fuel',
+    desc: 'Learn by doing with hands-on tutorials, AI-powered tools, and a supportive community.',
   },
 ];
 
 const audience = [
-  { emoji: "🎓", label: "Students" },
-  { emoji: "💻", label: "Developers" },
-  { emoji: "🎨", label: "Creators" },
-  { emoji: "📈", label: "Businesses" },
-  { emoji: "🚀", label: "Beginners" },
+  { emoji: '🎓', label: 'Students' },
+  { emoji: '💻', label: 'Developers' },
+  { emoji: '🎨', label: 'Creators' },
+  { emoji: '📈', label: 'Businesses' },
+  { emoji: '🚀', label: 'Beginners' },
 ];
 
 export default function AboutPage() {
@@ -41,8 +41,7 @@ export default function AboutPage() {
         {/* Hero */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
-            Fueling the Future with{" "}
-            <span className="text-green-500">AI</span>
+            Fueling the Future with <span className="text-green-500">AI</span>
           </h1>
           <p className="text-zinc-500 text-lg mt-4 leading-relaxed">
             Tech Fuel is a modern learning platform helping students,

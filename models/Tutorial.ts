@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const TutorialSchema = new mongoose.Schema(
   {
@@ -21,11 +21,11 @@ const TutorialSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      default: "AI",
+      default: 'AI',
     },
     author: {
       type: String,
-      default: "Tech Fuel",
+      default: 'Tech Fuel',
     },
   },
   {
@@ -34,7 +34,6 @@ const TutorialSchema = new mongoose.Schema(
 );
 
 const Tutorial =
-  mongoose.models.Tutorial ||
-  mongoose.model("Tutorial", TutorialSchema);
+  mongoose.models.Tutorial || mongoose.model('Tutorial', TutorialSchema);
 
 export default Tutorial;

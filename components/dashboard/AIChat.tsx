@@ -1,123 +1,79 @@
-"use client";
+'use client';
 
-import { useState }
-from "react";
+import { useState } from 'react';
 
-import ReactMarkdown
-from "react-markdown";
+import ReactMarkdown from 'react-markdown';
 
 export default function AIChat() {
+  const [message, setMessage] = useState('');
 
-  const [message, setMessage] =
-    useState("");
+  const [response, setResponse] = useState('');
 
-  const [response, setResponse] =
-    useState("");
-
-  const [loading, setLoading] =
-    useState(false);
+  const [loading, setLoading] = useState(false);
 
   // Send
-  const sendMessage =
-    async () => {
+  const sendMessage = async () => {
+    try {
+      setLoading(true);
 
-      try {
+      setResponse('');
 
-        setLoading(true);
+      const res = await fetch('/api/ai-chat', {
+        method: 'POST',
 
-        setResponse("");
+        headers: {
+          'Content-Type': 'application/json',
+        },
 
-        const res =
-          await fetch(
-            "/api/ai-chat",
-            {
-              method: "POST",
+        body: JSON.stringify({
+          message,
+        }),
+      });
 
-              headers: {
-                "Content-Type":
-                  "application/json",
-              },
+      if (!res.body) return;
 
-              body: JSON.stringify({
-                message,
-              }),
-            }
-          );
+      const reader = res.body.getReader();
 
-        if (!res.body) return;
+      const decoder = new TextDecoder();
 
-        const reader =
-          res.body.getReader();
+      while (true) {
+        const { done, value } = await reader.read();
 
-        const decoder =
-          new TextDecoder();
+        if (done) break;
 
-        while (true) {
+        const chunk = decoder.decode(value);
 
-          const {
-            done,
-            value,
-          } = await reader.read();
-
-          if (done) break;
-
-          const chunk =
-            decoder.decode(
-              value
-            );
-
-          setResponse(
-            (prev) =>
-              prev + chunk
-          );
-        }
-
-      } catch (error) {
-
-        console.log(error);
-
-      } finally {
-
-        setLoading(false);
+        setResponse((prev) => prev + chunk);
       }
-    };
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-
-    <div className="
+    <div
+      className="
       border
       border-zinc-800
       bg-zinc-950
       rounded-3xl
       p-8
-    ">
-
+    "
+    >
       {/* Heading */}
       <div className="mb-8">
+        <p className="text-green-500 text-sm font-medium">AI Assistant</p>
 
-        <p className="text-green-500 text-sm font-medium">
-
-          AI Assistant
-
-        </p>
-
-        <h2 className="text-4xl font-black mt-3">
-
-          Real-Time AI Chat
-
-        </h2>
-
+        <h2 className="text-4xl font-black mt-3">Real-Time AI Chat</h2>
       </div>
 
       {/* Input */}
       <textarea
         rows={5}
         value={message}
-        onChange={(e) =>
-          setMessage(
-            e.target.value
-          )
-        }
+        onChange={(e) => setMessage(e.target.value)}
         placeholder="
           Ask anything...
         "
@@ -151,17 +107,13 @@ export default function AIChat() {
           transition
         "
       >
-
-        {loading
-          ? "Thinking..."
-          : "Ask AI"}
-
+        {loading ? 'Thinking...' : 'Ask AI'}
       </button>
 
       {/* Output */}
       {response && (
-
-        <div className="
+        <div
+          className="
           mt-8
           border
           border-zinc-800
@@ -171,17 +123,11 @@ export default function AIChat() {
           prose
           prose-invert
           max-w-none
-        ">
-
-          <ReactMarkdown>
-
-            {response}
-
-          </ReactMarkdown>
-
+        "
+        >
+          <ReactMarkdown>{response}</ReactMarkdown>
         </div>
       )}
-
     </div>
   );
 }

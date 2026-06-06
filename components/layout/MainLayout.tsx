@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useState } from "react";
-import { useSession, signOut } from "next-auth/react";
-import { Menu, X, Zap } from "lucide-react";
-import Footer from "./Footer";
+import Link from 'next/link';
+import { useState } from 'react';
+import { useSession, signOut } from 'next-auth/react';
+import { Menu, X, Zap } from 'lucide-react';
+import Footer from './Footer';
 
 const navLinks = [
-  { href: "/tutorials", label: "Tutorials" },
-  { href: "/ai-tools", label: "AI Tools" },
-  { href: "/about", label: "About" },
+  { href: '/tutorials', label: 'Tutorials' },
+  { href: '/ai-tools', label: 'AI Tools' },
+  { href: '/about', label: 'About' },
 ];
 
 export default function MainLayout({
@@ -50,7 +50,7 @@ export default function MainLayout({
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center gap-3">
-            {status === "loading" ? (
+            {status === 'loading' ? (
               <div className="w-20 h-9 bg-zinc-800 rounded-lg animate-pulse" />
             ) : session ? (
               <>
@@ -65,7 +65,7 @@ export default function MainLayout({
                     {session.user?.name?.charAt(0)?.toUpperCase()}
                   </div>
                   <button
-                    onClick={() => signOut({ callbackUrl: "/" })}
+                    onClick={() => signOut({ callbackUrl: '/' })}
                     className="text-xs text-zinc-500 hover:text-red-400 transition-colors"
                   >
                     Logout
@@ -95,7 +95,11 @@ export default function MainLayout({
             onClick={() => setMobileOpen(!mobileOpen)}
             className="md:hidden p-2 text-zinc-400 hover:text-white"
           >
-            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {mobileOpen ? (
+              <X className="w-5 h-5" />
+            ) : (
+              <Menu className="w-5 h-5" />
+            )}
           </button>
         </div>
 
@@ -126,7 +130,7 @@ export default function MainLayout({
                   <button
                     onClick={() => {
                       setMobileOpen(false);
-                      signOut({ callbackUrl: "/" });
+                      signOut({ callbackUrl: '/' });
                     }}
                     className="px-4 py-3 text-sm text-red-400 hover:bg-white/5 rounded-lg text-left transition-colors"
                   >

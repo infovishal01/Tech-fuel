@@ -5,7 +5,12 @@ interface ToolCardProps {
   desc: string;
 }
 
-export default function ToolCard({ name, company, emoji, desc }: ToolCardProps) {
+export default function ToolCard({
+  name,
+  company,
+  emoji,
+  desc,
+}: ToolCardProps) {
   return (
     <div className="border border-white/5 rounded-xl p-6 bg-white/[0.02] hover:bg-white/[0.04] hover:border-green-500/20 transition-all">
       <div className="text-3xl mb-4">{emoji}</div>

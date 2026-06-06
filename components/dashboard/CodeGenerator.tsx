@@ -1,86 +1,58 @@
-"use client";
+'use client';
 
-import { useState }
-from "react";
+import { useState } from 'react';
 
 export default function CodeGenerator() {
+  const [prompt, setPrompt] = useState('');
 
-  const [prompt, setPrompt] =
-    useState("");
+  const [loading, setLoading] = useState(false);
 
-  const [loading, setLoading] =
-    useState(false);
-
-  const [code, setCode] =
-    useState("");
+  const [code, setCode] = useState('');
 
   // Generate
-  const generateCode =
-    async () => {
+  const generateCode = async () => {
+    try {
+      setLoading(true);
 
-      try {
+      const response = await fetch('/api/code-generator', {
+        method: 'POST',
 
-        setLoading(true);
+        headers: {
+          'Content-Type': 'application/json',
+        },
 
-        const response =
-          await fetch(
-            "/api/code-generator",
-            {
-              method: "POST",
+        body: JSON.stringify({
+          prompt,
+        }),
+      });
 
-              headers: {
-                "Content-Type":
-                  "application/json",
-              },
+      const data = await response.json();
 
-              body: JSON.stringify({
-                prompt,
-              }),
-            }
-          );
-
-        const data =
-          await response.json();
-
-        setCode(
-          data.code
-        );
-
-      } catch (error) {
-
-        console.log(error);
-
-      } finally {
-
-        setLoading(false);
-      }
-    };
+      setCode(data.code);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-
-    <div className="
+    <div
+      className="
       border
       border-zinc-800
       bg-zinc-950
       rounded-3xl
       p-8
-    ">
-
+    "
+    >
       {/* Heading */}
       <div className="mb-8">
-
         <p className="text-green-500 text-sm font-medium">
-
           AI Coding Workspace
-
         </p>
 
-        <h2 className="text-4xl font-black mt-3">
-
-          AI Code Generator
-
-        </h2>
-
+        <h2 className="text-4xl font-black mt-3">AI Code Generator</h2>
       </div>
 
       {/* Input */}
@@ -91,11 +63,7 @@ export default function CodeGenerator() {
           Create JWT authentication in Next.js
         "
         value={prompt}
-        onChange={(e) =>
-          setPrompt(
-            e.target.value
-          )
-        }
+        onChange={(e) => setPrompt(e.target.value)}
         className="
           w-full
           bg-black
@@ -113,9 +81,7 @@ export default function CodeGenerator() {
 
       {/* Button */}
       <button
-        onClick={
-          generateCode
-        }
+        onClick={generateCode}
         className="
           mt-5
           bg-green-500
@@ -128,17 +94,13 @@ export default function CodeGenerator() {
           transition
         "
       >
-
-        {loading
-          ? "Generating..."
-          : "Generate Code"}
-
+        {loading ? 'Generating...' : 'Generate Code'}
       </button>
 
       {/* Output */}
       {code && (
-
-        <div className="
+        <div
+          className="
           mt-8
           border
           border-zinc-800
@@ -146,23 +108,21 @@ export default function CodeGenerator() {
           p-6
           bg-black/40
           overflow-x-auto
-        ">
-
-          <pre className="
+        "
+        >
+          <pre
+            className="
             whitespace-pre-wrap
             text-zinc-300
             leading-relaxed
             font-mono
             text-sm
-          ">
-
+          "
+          >
             {code}
-
           </pre>
-
         </div>
       )}
-
     </div>
   );
 }

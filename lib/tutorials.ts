@@ -1,35 +1,17 @@
-import fs from "fs";
+import fs from 'fs';
 
-import path from "path";
+import path from 'path';
 
-import matter from "gray-matter";
+import matter from 'gray-matter';
 
-const tutorialsDirectory =
-  path.join(
-    process.cwd(),
-    "content/tutorials"
-  );
+const tutorialsDirectory = path.join(process.cwd(), 'content/tutorials');
 
-export function getTutorialBySlug(
-  slug: string
-) {
+export function getTutorialBySlug(slug: string) {
+  const fullPath = path.join(tutorialsDirectory, `${slug}.mdx`);
 
-  const fullPath =
-    path.join(
-      tutorialsDirectory,
-      `${slug}.mdx`
-    );
+  const fileContent = fs.readFileSync(fullPath, 'utf8');
 
-  const fileContent =
-    fs.readFileSync(
-      fullPath,
-      "utf8"
-    );
-
-  const {
-    data,
-    content,
-  } = matter(fileContent);
+  const { data, content } = matter(fileContent);
 
   return {
     frontmatter: data,

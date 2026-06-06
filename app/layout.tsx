@@ -1,17 +1,17 @@
-import "./globals.css";
-import Providers from "./providers";
-import type { Metadata } from "next";
+import './globals.css';
+import Providers from './providers';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "Tech Fuel — AI Developer Platform",
+  title: 'Tech Fuel — AI Developer Platform',
   description:
-    "Learn AI tools, generate code, build projects, and prepare for interviews. The modern platform for developers.",
+    'Learn AI tools, generate code, build projects, and prepare for interviews. The modern platform for developers.',
   keywords: [
-    "AI",
-    "developer",
-    "tutorials",
-    "code generator",
-    "learning platform",
+    'AI',
+    'developer',
+    'tutorials',
+    'code generator',
+    'learning platform',
   ],
 };
 

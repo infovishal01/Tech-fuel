@@ -1,19 +1,27 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import DashboardLayout from "@/components/dashboard/DashboardLayout";
+import { useEffect, useState } from 'react';
+import DashboardLayout from '@/components/dashboard/DashboardLayout';
+
+interface Stats {
+  success: boolean;
+  totalUsers: number;
+  totalTutorials: number;
+  latestUsers: Array<{ _id: string; name: string; email: string }>;
+  latestTutorials: Array<{ _id: string; title: string }>;
+}
 
 export default function AdminPage() {
-  const [stats, setStats] = useState<any>(null);
+  const [stats, setStats] = useState<Stats | null>(null);
   const [loading, setLoading] = useState(true);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [content, setContent] = useState("");
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [content, setContent] = useState('');
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await fetch("/api/admin/stats");
+        const response = await fetch('/api/admin/stats');
         const data = await response.json();
         setStats(data);
       } catch (error) {
@@ -27,23 +35,23 @@ export default function AdminPage() {
 
   const handlePublish = async () => {
     try {
-      const response = await fetch("/api/tutorials", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, description, content, category: "AI" }),
+      const response = await fetch('/api/tutorials', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, description, content, category: 'AI' }),
       });
       const data = await response.json();
       if (!response.ok) {
         alert(data.message);
         return;
       }
-      alert("Tutorial Published Successfully");
-      setTitle("");
-      setDescription("");
-      setContent("");
+      alert('Tutorial Published Successfully');
+      setTitle('');
+      setDescription('');
+      setContent('');
     } catch (error) {
       console.log(error);
-      alert("Something went wrong");
+      alert('Something went wrong');
     }
   };
 
@@ -71,9 +79,9 @@ export default function AdminPage() {
         {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
-            { label: "Tutorials", value: stats?.totalTutorials || 0 },
-            { label: "Users", value: stats?.totalUsers || 0 },
-            { label: "Monthly Views", value: "48K" },
+            { label: 'Tutorials', value: stats?.totalTutorials || 0 },
+            { label: 'Users', value: stats?.totalUsers || 0 },
+            { label: 'Monthly Views', value: '48K' },
           ].map((stat) => (
             <div
               key={stat.label}
@@ -125,7 +133,7 @@ export default function AdminPage() {
             <h2 className="font-semibold mb-4">Recent Users</h2>
             {stats?.latestUsers?.length > 0 ? (
               <div className="space-y-3">
-                {stats.latestUsers.map((user: any) => (
+                {stats.latestUsers.map((user) => (
                   <div
                     key={user._id}
                     className="flex items-center gap-3 py-2 border-b border-white/5 last:border-0"
@@ -149,7 +157,7 @@ export default function AdminPage() {
             <h2 className="font-semibold mb-4">Latest Tutorials</h2>
             {stats?.latestTutorials?.length > 0 ? (
               <div className="space-y-3">
-                {stats.latestTutorials.map((tutorial: any) => (
+                {stats.latestTutorials.map((tutorial) => (
                   <div
                     key={tutorial._id}
                     className="py-2 border-b border-white/5 last:border-0"

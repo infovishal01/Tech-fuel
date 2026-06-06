@@ -5,20 +5,24 @@ Thank you for your interest in contributing to Tech Fuel! Here's how to get star
 ## Setup
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/infovishal01/Tech-fuel.git
    cd Tech-fuel
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Setup environment variables**
+
    ```bash
    cp .env.local.example .env.local
    ```
+
    Fill in your environment variables in `.env.local`
 
 4. **Start development server**
@@ -30,6 +34,7 @@ Thank you for your interest in contributing to Tech Fuel! Here's how to get star
 ## Development Workflow
 
 ### Code Style
+
 - We use **ESLint** for linting and **Prettier** for formatting
 - Format your code before committing:
   ```bash
@@ -37,11 +42,13 @@ Thank you for your interest in contributing to Tech Fuel! Here's how to get star
   ```
 
 ### Running Linting
+
 ```bash
 npm run lint
 ```
 
 ### Branch Naming
+
 - Feature branches: `feature/description`
 - Bug fixes: `fix/description`
 - Chores: `chore/description`
@@ -49,11 +56,13 @@ npm run lint
 ## Making Changes
 
 1. Create a feature branch from `main`
+
    ```bash
    git checkout -b feature/your-feature-name
    ```
 
 2. Make your changes and commit with clear messages
+
    ```bash
    git commit -m "feat: add new AI tool"
    ```
@@ -63,6 +72,7 @@ npm run lint
 ## Commit Message Convention
 
 Use conventional commits:
+
 - `feat:` - New feature
 - `fix:` - Bug fix
 - `docs:` - Documentation
@@ -73,6 +83,7 @@ Use conventional commits:
 - `chore:` - Dependency updates, config changes
 
 Example:
+
 ```bash
 git commit -m "feat: add project idea generator API"
 git commit -m "fix: resolve MongoDB connection timeout"
@@ -89,6 +100,7 @@ git commit -m "fix: resolve MongoDB connection timeout"
 ## Testing
 
 Before submitting a PR:
+
 ```bash
 npm run lint
 npm run build
@@ -97,6 +109,7 @@ npm run build
 ## Report Issues
 
 Found a bug? Please create an issue with:
+
 - Clear description
 - Steps to reproduce
 - Expected behavior

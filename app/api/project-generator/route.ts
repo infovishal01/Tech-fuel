@@ -1,37 +1,23 @@
-import OpenAI from "openai";
+import OpenAI from 'openai';
 
-import { NextResponse }
-from "next/server";
+import { NextResponse } from 'next/server';
 
 const openai = new OpenAI({
-
-  apiKey:
-    process.env
-      .OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
-export async function POST(
-  req: Request
-) {
-
+export async function POST(req: Request) {
   try {
+    const { idea } = await req.json();
 
-    const { idea } =
-      await req.json();
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
 
-    const completion =
-      await openai.chat.completions.create({
+      messages: [
+        {
+          role: 'system',
 
-        model:
-          "gpt-4o-mini",
-
-        messages: [
-
-          {
-            role: "system",
-
-            content:
-              `
+          content: `
               You are an AI Project Architect.
 
               Generate:
@@ -43,40 +29,31 @@ export async function POST(
               - Deployment guide
               - Roadmap
               `,
-          },
+        },
 
-          {
-            role: "user",
+        {
+          role: 'user',
 
-            content:
-              `
+          content: `
               Generate a project for:
               ${idea}
               `,
-          },
-        ],
-      });
-
-    return NextResponse.json({
-
-      success: true,
-
-      project:
-        completion
-          .choices[0]
-          .message.content,
+        },
+      ],
     });
 
-  } catch (error) {
+    return NextResponse.json({
+      success: true,
 
+      project: completion.choices[0].message.content,
+    });
+  } catch (error) {
     console.log(error);
 
     return NextResponse.json({
-
       success: false,
 
-      message:
-        "Project Generator Error",
+      message: 'Project Generator Error',
     });
   }
 }

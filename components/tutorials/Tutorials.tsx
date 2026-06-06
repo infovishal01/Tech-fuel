@@ -1,6 +1,6 @@
-import TutorialSearch from "./TutorialSearch";
-import TutorialCategories from "./TutorialCategories";
-import TutorialsGrid from "./TutorialsGrid";
+import TutorialSearch from './TutorialSearch';
+import TutorialCategories from './TutorialCategories';
+import TutorialsGrid from './TutorialsGrid';
 
 export default function Tutorials() {
   return (

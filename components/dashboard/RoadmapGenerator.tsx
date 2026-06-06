@@ -1,86 +1,56 @@
-"use client";
+'use client';
 
-import { useState }
-from "react";
+import { useState } from 'react';
 
 export default function RoadmapGenerator() {
+  const [career, setCareer] = useState('');
 
-  const [career, setCareer] =
-    useState("");
+  const [loading, setLoading] = useState(false);
 
-  const [loading, setLoading] =
-    useState(false);
-
-  const [roadmap, setRoadmap] =
-    useState("");
+  const [roadmap, setRoadmap] = useState('');
 
   // Generate
-  const generateRoadmap =
-    async () => {
+  const generateRoadmap = async () => {
+    try {
+      setLoading(true);
 
-      try {
+      const response = await fetch('/api/roadmap', {
+        method: 'POST',
 
-        setLoading(true);
+        headers: {
+          'Content-Type': 'application/json',
+        },
 
-        const response =
-          await fetch(
-            "/api/roadmap",
-            {
-              method: "POST",
+        body: JSON.stringify({
+          career,
+        }),
+      });
 
-              headers: {
-                "Content-Type":
-                  "application/json",
-              },
+      const data = await response.json();
 
-              body: JSON.stringify({
-                career,
-              }),
-            }
-          );
-
-        const data =
-          await response.json();
-
-        setRoadmap(
-          data.roadmap
-        );
-
-      } catch (error) {
-
-        console.log(error);
-
-      } finally {
-
-        setLoading(false);
-      }
-    };
+      setRoadmap(data.roadmap);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-
-    <div className="
+    <div
+      className="
       border
       border-zinc-800
       bg-zinc-950
       rounded-3xl
       p-8
-    ">
-
+    "
+    >
       {/* Heading */}
       <div className="mb-8">
+        <p className="text-green-500 text-sm font-medium">AI Career System</p>
 
-        <p className="text-green-500 text-sm font-medium">
-
-          AI Career System
-
-        </p>
-
-        <h2 className="text-4xl font-black mt-3">
-
-          Generate Learning Roadmap
-
-        </h2>
-
+        <h2 className="text-4xl font-black mt-3">Generate Learning Roadmap</h2>
       </div>
 
       {/* Input */}
@@ -91,11 +61,7 @@ export default function RoadmapGenerator() {
           AI Engineer
         "
         value={career}
-        onChange={(e) =>
-          setCareer(
-            e.target.value
-          )
-        }
+        onChange={(e) => setCareer(e.target.value)}
         className="
           w-full
           bg-black
@@ -113,9 +79,7 @@ export default function RoadmapGenerator() {
 
       {/* Button */}
       <button
-        onClick={
-          generateRoadmap
-        }
+        onClick={generateRoadmap}
         className="
           mt-5
           bg-green-500
@@ -128,39 +92,33 @@ export default function RoadmapGenerator() {
           transition
         "
       >
-
-        {loading
-          ? "Generating..."
-          : "Generate Roadmap"}
-
+        {loading ? 'Generating...' : 'Generate Roadmap'}
       </button>
 
       {/* Result */}
       {roadmap && (
-
-        <div className="
+        <div
+          className="
           mt-8
           border
           border-zinc-800
           rounded-2xl
           p-6
           bg-black/40
-        ">
-
-          <pre className="
+        "
+        >
+          <pre
+            className="
             whitespace-pre-wrap
             text-zinc-300
             leading-relaxed
             font-sans
-          ">
-
+          "
+          >
             {roadmap}
-
           </pre>
-
         </div>
       )}
-
     </div>
   );
 }

@@ -1,22 +1,22 @@
-import { Star } from "lucide-react";
+import { Star } from 'lucide-react';
 
 const testimonials = [
   {
-    name: "Rahul Sharma",
-    role: "Frontend Developer",
-    text: "Tech Fuel helped me understand AI tools and integrate them into my workflow. The tutorials are practical and easy to follow.",
+    name: 'Rahul Sharma',
+    role: 'Frontend Developer',
+    text: 'Tech Fuel helped me understand AI tools and integrate them into my workflow. The tutorials are practical and easy to follow.',
     rating: 5,
   },
   {
-    name: "Anjali Patel",
-    role: "CS Student",
-    text: "The mock interview feature is amazing. It helped me prepare for my tech interviews and land my first internship.",
+    name: 'Anjali Patel',
+    role: 'CS Student',
+    text: 'The mock interview feature is amazing. It helped me prepare for my tech interviews and land my first internship.',
     rating: 5,
   },
   {
-    name: "Amit Kumar",
-    role: "Full Stack Developer",
-    text: "Best platform for learning AI and modern development. The code generator saves me hours every week.",
+    name: 'Amit Kumar',
+    role: 'Full Stack Developer',
+    text: 'Best platform for learning AI and modern development. The code generator saves me hours every week.',
     rating: 5,
   },
 ];
@@ -27,9 +27,7 @@ export default function Testimonials() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="text-2xl sm:text-3xl font-bold">
-            What Our Users Say
-          </h2>
+          <h2 className="text-2xl sm:text-3xl font-bold">What Our Users Say</h2>
           <p className="text-zinc-500 mt-2">
             Join thousands of developers learning with Tech Fuel
           </p>

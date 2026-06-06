@@ -1,27 +1,27 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { Zap, Mail, Lock, User, ArrowRight } from "lucide-react";
+import Link from 'next/link';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Zap, Mail, Lock, User, ArrowRight } from 'lucide-react';
 
 export default function SignupPage() {
   const router = useRouter();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       setLoading(true);
-      setError("");
+      setError('');
 
-      const response = await fetch("/api/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const response = await fetch('/api/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password }),
       });
 
@@ -32,10 +32,10 @@ export default function SignupPage() {
         return;
       }
 
-      router.push("/login");
+      router.push('/login');
     } catch (error) {
       console.log(error);
-      setError("Signup failed");
+      setError('Signup failed');
     } finally {
       setLoading(false);
     }
@@ -123,12 +123,18 @@ export default function SignupPage() {
             <div className="flex items-start gap-2 text-xs text-zinc-500">
               <input type="checkbox" className="mt-0.5" />
               <span>
-                I agree to the{" "}
-                <Link href="/about" className="text-green-500 hover:text-green-400">
+                I agree to the{' '}
+                <Link
+                  href="/about"
+                  className="text-green-500 hover:text-green-400"
+                >
                   Terms of Service
-                </Link>{" "}
-                and{" "}
-                <Link href="/about" className="text-green-500 hover:text-green-400">
+                </Link>{' '}
+                and{' '}
+                <Link
+                  href="/about"
+                  className="text-green-500 hover:text-green-400"
+                >
                   Privacy Policy
                 </Link>
               </span>
@@ -139,13 +145,13 @@ export default function SignupPage() {
               disabled={loading}
               className="w-full flex items-center justify-center gap-2 bg-green-500 hover:bg-green-400 disabled:opacity-50 text-black py-2.5 rounded-lg text-sm font-medium transition-colors"
             >
-              {loading ? "Creating account..." : "Create account"}
+              {loading ? 'Creating account...' : 'Create account'}
               {!loading && <ArrowRight className="w-4 h-4" />}
             </button>
           </form>
 
           <p className="text-center text-sm text-zinc-500 mt-6">
-            Already have an account?{" "}
+            Already have an account?{' '}
             <Link
               href="/login"
               className="text-green-500 hover:text-green-400 font-medium transition-colors"

@@ -1,27 +1,27 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
-import { Zap, Mail, Lock, ArrowRight } from "lucide-react";
+import Link from 'next/link';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
+import { Zap, Mail, Lock, ArrowRight } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       setLoading(true);
-      setError("");
+      setError('');
 
-      const response = await fetch("/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
 
@@ -32,12 +32,12 @@ export default function LoginPage() {
         return;
       }
 
-      Cookies.set("token", data.token, { expires: 7 });
-      localStorage.setItem("user", JSON.stringify(data.user));
-      router.push("/dashboard");
+      Cookies.set('token', data.token, { expires: 7 });
+      localStorage.setItem('user', JSON.stringify(data.user));
+      router.push('/dashboard');
     } catch (error) {
       console.log(error);
-      setError("Something went wrong");
+      setError('Something went wrong');
     } finally {
       setLoading(false);
     }
@@ -120,13 +120,13 @@ export default function LoginPage() {
               disabled={loading}
               className="w-full flex items-center justify-center gap-2 bg-green-500 hover:bg-green-400 disabled:opacity-50 text-black py-2.5 rounded-lg text-sm font-medium transition-colors"
             >
-              {loading ? "Signing in..." : "Sign in"}
+              {loading ? 'Signing in...' : 'Sign in'}
               {!loading && <ArrowRight className="w-4 h-4" />}
             </button>
           </form>
 
           <p className="text-center text-sm text-zinc-500 mt-6">
-            Don&apos;t have an account?{" "}
+            Don&apos;t have an account?{' '}
             <Link
               href="/signup"
               className="text-green-500 hover:text-green-400 font-medium transition-colors"

@@ -1,10 +1,10 @@
 const categories = [
-  "All",
-  "AI",
-  "Web Dev",
-  "Programming",
-  "Productivity",
-  "Career",
+  'All',
+  'AI',
+  'Web Dev',
+  'Programming',
+  'Productivity',
+  'Career',
 ];
 
 export default function TutorialCategories() {
@@ -15,8 +15,8 @@ export default function TutorialCategories() {
           key={index}
           className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${
             index === 0
-              ? "bg-green-500 text-black font-medium"
-              : "border border-white/10 text-zinc-400 hover:text-white hover:border-white/20"
+              ? 'bg-green-500 text-black font-medium'
+              : 'border border-white/10 text-zinc-400 hover:text-white hover:border-white/20'
           }`}
         >
           {category}

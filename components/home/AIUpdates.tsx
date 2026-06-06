@@ -1,25 +1,25 @@
-import { Bot, Code, Briefcase, Lightbulb } from "lucide-react";
+import { Bot, Code, Briefcase, Lightbulb } from 'lucide-react';
 
 const features = [
   {
     icon: Bot,
-    title: "AI Chat",
-    desc: "Get instant answers and code explanations from our AI assistant.",
+    title: 'AI Chat',
+    desc: 'Get instant answers and code explanations from our AI assistant.',
   },
   {
     icon: Code,
-    title: "Code Generator",
-    desc: "Generate production-ready code in any language or framework.",
+    title: 'Code Generator',
+    desc: 'Generate production-ready code in any language or framework.',
   },
   {
     icon: Briefcase,
-    title: "Mock Interviews",
-    desc: "Practice technical interviews with AI-powered feedback.",
+    title: 'Mock Interviews',
+    desc: 'Practice technical interviews with AI-powered feedback.',
   },
   {
     icon: Lightbulb,
-    title: "Project Ideas",
-    desc: "Get personalized project suggestions to build your portfolio.",
+    title: 'Project Ideas',
+    desc: 'Get personalized project suggestions to build your portfolio.',
   },
 ];
 
@@ -29,9 +29,7 @@ export default function AIUpdates() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="text-2xl sm:text-3xl font-bold">
-            AI-Powered Tools
-          </h2>
+          <h2 className="text-2xl sm:text-3xl font-bold">AI-Powered Tools</h2>
           <p className="text-zinc-500 mt-2 max-w-lg mx-auto">
             Supercharge your development workflow with our suite of AI tools
           </p>

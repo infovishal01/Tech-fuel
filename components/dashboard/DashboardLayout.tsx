@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { ReactNode } from "react";
-import { usePathname } from "next/navigation";
+import Link from 'next/link';
+import { ReactNode } from 'react';
+import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard,
   MessageSquare,
@@ -13,20 +13,20 @@ import {
   Zap,
   Menu,
   X,
-} from "lucide-react";
-import { signOut, useSession } from "next-auth/react";
-import { useState } from "react";
+} from 'lucide-react';
+import { signOut, useSession } from 'next-auth/react';
+import { useState } from 'react';
 
 type Props = {
   children: ReactNode;
 };
 
 const navItems = [
-  { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { label: "AI Chat", href: "/dashboard/chat", icon: MessageSquare },
-  { label: "Projects", href: "/dashboard/projects", icon: FolderKanban },
-  { label: "Profile", href: "/profile", icon: User },
-  { label: "Settings", href: "/settings", icon: Settings },
+  { label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+  { label: 'AI Chat', href: '/dashboard/chat', icon: MessageSquare },
+  { label: 'Projects', href: '/dashboard/projects', icon: FolderKanban },
+  { label: 'Profile', href: '/profile', icon: User },
+  { label: 'Settings', href: '/settings', icon: Settings },
 ];
 
 export default function DashboardLayout({ children }: Props) {
@@ -50,7 +50,11 @@ export default function DashboardLayout({ children }: Props) {
           onClick={() => setMobileOpen(!mobileOpen)}
           className="p-1.5 text-zinc-400 hover:text-white"
         >
-          {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          {mobileOpen ? (
+            <X className="w-5 h-5" />
+          ) : (
+            <Menu className="w-5 h-5" />
+          )}
         </button>
       </div>
 
@@ -69,7 +73,7 @@ export default function DashboardLayout({ children }: Props) {
           w-[260px] border-r border-white/5 bg-[#0a0a0c]
           flex flex-col justify-between p-4
           transition-transform duration-200
-          ${mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
+          ${mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
           lg:flex
           mt-14 lg:mt-0
         `}
@@ -102,9 +106,10 @@ export default function DashboardLayout({ children }: Props) {
                   onClick={() => setMobileOpen(false)}
                   className={`
                     flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors
-                    ${active
-                      ? "bg-green-500/10 text-green-500"
-                      : "text-zinc-400 hover:text-white hover:bg-white/5"
+                    ${
+                      active
+                        ? 'bg-green-500/10 text-green-500'
+                        : 'text-zinc-400 hover:text-white hover:bg-white/5'
                     }
                   `}
                 >
@@ -120,11 +125,11 @@ export default function DashboardLayout({ children }: Props) {
         <div className="border border-white/5 rounded-xl p-4">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-full bg-green-500/10 text-green-500 flex items-center justify-center text-sm font-bold">
-              {session?.user?.name?.charAt(0)?.toUpperCase() || "U"}
+              {session?.user?.name?.charAt(0)?.toUpperCase() || 'U'}
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium truncate">
-                {session?.user?.name || "User"}
+                {session?.user?.name || 'User'}
               </p>
               <p className="text-xs text-zinc-600 truncate">
                 {session?.user?.email}
@@ -132,7 +137,7 @@ export default function DashboardLayout({ children }: Props) {
             </div>
           </div>
           <button
-            onClick={() => signOut({ callbackUrl: "/" })}
+            onClick={() => signOut({ callbackUrl: '/' })}
             className="mt-3 w-full flex items-center justify-center gap-2 text-xs text-zinc-500 hover:text-red-400 py-2 rounded-lg hover:bg-red-500/5 transition-colors"
           >
             <LogOut className="w-3.5 h-3.5" />

@@ -1,4 +1,4 @@
-import { Mail } from "lucide-react";
+import { Mail } from 'lucide-react';
 
 export default function Newsletter() {
   return (
@@ -13,9 +13,7 @@ export default function Newsletter() {
               <Mail className="w-5 h-5" />
             </div>
 
-            <h2 className="text-2xl sm:text-3xl font-bold">
-              Stay Updated
-            </h2>
+            <h2 className="text-2xl sm:text-3xl font-bold">Stay Updated</h2>
             <p className="text-zinc-500 mt-3 leading-relaxed">
               Get the latest AI tutorials, developer tips, and platform updates
               delivered to your inbox.

@@ -1,18 +1,38 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import MainLayout from "@/components/layout/MainLayout";
-import { Mail, Shield } from "lucide-react";
+import { useEffect, useState } from 'react';
+import MainLayout from '@/components/layout/MainLayout';
+import { Mail, Shield } from 'lucide-react';
+
+interface User {
+  _id?: string;
+  name: string;
+  email: string;
+  role?: string;
+}
 
 export default function ProfilePage() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
+    // Load user data from localStorage on mount
+    // This is a valid pattern for client-side hydration
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+    const storedUser = localStorage.getItem('user');
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch {
+        console.error('Failed to parse user data');
+      }
     }
   }, []);
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <MainLayout>
@@ -38,7 +58,7 @@ export default function ProfilePage() {
             <div className="flex items-center gap-2 mt-2">
               <Shield className="w-4 h-4 text-green-500" />
               <span className="text-sm text-green-500 capitalize">
-                {user.role || "student"}
+                {user.role || 'student'}
               </span>
             </div>
           </div>

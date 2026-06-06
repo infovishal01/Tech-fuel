@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { ArrowRight, Sparkles } from "lucide-react";
+import Link from 'next/link';
+import { ArrowRight, Sparkles } from 'lucide-react';
 
 export default function Hero() {
   return (
@@ -50,9 +50,9 @@ export default function Hero() {
         {/* Stats */}
         <div className="grid grid-cols-3 gap-8 max-w-lg mx-auto mt-16">
           {[
-            { value: "50+", label: "Tutorials" },
-            { value: "10+", label: "AI Tools" },
-            { value: "5K+", label: "Learners" },
+            { value: '50+', label: 'Tutorials' },
+            { value: '10+', label: 'AI Tools' },
+            { value: '5K+', label: 'Learners' },
           ].map((stat) => (
             <div key={stat.label} className="text-center">
               <div className="text-2xl sm:text-3xl font-bold text-white">

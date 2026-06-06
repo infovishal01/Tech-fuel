@@ -1,5 +1,5 @@
-import ToolFilters from "./ToolFilters";
-import ToolsGrid from "./ToolsGrid";
+import ToolFilters from './ToolFilters';
+import ToolsGrid from './ToolsGrid';
 
 export default function Tools() {
   return (
