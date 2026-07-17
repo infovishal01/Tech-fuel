@@ -1,0 +1,281 @@
+# Operating Systems: Processes
+
+## Introduction to Processes
+
+A **process** is an instance of a program in execution. It is one of the most fundamental concepts in operating systems. When a program is loaded into memory and executed, it becomes a process.
+
+## Process States
+
+Every process in a system goes through various states during its lifetime:
+
+### Three-State Model
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Running   │────▶│   Ready     │────▶│   Waiting   │
+└─────────────┘     └─────────────┘     └─────────────┘
+     ▲                   ▲                   ▲
+     │                   │                   │
+     └───────────────────┴───────────────────┘
+```
+
+1. **Running**: The process is currently executing on the CPU
+2. **Ready**: The process is ready to execute but waiting for CPU time
+3. **Waiting/Blocked**: The process is waiting for some event (I/O, signal, etc.)
+
+### Five-State Model
+
+More detailed states:
+1. **New**: Process is being created
+2. **Ready**: Process is ready to run but waiting for CPU
+3. **Running**: Process is executing
+4. **Waiting/Blocked**: Process is waiting for an event
+5. **Terminated/Exit**: Process has completed execution
+
+## Process Control Block (PCB)
+
+The operating system maintains a **Process Control Block** for each process. The PCB contains:
+
+- Process ID (PID)
+- Process state
+- Program counter (PC)
+- CPU registers
+- CPU scheduling information (priority, etc.)
+- Memory management information
+- Accounting information (CPU time used, etc.)
+- I/O status information
+
+```c
+// Simplified PCB structure in C
+typedef struct PCB {
+    int pid;
+    int state;        // Running, Ready, Waiting, etc.
+    int pc;           // Program counter
+    int priority;
+    int memory_base;
+    int memory_limit;
+    // ... other fields
+} PCB;
+```
+
+## Process Creation
+
+When a process creates a new process, it's called the **parent** process, and the new process is the **child** process.
+
+### Unix/Linux: `fork()` System Call
+
+```c
+#include <unistd.h>
+#include <stdio.h>
+
+int main() {
+    pid_t pid = fork();
+    
+    if (pid < 0) {
+        // Error
+        fprintf(stderr, "Fork failed\n");
+        return 1;
+    } else if (pid == 0) {
+        // Child process
+        printf("Child process: PID = %d, Parent PID = %d\n", 
+               getpid(), getppid());
+    } else {
+        // Parent process
+        printf("Parent process: PID = %d, Child PID = %d\n", 
+               getpid(), pid);
+    }
+    
+    return 0;
+}
+```
+
+## Process Termination
+
+A process can terminate in several ways:
+
+1. **Normal exit**: Voluntary termination (e.g., `exit()` system call)
+2. **Error exit**: Voluntary termination due to error
+3. **Fatal error**: Killed by OS (e.g., segmentation fault)
+4. **Killed by another process**: Terminal signal (e.g., `kill` command)
+
+### Exit Status Codes
+
+- `0`: Successful termination
+- `1-255`: Error codes (1-127 are standard, 128-255 are special)
+
+```c
+#include <stdlib.h>
+
+exít(EXIT_SUCCESS);  // 0
+exit(EXIT_FAILURE);  // 1
+```
+
+## Process Scheduling
+
+The OS scheduler decides which ready process to run next. Common scheduling algorithms:
+
+### 1. First-Come, First-Served (FCFS)
+- Simple queue-based scheduling
+- Non-preemptive (process runs to completion)
+- Can lead to **convoy effect** (short processes wait for long ones)
+
+### 2. Shortest Job First (SJF)
+- Selects the process with the shortest execution time
+- Can be preemptive (Shortest Remaining Time First - SRTF)
+- Provably optimal for minimizing average waiting time
+
+### 3. Round Robin
+- Each process gets a fixed time slice (**time quantum**)
+- Preemptive scheduling
+- Fair but may have high context switch overhead
+
+```
+Example: Time Quantum = 4ms
+
+Processes: P1(8ms), P2(4ms), P3(9ms)
+
+Gantt Chart:
+┌────┬────┬────┬────┬────┬────┐
+│ P1 │ P2 │ P3 │ P1 │ P2 │ P3 │
+└────┴────┴────┴────┴────┴────┘
+```
+
+### 4. Priority Scheduling
+- Each process has a priority
+- Higher priority processes run first
+- Can be preemptive or non-preemptive
+- Risk of **starvation** (low-priority processes never run)
+
+### 5. Multilevel Queue Scheduling
+- Processes are divided into different queues based on characteristics
+- Each queue has its own scheduling algorithm
+- Fixed-priority preemptive scheduling between queues
+
+## Context Switching
+
+When the CPU switches from one process to another, the OS must:
+
+1. Save the state of the current process (PCB, registers, etc.)
+2. Load the state of the next process
+3. Resume execution of the new process
+
+**Context switch overhead** is the time taken for this operation. It depends on:
+- Hardware support
+- Amount of state to save/restore
+- Memory speed
+
+## Inter-Process Communication (IPC)
+
+Processes need to communicate with each other. Common IPC mechanisms:
+
+### 1. Shared Memory
+- Fastest IPC method
+- Processes share a region of memory
+- Requires synchronization mechanisms
+
+### 2. Message Passing
+- Processes communicate by sending messages
+- OS provides message queues
+- Examples: Unix pipes, Windows named pipes
+
+### 3. Pipes
+- Unidirectional communication channel
+- Created using `pipe()` system call
+- Parent and child processes typically use pipes
+
+```c
+#include <unistd.h>
+#include <stdio.h>
+
+int main() {
+    int pipefd[2];
+    char buf[256];
+    
+    if (pipe(pipefd) == -1) {
+        perror("pipe");
+        return 1;
+    }
+    
+    pid_t pid = fork();
+    
+    if (pid == 0) {
+        // Child: write to pipe
+        close(pipefd[0]); // Close read end
+        write(pipefd[1], "Hello from child!", 18);
+        close(pipefd[1]);
+    } else {
+        // Parent: read from pipe
+        close(pipefd[1]); // Close write end
+        read(pipefd[0], buf, sizeof(buf));
+        printf("Parent received: %s\n", buf);
+        close(pipefd[0]);
+    }
+    
+    return 0;
+}
+```
+
+### 4. Semaphores
+- Synchronization primitive
+- Integer value that can be incremented/decremented atomically
+- Used to control access to shared resources
+
+### 5. Signals
+- Software interrupts
+- Used for event notification
+- Examples: SIGINT (Ctrl+C), SIGKILL, SIGTERM
+
+## Threads vs Processes
+
+| Feature | Process | Thread |
+|--------|---------|--------|
+| Creation | Slow (requires OS) | Fast (can be user-space) |
+| Memory | Separate address space | Shared address space |
+| Communication | IPC required | Direct memory access |
+| Synchronization | Not needed | Required |
+| Overhead | High | Low |
+| Stability | Crash doesn't affect others | One crash can bring down all |
+
+## Common Exam Questions
+
+### Q1: What is the difference between a program and a process?
+
+**Answer**: A program is a static set of instructions stored on disk, while a process is a dynamic instance of a program in execution with its own address space, PID, and state.
+
+### Q2: Explain the difference between preemptive and non-preemptive scheduling.
+
+**Answer**: 
+- **Non-preemptive**: Once a process starts executing, it runs to completion or voluntarily yields the CPU. Used in FCFS, SJF.
+- **Preemptive**: The OS can interrupt a running process and allocate the CPU to another process. Used in Round Robin, Priority Scheduling.
+
+### Q3: What is the convoy effect?
+
+**Answer**: In FCFS scheduling, if a long process arrives first, all shorter processes behind it must wait for it to complete, resulting in poor average turnaround time.
+
+### Q4: How does context switching work?
+
+**Answer**: The OS saves the state (registers, program counter, etc.) of the current process, then loads the state of the next process to run. This allows multiple processes to share the CPU.
+
+### Q5: What are zombie processes?
+
+**Answer**: When a child process terminates but its parent has not yet called `wait()`, the child's PCB remains in the system as a zombie (or defunct) process. It consumes a PID but no other resources.
+
+## Exercises
+
+1. Write a C program that creates 5 child processes using `fork()`.
+2. Implement a simple round-robin scheduler simulation.
+3. Create a program that uses pipes for parent-child communication.
+4. Compare the performance of FCFS and SJF scheduling for a given set of processes.
+
+## Key Takeaways
+
+- Processes are the fundamental unit of execution in an OS
+- The PCB contains all information about a process
+- Process states define the lifecycle of a process
+- Scheduling algorithms determine which process runs next
+- IPC mechanisms enable process communication
+- Threads provide lighter-weight concurrency within a process
+
+---
+
+**Next**: [Memory Management](./memory-management.mdx) | [Back to Core CS](../README.mdx)

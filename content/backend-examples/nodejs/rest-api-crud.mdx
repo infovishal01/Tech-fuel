@@ -1,0 +1,880 @@
+---
+title: REST API CRUD Operations with Node.js and Express
+description: Complete guide to building CRUD API with Node.js, Express, and MongoDB
+technology: Node.js
+category: CRUD
+difficulty: Beginner
+tags: [nodejs, express, mongodb, mongoose, rest, api, crud]
+isRunnable: true
+---
+
+# REST API CRUD Operations with Node.js and Express
+
+## Overview
+
+This tutorial will guide you through building a complete RESTful CRUD API using:
+- **Node.js** - JavaScript runtime
+- **Express.js** - Web framework for Node.js
+- **MongoDB** - NoSQL database
+- **Mongoose** - MongoDB object modeling
+
+## Prerequisites
+
+- Node.js installed (v18+)
+- npm or yarn
+- MongoDB (local or Atlas)
+- Basic knowledge of JavaScript and ES6
+
+## Step 1: Setup the Project
+
+### Create a new project
+
+```bash
+mkdir nodejs-crud-api
+cd nodejs-crud-api
+npm init -y
+```
+
+### Install dependencies
+
+```bash
+npm install express mongoose cors dotenv
+npm install --save-dev nodemon
+```
+
+### Project structure
+
+```
+nodejs-crud-api/
+├── src/
+│   ├── controllers/
+│   │   └── product.controller.js
+│   ├── models/
+│   │   └── product.model.js
+│   ├── routes/
+│   │   └── product.route.js
+│   ├── middlewares/
+│   │   └── errorHandler.js
+│   ├── config/
+│   │   └── db.js
+│   └── app.js
+├── .env
+├── .gitignore
+└── package.json
+```
+
+## Step 2: Environment Configuration
+
+Create a `.env` file:
+
+```env
+PORT=3000
+MONGODB_URI=mongodb://localhost:27017/crud-api
+NODE_ENV=development
+```
+
+Add `.env` to `.gitignore`:
+
+```
+node_modules/
+.env
+```
+
+## Step 3: Database Connection
+
+Create `src/config/db.js`:
+
+```javascript
+const mongoose = require('mongoose');
+
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(process.env.MONGODB_URI);
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.error(`Error: ${error.message}`);
+    process.exit(1);
+  }
+};
+
+module.exports = connectDB;
+```
+
+## Step 4: Create the Product Model
+
+Create `src/models/product.model.js`:
+
+```javascript
+const mongoose = require('mongoose');
+
+const productSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, 'Please add a product name'],
+      trim: true,
+      maxlength: [100, 'Product name cannot be more than 100 characters']
+    },
+    description: {
+      type: String,
+      required: [true, 'Please add a product description'],
+      maxlength: [500, 'Product description cannot be more than 500 characters']
+    },
+    price: {
+      type: Number,
+      required: [true, 'Please add a product price'],
+      min: [0, 'Product price cannot be negative']
+    },
+    quantity: {
+      type: Number,
+      required: [true, 'Please add a product quantity'],
+      min: [0, 'Product quantity cannot be negative'],
+      default: 0
+    },
+    category: {
+      type: String,
+      required: [true, 'Please add a product category'],
+      enum: ['Electronics', 'Clothing', 'Books', 'Food', 'Other']
+    },
+    inStock: {
+      type: Boolean,
+      default: true
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now
+    },
+    updatedAt: {
+      type: Date,
+      default: Date.now
+    }
+  },
+  {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
+  }
+);
+
+// Virtual for formatted price
+productSchema.virtual('formattedPrice').get(function() {
+  return `$${this.price.toFixed(2)}`;
+});
+
+// Pre-save middleware to update updatedAt
+productSchema.pre('save', function(next) {
+  this.updatedAt = Date.now();
+  next();
+});
+
+module.exports = mongoose.model('Product', productSchema);
+```
+
+## Step 5: Create Product Controller
+
+Create `src/controllers/product.controller.js`:
+
+```javascript
+const Product = require('../models/product.model');
+const asyncHandler = require('express-async-handler');
+
+// @desc    Get all products
+// @route   GET /api/products
+// @access  Public
+const getProducts = asyncHandler(async (req, res) => {
+  const { page = 1, limit = 10, category, inStock, sortBy, sortOrder } = req.query;
+  
+  const query = {};
+  
+  // Filter by category
+  if (category) {
+    query.category = category;
+  }
+  
+  // Filter by stock status
+  if (inStock) {
+    query.inStock = inStock === 'true';
+  }
+  
+  // Sorting
+  const sort = {};
+  if (sortBy) {
+    sort[sortBy] = sortOrder === 'desc' ? -1 : 1;
+  } else {
+    sort.createdAt = -1; // Default: newest first
+  }
+  
+  // Pagination
+  const pageNumber = parseInt(page);
+  const limitNumber = parseInt(limit);
+  const skip = (pageNumber - 1) * limitNumber;
+  
+  // Get total count for pagination
+  const total = await Product.countDocuments(query);
+  
+  // Get products
+  const products = await Product.find(query)
+    .sort(sort)
+    .skip(skip)
+    .limit(limitNumber);
+  
+  res.json({
+    success: true,
+    count: products.length,
+    total,
+    pages: Math.ceil(total / limitNumber),
+    page: pageNumber,
+    data: products
+  });
+});
+
+// @desc    Get single product
+// @route   GET /api/products/:id
+// @access  Public
+const getProduct = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.id);
+  
+  if (!product) {
+    res.status(404);
+    throw new Error('Product not found');
+  }
+  
+  res.json({
+    success: true,
+    data: product
+  });
+});
+
+// @desc    Create new product
+// @route   POST /api/products
+// @access  Public
+const createProduct = asyncHandler(async (req, res) => {
+  const { name, description, price, quantity, category } = req.body;
+  
+  // Validate required fields
+  if (!name || !description || !price || !quantity || !category) {
+    res.status(400);
+    throw new Error('Please fill in all fields');
+  }
+  
+  // Create product
+  const product = await Product.create({
+    name,
+    description,
+    price,
+    quantity,
+    category,
+    inStock: quantity > 0
+  });
+  
+  res.status(201).json({
+    success: true,
+    message: 'Product created successfully',
+    data: product
+  });
+});
+
+// @desc    Update product
+// @route   PUT /api/products/:id
+// @access  Public
+const updateProduct = asyncHandler(async (req, res) => {
+  const { name, description, price, quantity, category, inStock } = req.body;
+  
+  const product = await Product.findById(req.params.id);
+  
+  if (!product) {
+    res.status(404);
+    throw new Error('Product not found');
+  }
+  
+  // Update fields if provided
+  if (name) product.name = name;
+  if (description) product.description = description;
+  if (price) product.price = price;
+  if (quantity) product.quantity = quantity;
+  if (category) product.category = category;
+  if (inStock !== undefined) product.inStock = inStock;
+  
+  // Update inStock based on quantity
+  if (quantity !== undefined) {
+    product.inStock = quantity > 0;
+  }
+  
+  const updatedProduct = await product.save();
+  
+  res.json({
+    success: true,
+    message: 'Product updated successfully',
+    data: updatedProduct
+  });
+});
+
+// @desc    Delete product
+// @route   DELETE /api/products/:id
+// @access  Public
+const deleteProduct = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.id);
+  
+  if (!product) {
+    res.status(404);
+    throw new Error('Product not found');
+  }
+  
+  await product.remove();
+  
+  res.json({
+    success: true,
+    message: 'Product deleted successfully'
+  });
+});
+
+module.exports = {
+  getProducts,
+  getProduct,
+  createProduct,
+  updateProduct,
+  deleteProduct
+};
+```
+
+## Step 6: Create Product Routes
+
+Create `src/routes/product.route.js`:
+
+```javascript
+const express = require('express');
+const router = express.Router();
+const {
+  getProducts,
+  getProduct,
+  createProduct,
+  updateProduct,
+  deleteProduct
+} = require('../controllers/product.controller');
+
+// GET /api/products - Get all products
+router.get('/', getProducts);
+
+// GET /api/products/:id - Get single product
+router.get('/:id', getProduct);
+
+// POST /api/products - Create new product
+router.post('/', createProduct);
+
+// PUT /api/products/:id - Update product
+router.put('/:id', updateProduct);
+
+// DELETE /api/products/:id - Delete product
+router.delete('/:id', deleteProduct);
+
+module.exports = router;
+```
+
+## Step 7: Create the Express App
+
+Create `src/app.js`:
+
+```javascript
+const express = require('express');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const connectDB = require('./config/db');
+const productRoutes = require('./routes/product.route');
+
+// Load environment variables
+dotenv.config();
+
+// Connect to database
+connectDB();
+
+const app = express();
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+// Routes
+app.use('/api/products', productRoutes);
+
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({ success: true, message: 'API is running' });
+});
+
+// Root route
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Welcome to CRUD API',
+    endpoints: {
+      products: '/api/products',
+      health: '/api/health'
+    }
+  });
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+  res.status(statusCode);
+  
+  res.json({
+    success: false,
+    message: err.message,
+    stack: process.env.NODE_ENV === 'production' ? null : err.stack
+  });
+});
+
+// Start server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
+});
+
+module.exports = app;
+```
+
+## Step 8: Update package.json
+
+Add scripts to `package.json`:
+
+```json
+{
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
+```
+
+## Step 9: Run the Application
+
+```bash
+npm run dev
+```
+
+The server will start on `http://localhost:3000`
+
+## API Endpoints
+
+### GET /api/products
+Get all products with pagination, filtering, and sorting.
+
+**Query Parameters:**
+- `page` - Page number (default: 1)
+- `limit` - Items per page (default: 10)
+- `category` - Filter by category
+- `inStock` - Filter by stock status (true/false)
+- `sortBy` - Field to sort by
+- `sortOrder` - Sort order (asc/desc, default: desc)
+
+**Example:**
+```
+GET /api/products?page=1&limit=5&category=Electronics&inStock=true&sortBy=price&sortOrder=asc
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "count": 5,
+  "total": 15,
+  "pages": 3,
+  "page": 1,
+  "data": [
+    {
+      "_id": "...",
+      "name": "Smartphone",
+      "description": "Latest smartphone with great features",
+      "price": 599.99,
+      "quantity": 50,
+      "category": "Electronics",
+      "inStock": true,
+      "createdAt": "2024-01-15T10:00:00.000Z",
+      "updatedAt": "2024-01-15T10:00:00.000Z",
+      "formattedPrice": "$599.99"
+    },
+    // ... more products
+  ]
+}
+```
+
+### GET /api/products/:id
+Get a single product by ID.
+
+**Example:**
+```
+GET /api/products/65a1b2c3d4e5f6a7b8c9d0e1
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "_id": "65a1b2c3d4e5f6a7b8c9d0e1",
+    "name": "Smartphone",
+    "description": "Latest smartphone with great features",
+    "price": 599.99,
+    "quantity": 50,
+    "category": "Electronics",
+    "inStock": true,
+    "createdAt": "2024-01-15T10:00:00.000Z",
+    "updatedAt": "2024-01-15T10:00:00.000Z",
+    "formattedPrice": "$599.99"
+  }
+}
+```
+
+### POST /api/products
+Create a new product.
+
+**Request Body:**
+```json
+{
+  "name": "Smartphone",
+  "description": "Latest smartphone with great features",
+  "price": 599.99,
+  "quantity": 50,
+  "category": "Electronics"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Product created successfully",
+  "data": {
+    "_id": "65a1b2c3d4e5f6a7b8c9d0e1",
+    "name": "Smartphone",
+    "description": "Latest smartphone with great features",
+    "price": 599.99,
+    "quantity": 50,
+    "category": "Electronics",
+    "inStock": true,
+    "createdAt": "2024-01-15T10:00:00.000Z",
+    "updatedAt": "2024-01-15T10:00:00.000Z",
+    "formattedPrice": "$599.99"
+  }
+}
+```
+
+### PUT /api/products/:id
+Update an existing product.
+
+**Request Body:**
+```json
+{
+  "name": "Smartphone Pro",
+  "price": 699.99,
+  "quantity": 30
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Product updated successfully",
+  "data": {
+    "_id": "65a1b2c3d4e5f6a7b8c9d0e1",
+    "name": "Smartphone Pro",
+    "description": "Latest smartphone with great features",
+    "price": 699.99,
+    "quantity": 30,
+    "category": "Electronics",
+    "inStock": true,
+    "createdAt": "2024-01-15T10:00:00.000Z",
+    "updatedAt": "2024-01-15T10:30:00.000Z",
+    "formattedPrice": "$699.99"
+  }
+}
+```
+
+### DELETE /api/products/:id
+Delete a product.
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Product deleted successfully"
+}
+```
+
+## Testing the API
+
+You can test the API using:
+
+### cURL
+
+```bash
+# Create product
+curl -X POST http://localhost:3000/api/products \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Laptop", "description": "High performance laptop", "price": 999.99, "quantity": 10, "category": "Electronics"}'
+
+# Get all products
+curl http://localhost:3000/api/products
+
+# Get single product
+curl http://localhost:3000/api/products/<product-id>
+
+# Update product
+curl -X PUT http://localhost:3000/api/products/<product-id> \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Laptop Pro", "price": 1099.99}'
+
+# Delete product
+curl -X DELETE http://localhost:3000/api/products/<product-id>
+```
+
+### Postman
+Import the following Postman collection:
+
+```json
+{
+  "info": {
+    "_postman_id": "1",
+    "name": "CRUD API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create Product",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Smartphone\",\n  \"description\": \"Latest smartphone\",\n  \"price\": 599.99,\n  \"quantity\": 50,\n  \"category\": \"Electronics\"\n}"
+        },
+        "url": {
+          "raw": "{{url}}/api/products",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "products"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Products",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/api/products",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "products"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Product by ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/api/products/:id",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "products", ":id"],
+          "variable": [
+            {
+              "id": "1",
+              "key": "id",
+              "value": "65a1b2c3d4e5f6a7b8c9d0e1"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Product",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Smartphone Pro\",\n  \"price\": 699.99\n}"
+        },
+        "url": {
+          "raw": "{{url}}/api/products/:id",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "products", ":id"],
+          "variable": [
+            {
+              "id": "1",
+              "key": "id",
+              "value": "65a1b2c3d4e5f6a7b8c9d0e1"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Product",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/api/products/:id",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "products", ":id"],
+          "variable": [
+            {
+              "id": "1",
+              "key": "id",
+              "value": "65a1b2c3d4e5f6a7b8c9d0e1"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
+```
+
+## Best Practices
+
+### 1. Error Handling
+- Always handle errors gracefully
+- Provide meaningful error messages
+- Use appropriate HTTP status codes
+
+### 2. Validation
+- Validate input data
+- Use mongoose schema validation
+- Add custom validation logic
+
+### 3. Security
+- Sanitize user input
+- Prevent NoSQL injection
+- Use environment variables for sensitive data
+- Implement rate limiting
+
+### 4. Performance
+- Use indexing for frequently queried fields
+- Implement caching
+- Optimize database queries
+- Use pagination for large datasets
+
+### 5. Code Organization
+- Separate concerns (routes, controllers, models)
+- Use middleware for common functionality
+- Keep controllers thin
+- Use services for business logic
+
+## Common Mistakes
+
+1. **Not handling errors:** Always wrap async operations in try-catch or use middleware
+2. **Not validating input:** Always validate data before saving to database
+3. **Hardcoding sensitive data:** Use environment variables for API keys, database URIs, etc.
+4. **Not using async/await properly:** Ensure proper error handling with async operations
+5. **Blocking the event loop:** Avoid synchronous operations in route handlers
+
+## Extensions
+
+### 1. Authentication
+Add JWT authentication for protected routes:
+
+```bash
+npm install jsonwebtoken bcryptjs cookie-parser
+```
+
+### 2. File Upload
+Add file upload support:
+
+```bash
+npm install multer
+```
+
+### 3. Swagger Documentation
+Add API documentation:
+
+```bash
+npm install swagger-jsdoc swagger-ui-express
+```
+
+### 4. Testing
+Add unit and integration tests:
+
+```bash
+npm install --save-dev jest supertest @babel/core @babel/preset-env
+```
+
+## Key Concepts
+
+### REST API
+- **REpresentational State Transfer** architecture
+- Uses HTTP methods (GET, POST, PUT, DELETE)
+- Stateless (each request contains all information)
+- Resource-based (URLs represent resources)
+
+### CRUD
+- **Create** - POST /products
+- **Read** - GET /products, GET /products/:id
+- **Update** - PUT /products/:id, PATCH /products/:id
+- **Delete** - DELETE /products/:id
+
+### Express.js
+- Web framework for Node.js
+- Middleware-based architecture
+- Routing system
+- Request/Response handling
+
+### MongoDB
+- NoSQL database
+- Document-oriented
+- Flexible schema
+- Horizontal scaling
+
+### Mongoose
+- MongoDB object modeling
+- Schema validation
+- Middleware support
+- Query building
+
+## References
+
+1. [Express.js Documentation](https://expressjs.com/)
+2. [Mongoose Documentation](https://mongoosejs.com/)
+3. [MongoDB Documentation](https://docs.mongodb.com/)
+4. [REST API Tutorial](https://restfulapi.net/)
+5. [Node.js Documentation](https://nodejs.org/en/docs/)
+
+## Conclusion
+
+This tutorial covered building a complete RESTful CRUD API with Node.js, Express, and MongoDB. You now have a working API that can:
+
+- Create, Read, Update, and Delete products
+- Filter, sort, and paginate results
+- Handle errors gracefully
+- Connect to a MongoDB database
+
+You can extend this API by adding authentication, file upload, validation, and more features as needed.

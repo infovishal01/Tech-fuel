@@ -1,0 +1,575 @@
+---
+title: Design TinyURL
+description: A URL shortening service like bit.ly
+difficulty: Beginner
+category: Social Network
+tags: [url-shortening, hash, redirection, scaling]
+requirements:
+  - Shorten long URLs
+  - Redirect to original URL
+  - Support custom short URLs
+  - Track click statistics
+goals:
+  - High availability
+  - Low latency
+  - Scalable to millions of users
+  - Reliable redirection
+constraints:
+  - URL shortener should be available 24/7
+  - Redirection should happen in real-time
+  - System should handle 100K+ requests per second
+---
+
+# System Design: TinyURL (URL Shortening Service)
+
+## Overview
+
+TinyURL is a service that takes long URLs and shrinks them into shorter URLs. When users click on these short URLs, they are redirected to the original long URLs.
+
+## Requirements
+
+### Functional Requirements
+1. **URL Shortening:** Users can provide a long URL and get a shortened URL
+2. **Redirection:** Users can access the original URL by visiting the shortened URL
+3. **Custom Short URLs:** Users can specify custom short URLs
+4. **Analytics:** Track click statistics (total clicks, referrers, etc.)
+5. **Expiration:** Optionally expire short URLs after a certain period
+6. **User Management:** Users can manage their shortened URLs
+
+### Non-Functional Requirements
+1. **High Availability:** System should be available 24/7
+2. **Low Latency:** Redirection should happen quickly (< 100ms)
+3. **Scalability:** Should handle 100K+ requests per second
+4. **Durability:** Shortened URLs should persist and not be lost
+5. **Reliability:** Redirection should always work
+
+## Capacity Estimation
+
+### Traffic Estimates
+- **Reads:** 100K requests per second (redirections)
+- **Writes:** 10K requests per second (URL shortening)
+- **Total:** 110K requests per second
+
+### Storage Estimates
+- **URLs:** 1 billion URLs
+- **Average URL length:** 500 characters (original) + 50 characters (short)
+- **Metadata:** 100 bytes per URL (created at, expires at, click count, etc.)
+- **Total storage:** ~100GB for URLs + ~100GB for metadata = ~200GB
+
+### Bandwidth Estimates
+- **Incoming:** 10K writes/sec * 500 bytes = ~5 MB/s
+- **Outgoing:** 100K reads/sec * 50 bytes (redirection) = ~5 MB/s
+- **Total:** ~10 MB/s
+
+## High-Level Design
+
+### Components
+
+1. **Client:** Browser or mobile app
+2. **Load Balancer:** Distributes requests across servers
+3. **Application Servers:** Handle URL shortening and redirection
+4. **URL Shortening Service:** Generates short URLs
+5. **URL Redirection Service:** Handles redirection to original URLs
+6. **Database:** Stores URL mappings
+7. **Cache:** Caches frequently accessed URLs
+8. **Analytics Service:** Tracks and stores click statistics
+9. **Monitoring:** Monitors system health and performance
+
+### Data Flow
+
+#### URL Shortening Flow
+```
+Client -> Load Balancer -> Application Server -> URL Shortening Service -> Database
+                                                      -> Response (Short URL) -> Client
+```
+
+#### URL Redirection Flow
+```
+Client -> Load Balancer -> Application Server -> Cache (if hit) -> Redirect to Original URL
+                                                     -> Database (if cache miss)
+```
+
+### High-Level Diagram
+
+```
+┌─────────────┐     ┌─────────────────────┐     ┌─────────────┐
+│             │     │                     │     │             │
+│   Client    ├──────►   Load Balancer     ├──────► Application│
+│             │     │                     │     │  Servers    │
+└─────────────┘     └─────────────────────┘     └──────┬──────┘
+                                                          │
+          ┌───────────────────────────────────────────────┼───────────────────────────────────┐
+          │                                           │                                   │
+          ▼                                           ▼                                   ▼
+┌─────────────────┐             ┌─────────────────┐             ┌─────────────────┐
+│                 │             │                 │             │                 │
+│  URL Shortening │             │ URL Redirection │             │   Analytics     │
+│     Service    │             │    Service      │             │    Service      │
+│                 │             │                 │             │                 │
+└────────┬────────┘             └────────┬────────┘             └────────┬────────┘
+         │                             │                            │
+         ▼                             ▼                            ▼
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│                 │     │                 │     │                 │
+│   Database      │◄────┤     Cache       │     │   Database      │
+│ (URL Mappings)  │     │ (Redis/Memcached)│     │ (Analytics)     │
+│                 │     │                 │     │                 │
+└─────────────────┘     └─────────────────┘     └─────────────────┘
+```
+
+## Detailed Design
+
+### Database Schema
+
+#### URL Table
+```sql
+CREATE TABLE urls (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    short_url VARCHAR(10) UNIQUE NOT NULL,
+    long_url VARCHAR(2048) NOT NULL,
+    user_id BIGINT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    expires_at TIMESTAMP NULL,
+    is_custom BOOLEAN DEFAULT FALSE,
+    custom_alias VARCHAR(100),
+    INDEX idx_short_url (short_url),
+    INDEX idx_user_id (user_id),
+    INDEX idx_created_at (created_at)
+);
+```
+
+#### Analytics Table
+```sql
+CREATE TABLE analytics (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    url_id BIGINT NOT NULL,
+    click_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ip_address VARCHAR(45),
+    user_agent TEXT,
+    referrer TEXT,
+    country VARCHAR(2),
+    device_type VARCHAR(20),
+    FOREIGN KEY (url_id) REFERENCES urls(id),
+    INDEX idx_url_id (url_id),
+    INDEX idx_click_timestamp (click_timestamp)
+);
+```
+
+### URL Shortening Algorithm
+
+#### Approach 1: Hash Function + Collision Resolution
+1. Generate a hash of the long URL using MD5/SHA-256
+2. Take first 6-8 characters of the hash as the short URL
+3. If collision occurs (short URL already exists), append a salt and retry
+
+**Pros:** Simple to implement
+**Cons:** Need to handle collisions, not sequential
+
+#### Approach 2: Base62 Encoding
+1. Use a counter that increments for each new URL
+2. Encode the counter in base62 (0-9, a-z, A-Z)
+3. This gives us 62 possible characters per position
+
+With 6 characters: 62^6 = ~56.8 billion unique URLs
+With 7 characters: 62^7 = ~3.5 trillion unique URLs
+
+**Pros:** No collisions, sequential, easy to implement
+**Cons:** Predictable, reveals how many URLs have been created
+
+**Implementation:**
+```javascript
+const BASE62 = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+function encodeBase62(num) {
+    let result = "";
+    while (num > 0) {
+        result = BASE62[num % 62] + result;
+        num = Math.floor(num / 62);
+    }
+    // Pad with leading zeros to ensure minimum length
+    while (result.length < 6) {
+        result = "0" + result;
+    }
+    return result;
+}
+
+function decodeBase62(str) {
+    let num = 0;
+    for (let char of str) {
+        num = num * 62 + BASE62.indexOf(char);
+    }
+    return num;
+}
+```
+
+### Redirection Strategy
+
+#### 301 vs 302 Redirects
+- **301 (Permanent Redirect):** Better for SEO, cached by browsers
+- **302 (Temporary Redirect):** Not cached, allows tracking
+
+**Recommendation:** Use 302 redirects for URL shorteners to allow tracking click statistics
+
+#### Redirect Flow
+```
+1. User visits https://tinyurl.com/abc123
+2. Server receives request for /abc123
+3. Check cache for short URL "abc123"
+4. If in cache:
+   a. Record analytics (click, IP, user agent, etc.)
+   b. Return 302 redirect to original URL
+5. If not in cache:
+   a. Query database for short URL "abc123"
+   b. If found:
+      i. Store in cache
+      ii. Record analytics
+      iii. Return 302 redirect
+   c. If not found: Return 404
+```
+
+### Caching Strategy
+
+#### Cache Layer
+- **Redis/Memcached:** Store frequently accessed URL mappings
+- **Cache Key:** Short URL hash
+- **Cache Value:** Long URL + metadata
+- **TTL:** 24-48 hours (or until URL expires)
+
+#### Cache Invalidation
+- When a new URL is created, invalidate cache for that short URL
+- When analytics are updated, they can be cached separately
+- Use write-through or write-behind caching strategy
+
+### Analytics Tracking
+
+#### What to Track
+1. **Total clicks** for each short URL
+2. **Unique clicks** (by IP/cookie)
+3. **Click timestamps**
+4. **Referrers** (where the click came from)
+5. **Geolocation** (country, city)
+6. **Device information** (desktop, mobile, tablet)
+7. **Browser information**
+
+#### Implementation
+```javascript
+async function trackClick(shortUrl, request) {
+    const analytics = {
+        urlId: await getUrlId(shortUrl),
+        clickTimestamp: new Date(),
+        ipAddress: request.ip,
+        userAgent: request.headers['user-agent'],
+        referrer: request.headers['referer'],
+        country: await getCountry(request.ip),
+        deviceType: getDeviceType(request.headers['user-agent'])
+    };
+    
+    // Store in analytics database (async, don't block redirection)
+    analyticsQueue.add(analytics);
+    
+    // Also update real-time counter
+    await redis.incr(`url:${shortUrl}:clicks`);
+}
+```
+
+## Data Model
+
+### Relational Database (SQL)
+As shown in the Database Schema section above.
+
+### NoSQL Alternative (MongoDB)
+```javascript
+// URLs Collection
+{
+    _id: ObjectId,
+    shortUrl: "abc123",
+    longUrl: "https://www.example.com/very/long/url",
+    userId: ObjectId,  // Reference to Users collection
+    createdAt: ISODate,
+    expiresAt: ISODate | null,
+    isCustom: Boolean,
+    customAlias: String | null,
+    clickCount: Number
+}
+
+// Analytics Collection
+{
+    _id: ObjectId,
+    urlId: ObjectId,  // Reference to URLs collection
+    clickTimestamp: ISODate,
+    ipAddress: String,
+    userAgent: String,
+    referrer: String | null,
+    country: String,
+    deviceType: String
+}
+
+// Users Collection
+{
+    _id: ObjectId,
+    email: String,
+    name: String,
+    passwordHash: String,
+    createdAt: ISODate,
+    urls: [ObjectId]  // References to URLs collection
+}
+```
+
+## API Design
+
+### RESTful API Endpoints
+
+#### URL Shortening
+```
+POST /api/urls/shorten
+Request:
+{
+    "longUrl": "https://www.example.com/very/long/url",
+    "customAlias": "my-custom-url" // Optional
+}
+
+Response:
+{
+    "success": true,
+    "shortUrl": "https://tinyurl.com/abc123",
+    "longUrl": "https://www.example.com/very/long/url",
+    "createdAt": "2024-01-15T10:30:00Z"
+}
+```
+
+#### URL Redirection
+```
+GET /{shortUrl}
+Response: 302 Redirect to original URL
+```
+
+#### Get URL Info
+```
+GET /api/urls/{shortUrl}
+Response:
+{
+    "shortUrl": "https://tinyurl.com/abc123",
+    "longUrl": "https://www.example.com/very/long/url",
+    "createdAt": "2024-01-15T10:30:00Z",
+    "expiresAt": null,
+    "clickCount": 42,
+    "isCustom": false
+}
+```
+
+#### Get Analytics
+```
+GET /api/urls/{shortUrl}/analytics
+Response:
+{
+    "totalClicks": 42,
+    "uniqueClicks": 35,
+    "recentClicks": [
+        {
+            "timestamp": "2024-01-16T14:23:00Z",
+            "ip": "192.168.1.1",
+            "country": "US",
+            "device": "Desktop",
+            "browser": "Chrome"
+        },
+        // ...
+    ],
+    "topReferrers": [
+        { "referrer": "google.com", "count": 20 },
+        { "referrer": "facebook.com", "count": 10 },
+        // ...
+    ],
+    "byCountry": [
+        { "country": "US", "count": 25 },
+        { "country": "UK", "count": 10 },
+        // ...
+    ],
+    "byDevice": [
+        { "device": "Desktop", "count": 30 },
+        { "device": "Mobile", "count": 12 },
+        // ...
+    ]
+}
+```
+
+#### List User URLs
+```
+GET /api/users/{userId}/urls
+Response:
+{
+    "urls": [
+        {
+            "shortUrl": "https://tinyurl.com/abc123",
+            "longUrl": "https://www.example.com/very/long/url",
+            "createdAt": "2024-01-15T10:30:00Z",
+            "clickCount": 42
+        },
+        // ...
+    ],
+    "total": 10,
+    "page": 1,
+    "pageSize": 20
+}
+```
+
+## Technologies
+
+### Frontend
+- **React.js** or **Next.js** for web interface
+- **Tailwind CSS** for styling
+- **Chart.js** for analytics visualization
+
+### Backend
+- **Node.js** with **Express** or **NestJS**
+- **Python** with **FastAPI** or **Django**
+- **Go** with **Gin** or **Echo**
+
+### Database
+- **PostgreSQL** or **MySQL** for relational data
+- **MongoDB** for NoSQL alternative
+- **Redis** for caching
+
+### Infrastructure
+- **AWS** or **GCP** for cloud hosting
+- **Nginx** as reverse proxy
+- **Docker** for containerization
+- **Kubernetes** for orchestration
+
+### Monitoring
+- **Prometheus** for metrics
+- **Grafana** for visualization
+- **ELK Stack** (Elasticsearch, Logstash, Kibana) for logging
+- **Sentry** for error tracking
+
+## Algorithms
+
+### Hashing
+- MD5, SHA-256 for generating short URLs
+- Base62 encoding for ID generation
+
+### Analytics
+- Real-time click tracking
+- Unique visitor identification
+- Geolocation lookup
+
+### Caching
+- LRU (Least Recently Used) cache eviction
+- TTL (Time To Live) based expiration
+
+## Tradeoffs
+
+### Short URL Length vs. Capacity
+- **6 characters:** 62^6 = ~56.8 billion URLs
+- **7 characters:** 62^7 = ~3.5 trillion URLs
+- **Tradeoff:** Longer URLs = more capacity but less "short"
+
+### Cache Size vs. Performance
+- **Larger cache:** More cache hits, better performance
+- **Smaller cache:** Less memory usage, more cache misses
+- **Tradeoff:** Balance between memory cost and performance
+
+### Database Choice
+- **SQL:** Better for analytics, transactions, relationships
+- **NoSQL:** Better for scalability, flexibility
+- **Tradeoff:** Choose based on specific requirements
+
+## Failure Analysis
+
+### Single Point of Failures
+1. **Database failure:** All URL mappings lost
+   - **Solution:** Use database replication (master-slave, master-master)
+
+2. **Cache failure:** Performance degradation
+   - **Solution:** Use cache replication or multi-layer caching
+
+3. **Application server failure:** Service unavailable
+   - **Solution:** Use load balancer with multiple application servers
+
+4. **Load balancer failure:** All traffic lost
+   - **Solution:** Use redundant load balancers (active-active or active-passive)
+
+### Data Loss Scenarios
+1. **Database crash without backup:** All data lost
+   - **Solution:** Regular backups, point-in-time recovery
+
+2. **Cache crash:** No data loss, but performance impact
+   - **Solution:** Cache warming, graceful degradation
+
+### Performance Bottlenecks
+1. **Database queries:** Slow queries can bottleneck the system
+   - **Solution:** Query optimization, indexing, read replicas
+
+2. **Network latency:** Slow responses to clients
+   - **Solution:** CDN, edge caching, regional deployments
+
+3. **Analytics processing:** Can slow down the main path
+   - **Solution:** Async processing, message queues
+
+## Scaling Analysis
+
+### Horizontal Scaling
+- **Application Servers:** Can scale horizontally by adding more servers behind load balancer
+- **Database:** Can use read replicas for read-heavy workloads
+- **Cache:** Can use distributed cache like Redis Cluster
+
+### Vertical Scaling
+- **Database:** Can upgrade to more powerful servers for better performance
+- **Application:** Can increase resources (CPU, RAM) for each server
+
+### Scaling Strategies
+1. **Stateless Services:** Application servers should be stateless for easy scaling
+2. **Sharding:** Distribute data across multiple database instances
+3. **CDN:** Use CDN for static assets and caching
+4. **Edge Computing:** Deploy services closer to users (AWS Lambda@Edge, Cloudflare Workers)
+
+## Extensions
+
+### Custom Short URLs
+- Allow users to specify their own short URL
+- Check for availability and uniqueness
+- Charge premium for custom URLs
+
+### URL Expiration
+- Allow users to set expiration date for short URLs
+- Automatically clean up expired URLs
+- Send notifications before expiration
+
+### Link in Bio
+- Allow users to create a profile page with multiple links
+- Customizable landing pages
+- Analytics for each link
+
+### QR Codes
+- Generate QR codes for short URLs
+- Custom QR code design
+- Analytics for QR code scans
+
+### Browser Extensions
+- Chrome, Firefox, Edge extensions for quick URL shortening
+- Right-click context menu integration
+- Automatic shortening of copied URLs
+
+### Mobile Apps
+- iOS and Android apps
+- Share extension for quick shortening
+- QR code scanner
+- Link management on the go
+
+### API for Developers
+- REST API for URL shortening and redirection
+- SDKs for popular languages
+- Webhooks for events (URL created, clicked, etc.)
+
+## References
+
+1. [TinyURL - Wikipedia](https://en.wikipedia.org/wiki/TinyURL)
+2. [Bitly Engineering Blog](https://blog.bitly.com/)
+3. [System Design Primer - URL Shortener](https://github.com/donnemartin/system-design-primer#url-shortener)
+4. [Gaurav Sen's System Design Course](https://www.youtube.com/watch?v=8yis7GzlXNM)
+5. [Grokking the System Design Interview](https://www.educative.io/courses/grokking-the-system-design-interview)
+
+## Conclusion
+
+Designing TinyURL involves creating a scalable, highly available, and low-latency system for URL shortening and redirection. The key challenges are handling massive scale, ensuring reliability, and providing useful analytics. By using a combination of base62 encoding, caching, and distributed systems, we can build a system that handles millions of requests per day.
+
+The design can be extended with additional features like custom URLs, expiration, link in bio, QR codes, and mobile apps to provide more value to users.

@@ -1,0 +1,395 @@
+# Database Systems: Normalization
+
+## Introduction to Database Normalization
+
+**Normalization** is the process of organizing data in a database to reduce redundancy and improve data integrity. It involves decomposing tables to eliminate data anomalies.
+
+## Goals of Normalization
+
+1. **Minimize data redundancy** - Avoid storing the same data in multiple places
+2. **Eliminate update anomalies** - Ensure data consistency when updates occur
+3. **Eliminate insertion anomalies** - Prevent situations where data cannot be inserted due to missing information
+4. **Eliminate deletion anomalies** - Prevent situations where deleting data causes unintended loss of information
+
+## Normal Forms
+
+### First Normal Form (1NF)
+
+A table is in 1NF if:
+- All attributes contain atomic (indivisible) values
+- There are no repeating groups
+- Each column contains only one value
+
+**Example**: Converting a table with multi-valued attributes to 1NF
+
+```
+Before (Not 1NF):
+┌─────────┬──────────────────────┬────────┐
+│ OrderID │       Items          │ Total │
+├─────────┼──────────────────────┼────────┤
+│   101   │ Item1, Item2, Item3  │ 150.00 │
+│   102   │ Item4, Item5         │  80.00 │
+└─────────┴──────────────────────┴────────┘
+
+After (1NF):
+┌─────────┬─────────┬────────┐
+│ OrderID │ Item    │ Price  │
+├─────────┼─────────┼────────┤
+│   101   │ Item1   │ 50.00  │
+│   101   │ Item2   │ 60.00  │
+│   101   │ Item3   │ 40.00  │
+│   102   │ Item4   │ 50.00  │
+│   102   │ Item5   │ 30.00  │
+└─────────┴─────────┴────────┘
+```
+
+### Second Normal Form (2NF)
+
+A table is in 2NF if:
+- It is in 1NF
+- All non-key attributes are **fully functionally dependent** on the entire primary key
+- No partial dependencies (dependencies on part of the composite key)
+
+**Example**: Removing partial dependencies
+
+```
+Before (1NF but not 2NF):
+┌─────────┬─────────┬─────────┬──────────────┐
+│ OrderID │ Item    │ Price   │ Supplier      │
+├─────────┼─────────┼─────────┼──────────────┤
+│   101   │ Item1   │ 50.00   │ Supplier A    │
+│   101   │ Item2   │ 60.00   │ Supplier B    │
+└─────────┴─────────┴─────────┴──────────────┘
+Primary Key: (OrderID, Item)
+
+Problem: Price depends only on Item, not on (OrderID, Item)
+
+After (2NF):
+Orders table:
+┌─────────┬─────────┐
+│ OrderID │ Item    │
+├─────────┼─────────┤
+│   101   │ Item1   │
+│   101   │ Item2   │
+└─────────┴─────────┘
+
+Items table:
+┌─────────┬─────────┬──────────────┐
+│ Item    │ Price   │ Supplier      │
+├─────────┼─────────┼──────────────┤
+│ Item1   │ 50.00   │ Supplier A    │
+│ Item2   │ 60.00   │ Supplier B    │
+└─────────┴─────────┴──────────────┘
+```
+
+### Third Normal Form (3NF)
+
+A table is in 3NF if:
+- It is in 2NF
+- There are no **transitive dependencies** (non-key attributes depending on other non-key attributes)
+
+**Example**: Removing transitive dependencies
+
+```
+Before (2NF but not 3NF):
+┌─────────┬─────────┬─────────┬──────────────┐
+│ OrderID │ Item    │ Price   │ SupplierAddr  │
+├─────────┼─────────┼─────────┼──────────────┤
+│   101   │ Item1   │ 50.00   │ 123 Main St   │
+│   102   │ Item1   │ 50.00   │ 123 Main St   │
+└─────────┴─────────┴─────────┴──────────────┘
+
+Problem: SupplierAddr depends on Item, not on OrderID
+
+After (3NF):
+Orders table:
+┌─────────┬─────────┐
+│ OrderID │ Item    │
+├─────────┼─────────┤
+│   101   │ Item1   │
+│   102   │ Item1   │
+└─────────┴─────────┘
+
+Items table:
+┌─────────┬─────────┬────────┐
+│ Item    │ Price   │ Supplier│
+├─────────┼─────────┼────────┤
+│ Item1   │ 50.00   │ SupA    │
+└─────────┴─────────┴────────┘
+
+Suppliers table:
+┌─────────┬──────────────┐
+│ Supplier│ Address       │
+├─────────┼──────────────┤
+│ SupA    │ 123 Main St   │
+└─────────┴──────────────┘
+```
+
+### Boyce-Codd Normal Form (BCNF)
+
+A stronger version of 3NF. A table is in BCNF if:
+- It is in 3NF
+- For every functional dependency X → Y, X is a **superkey** (can uniquely identify a row)
+
+**Example**: BCNF violation
+
+```
+Before (3NF but not BCNF):
+┌─────────┬─────────┬──────────────┐
+│ Student │ Course  │ Instructor   │
+├─────────┼─────────┼──────────────┤
+│    A    │ CS101    │ Prof. Smith  │
+│    B    │ CS101    │ Prof. Smith  │
+│    A    │ CS201    │ Prof. Jones  │
+└─────────┴─────────┴──────────────┘
+
+Functional dependency: Course → Instructor
+But Course is not a superkey (multiple students can take same course)
+
+After (BCNF):
+StudentCourses table:
+┌─────────┬─────────┐
+│ Student │ Course  │
+├─────────┼─────────┤
+│    A    │ CS101    │
+│    B    │ CS101    │
+│    A    │ CS201    │
+└─────────┴─────────┘
+
+Courses table:
+┌─────────┬──────────────┐
+│ Course  │ Instructor   │
+├─────────┼──────────────┤
+│ CS101   │ Prof. Smith  │
+│ CS201   │ Prof. Jones  │
+└─────────┴──────────────┘
+```
+
+## Denormalization
+
+While normalization is generally good, sometimes **denormalization** is used:
+
+**Reasons to denormalize**:
+- Improve query performance (reduce joins)
+- Simplify complex queries
+- Support specific access patterns
+
+**Trade-offs**:
+- Increases data redundancy
+- Can lead to data inconsistencies
+- More storage required
+
+## Functional Dependencies
+
+A **functional dependency** X → Y means that for any two rows, if they have the same X value, they must have the same Y value.
+
+### Armstrong's Axioms
+
+1. **Reflexivity**: If Y ⊆ X, then X → Y
+2. **Augmentation**: If X → Y, then XZ → YZ for any Z
+3. **Transitivity**: If X → Y and Y → Z, then X → Z
+
+### Trivial vs Non-Trivial Dependencies
+
+- **Trivial**: Y ⊆ X (always true)
+- **Non-trivial**: Y ⊈ X (contains useful information)
+
+### Full vs Partial Dependencies
+
+- **Full**: Dependency on the entire primary key
+- **Partial**: Dependency on part of a composite primary key
+
+## Candidate Keys and Superkeys
+
+- **Superkey**: A set of attributes that can uniquely identify a tuple (may have extra attributes)
+- **Candidate Key**: A minimal superkey (no redundant attributes)
+- **Primary Key**: A candidate key chosen as the main identifier
+- **Foreign Key**: An attribute that references a primary key in another table
+
+## Example: Normalization Process
+
+### Step 1: Unnormalized Data
+
+```
+Student Registration:
+┌─────────┬────────────┬─────────┬──────────────┬──────────────┐
+│ Student │   Courses   │  Phone  │   Address     │  Instructor   │
+├─────────┼────────────┼─────────┼──────────────┼──────────────┤
+│ John    │ CS101, CS201│ 555-0101│ 123 Main St   │ Smith, Jones  │
+│ Mary    │ CS101, MATH201│555-0102│ 456 Oak Ave   │ Smith, Brown │
+└─────────┴────────────┴─────────┴──────────────┴──────────────┘
+```
+
+### Step 2: First Normal Form (1NF)
+
+```
+Students table:
+┌─────────┬─────────┬─────────┬──────────────┐
+│ StudentID│ Student │  Phone  │   Address     │
+├─────────┼─────────┼─────────┼──────────────┤
+│     1   │ John    │ 555-0101│ 123 Main St   │
+│     2   │ Mary    │ 555-0102│ 456 Oak Ave   │
+└─────────┴─────────┴─────────┴──────────────┘
+
+Registrations table:
+┌────────────┬─────────┬──────────────┐
+│ StudentID  │ Course  │  Instructor   │
+├────────────┼─────────┼──────────────┤
+│     1      │ CS101   │ Smith         │
+│     1      │ CS201   │ Jones         │
+│     2      │ CS101   │ Smith         │
+│     2      │ MATH201 │ Brown         │
+└────────────┴─────────┴──────────────┘
+```
+
+### Step 3: Second Normal Form (2NF)
+
+```
+Students table (unchanged):
+┌─────────┬─────────┬─────────┬──────────────┐
+│ StudentID│ Student │  Phone  │   Address     │
+├─────────┼─────────┼─────────┼──────────────┤
+│     1   │ John    │ 555-0101│ 123 Main St   │
+│     2   │ Mary    │ 555-0102│ 456 Oak Ave   │
+└─────────┴─────────┴─────────┴──────────────┘
+
+Courses table:
+┌─────────┬──────────────┐
+│ Course  │ Instructor   │
+├─────────┼──────────────┤
+│ CS101   │ Smith         │
+│ CS201   │ Jones         │
+│ MATH201 │ Brown         │
+└─────────┴──────────────┘
+
+Registrations table:
+┌────────────┬─────────┐
+│ StudentID  │ Course  │
+├────────────┼─────────┤
+│     1      │ CS101   │
+│     1      │ CS201   │
+│     2      │ CS101   │
+│     2      │ MATH201 │
+└────────────┴─────────┘
+```
+
+### Step 4: Third Normal Form (3NF)
+
+No transitive dependencies in this example, so 2NF is already 3NF.
+
+## SQL for Normalization
+
+### Creating Normalized Tables
+
+```sql
+-- Students table
+CREATE TABLE Students (
+    StudentID INT PRIMARY KEY,
+    StudentName VARCHAR(100) NOT NULL,
+    Phone VARCHAR(20),
+    Address VARCHAR(200)
+);
+
+-- Courses table
+CREATE TABLE Courses (
+    CourseCode VARCHAR(20) PRIMARY KEY,
+    CourseName VARCHAR(100) NOT NULL,
+    Instructor VARCHAR(100) NOT NULL
+);
+
+-- Registrations table (junction table)
+CREATE TABLE Registrations (
+    StudentID INT,
+    CourseCode VARCHAR(20),
+    RegistrationDate DATE DEFAULT CURRENT_DATE,
+    PRIMARY KEY (StudentID, CourseCode),
+    FOREIGN KEY (StudentID) REFERENCES Students(StudentID),
+    FOREIGN KEY (CourseCode) REFERENCES Courses(CourseCode)
+);
+```
+
+### Querying Normalized Data
+
+```sql
+-- Get all courses for a student
+SELECT c.CourseCode, c.CourseName, c.Instructor
+FROM Registrations r
+JOIN Courses c ON r.CourseCode = c.CourseCode
+WHERE r.StudentID = 1;
+
+-- Get all students in a course
+SELECT s.StudentID, s.StudentName, s.Phone
+FROM Registrations r
+JOIN Students s ON r.StudentID = s.StudentID
+WHERE r.CourseCode = 'CS101';
+```
+
+## Anomalies in Unnormalized Data
+
+### Insertion Anomaly
+
+Cannot insert a new course if no student is registered for it yet.
+
+### Update Anomaly
+
+Updating instructor for CS101 requires updating multiple rows (for each student).
+
+### Deletion Anomaly
+
+Deleting a student who is the only one taking a course also deletes the course information.
+
+## Common Exam Questions
+
+### Q1: What is the difference between 2NF and 3NF?
+
+**Answer**: 
+- 2NF eliminates partial dependencies (non-key attributes depending on part of a composite primary key)
+- 3NF eliminates transitive dependencies (non-key attributes depending on other non-key attributes)
+
+### Q2: When would you use denormalization?
+
+**Answer**: When query performance is more important than data consistency, such as in data warehouses or read-heavy applications where complex joins would be too slow.
+
+### Q3: What is a candidate key?
+
+**Answer**: A minimal set of attributes that can uniquely identify a row in a table. A table can have multiple candidate keys, one of which is chosen as the primary key.
+
+### Q4: Explain the difference between a primary key and a foreign key.
+
+**Answer**:
+- **Primary Key**: Uniquely identifies each row in a table
+- **Foreign Key**: References a primary key in another table, creating a relationship between tables
+
+### Q5: What is a junction table?
+
+**Answer**: A table that implements a many-to-many relationship by containing foreign keys to both participating tables. Also called a bridge table or association table.
+
+## Exercises
+
+1. Normalize the following table to 3NF:
+   ```
+   Orders(OrderID, CustomerName, CustomerAddress, Product1, Product2, Product3, Total)
+   ```
+
+2. Create SQL statements to implement your normalized design.
+
+3. Identify the functional dependencies in this table:
+   ```
+   Employees(EmpID, Name, Department, DepartmentLocation, Skill1, Skill2, Skill3)
+   ```
+
+4. Explain why BCNF is sometimes preferred over 3NF.
+
+## Key Takeaways
+
+- Normalization reduces data redundancy and prevents anomalies
+- 1NF: Atomic values, no repeating groups
+- 2NF: No partial dependencies (full dependency on primary key)
+- 3NF: No transitive dependencies
+- BCNF: Stronger than 3NF, every determinant is a superkey
+- Denormalization can improve performance at the cost of data integrity
+- Use foreign keys to maintain relationships between normalized tables
+
+---
+
+**Next**: [Indexing and Query Optimization](./indexing.mdx) | [Back to Core CS](../README.mdx)
