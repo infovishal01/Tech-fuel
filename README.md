@@ -72,13 +72,71 @@ A comprehensive **AI-powered learning platform** built with **Next.js 16**, **Ta
 
 ## Tech Stack
 
-**Frontend:** Next.js 16, React 19, TypeScript, Tailwind CSS v4, Framer Motion, MDX, Recharts, Lucide React
+### Frontend
+- **Framework:** Next.js 16 (App Router)
+- **Language:** TypeScript
+- **UI:** React 19, Tailwind CSS v4
+- **Animations:** Framer Motion
+- **Content:** MDX for markdown-based content
+- **Charts:** Recharts for data visualization
+- **Icons:** Lucide React
+- **Components:** Custom Layout, Header, Sidebar, Footer
 
-**Backend:** Next.js API Routes, MongoDB, Mongoose, NextAuth.js, JWT, bcryptjs, OpenAI SDK
+### Backend
+- **API:** Next.js API Routes (RESTful)
+- **Database:** MongoDB Atlas (Cloud-based NoSQL)
+- **ODM:** Mongoose for MongoDB schema modeling
+- **Authentication:** NextAuth.js with JWT and OAuth (Google)
+- **Security:** bcryptjs for password hashing, JWT for session management
+- **AI Integration:** OpenAI SDK for LLM interactions
 
-**AI:** OpenAI GPT-4o-mini with Streaming
+### AI & Machine Learning
+- **Model:** OpenAI GPT-4o-mini with Streaming
+- **Features:** AI Chat, Code Generation, Mock Interviews, Project Generation, Career Roadmaps
 
-**Quality:** Zod, ESLint, Prettier
+### Quality & Developer Experience
+- **Validation:** Zod for schema validation
+- **Linting:** ESLint for code quality
+- **Formatting:** Prettier for consistent code style
+
+### DevOps
+- **Deployment:** Vercel (recommended)
+- **Containerization:** Docker & Docker Compose support
+- **Environment:** Node.js 18+
+
+---
+
+## MongoDB Atlas Setup
+
+This project uses MongoDB Atlas for cloud-based database hosting.
+
+**Connection String:**
+```
+mongodb+srv://infovishalkumar01_db_user:FACNXr7epX4ZqPsu@cluster0.n1no7sj.mongodb.net/
+```
+
+**Steps to connect:**
+1. Create a free MongoDB Atlas account at https://www.mongodb.com/atlas
+2. Create a new cluster (or use existing)
+3. Whitelist your IP address in Network Access
+4. Create a database user with readWrite permissions
+5. Update the `MONGODB_URI` in your `.env.local` file
+
+**Collections Required:**
+- `users` - User accounts and profiles
+- `dsa-problems` - DSA practice problems
+- `dsa-solutions` - Solutions to problems
+- `dsa-submissions` - User submissions
+- `system-design-cases` - System design case studies
+- `system-design-submissions` - Design submissions
+- `core-cs-concepts` - Core CS concepts
+- `core-cs-quizzes` - Quizzes and answers
+- `backend-examples` - Backend code examples
+- `vlog-posts` - Vlog/blog posts
+- `vlog-comments` - Comments on posts
+- `job-prep-resume-templates` - Resume templates
+- `job-prep-interview-questions` - Interview questions
+- `job-prep-remote-tips` - Remote work tips
 
 ---
 
@@ -108,7 +166,7 @@ Open http://localhost:3000 in your browser.
 
 ```env
 # Database
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/tech-fuel
+MONGODB_URI=mongodb+srv://infovishalkumar01_db_user:FACNXr7epX4ZqPsu@cluster0.n1no7sj.mongodb.net/tech-fuel
 
 # Auth
 JWT_SECRET=your_jwt_secret_minimum_32_chars
@@ -162,6 +220,11 @@ tech-fuel/
 │       ├── vlog/           # NEW: Vlog APIs
 │       └── job-prep/        # NEW: Job Prep APIs
 ├── components/
+│   ├── common/              # Common layout components
+│   │   ├── Layout.tsx       # Main layout wrapper
+│   │   ├── Header.tsx       # Responsive header with nav
+│   │   ├── Sidebar.tsx      # Collapsible sidebar
+│   │   └── Footer.tsx       # Footer component
 │   ├── learning/            # Learning components
 │   │   ├── DSA/
 │   │   ├── SystemDesign/
@@ -215,32 +278,62 @@ tech-fuel/
 - POST `/api/roadmap` - Career roadmap
 
 ### DSA Practice (NEW)
-- GET `/api/dsa/problems` - List problems
-- GET `/api/dsa/problems/[id]` - Get problem
+- GET `/api/dsa/problems` - List all problems
+- GET `/api/dsa/problems/[id]` - Get specific problem
+- POST `/api/dsa/problems` - Create problem
+- PUT `/api/dsa/problems/[id]` - Update problem
+- DELETE `/api/dsa/problems/[id]` - Delete problem
 - POST `/api/dsa/solutions` - Submit solution
-- GET `/api/dsa/submissions` - Get submissions
+- GET `/api/dsa/solutions/[id]` - Get solution with like/dislike
+- GET `/api/dsa/submissions` - List submissions
+- GET `/api/dsa/submissions/[id]` - Get specific submission
 
 ### System Design (NEW)
-- GET `/api/system-design/case-studies` - List case studies
-- GET `/api/system-design/case-studies/[id]` - Get case study
+- GET `/api/system-design/case-studies` - List all case studies
+- GET `/api/system-design/case-studies/[id]` - Get specific case study
+- POST `/api/system-design/case-studies` - Create case study
+- PUT `/api/system-design/case-studies/[id]` - Update case study
+- DELETE `/api/system-design/case-studies/[id]` - Delete case study
+- GET `/api/system-design/submissions` - List submissions
+- GET `/api/system-design/submissions/[id]` - Get specific submission
 
 ### Core CS (NEW)
-- GET `/api/core-cs/concepts` - List concepts
-- GET `/api/core-cs/quizzes` - List quizzes
+- GET `/api/core-cs/concepts` - List all concepts
+- GET `/api/core-cs/concepts/[id]` - Get specific concept
+- POST `/api/core-cs/concepts` - Create concept
+- PUT `/api/core-cs/concepts/[id]` - Update concept
+- DELETE `/api/core-cs/concepts/[id]` - Delete concept
+- GET `/api/core-cs/quizzes` - List all quizzes
+- GET `/api/core-cs/quizzes/[id]` - Get quiz with answer submission
 
 ### Backend Examples (NEW)
-- GET `/api/backend-examples` - List examples
-- POST `/api/backend-examples/[id]/run` - Run code
+- GET `/api/backend-examples` - List all examples
+- GET `/api/backend-examples/[id]` - Get specific example
+- POST `/api/backend-examples` - Create example
+- PUT `/api/backend-examples/[id]` - Update example
+- DELETE `/api/backend-examples/[id]` - Delete example
+- POST `/api/backend-examples/run` - Run code execution
 
 ### Vlog/Blog (NEW)
-- GET `/api/vlog/posts` - List posts
+- GET `/api/vlog/posts` - List all posts
+- GET `/api/vlog/posts/[id]` - Get specific post
 - POST `/api/vlog/posts` - Create post
-- POST `/api/vlog/posts/[id]/comments` - Add comment
+- PUT `/api/vlog/posts/[id]` - Update post
+- DELETE `/api/vlog/posts/[id]` - Delete post
+- GET `/api/vlog/comments` - List comments
+- GET `/api/vlog/comments/[id]` - Get specific comment
+- POST `/api/vlog/comments` - Create comment
+- PUT `/api/vlog/comments/[id]` - Update comment
+- DELETE `/api/vlog/comments/[id]` - Delete comment
 
 ### Job Preparation (NEW)
-- GET `/api/job-prep/resume-templates` - List templates
-- GET `/api/job-prep/interview-questions` - List questions
-- GET `/api/job-prep/remote-tips` - List tips
+- GET `/api/job-prep/resume-templates` - List resume templates
+- GET `/api/job-prep/resume-templates/[id]` - Get single template
+- GET `/api/job-prep/interview-questions` - List interview questions
+- GET `/api/job-prep/interview-questions/random` - Get random question
+- GET `/api/job-prep/interview-questions/[id]` - Get single question
+- GET `/api/job-prep/remote-tips` - List remote work tips
+- GET `/api/job-prep/remote-tips/[id]` - Get single tip
 
 ---
 
@@ -311,16 +404,28 @@ services:
 
 ---
 
-## Features Coming Soon
+## Features Implemented ✅
 
-- DSA Practice Platform with 1000+ problems
-- System Design Case Studies
-- Core CS Tutorials
-- Backend Code Examples with live execution
-- Vlog/Blog System
-- Job Preparation Resources
-- Gamification (Badges, Leaderboards)
-- Community Features (Forums, Q&A)
+- ✅ DSA Practice Platform with CRUD operations
+- ✅ System Design Case Studies with submissions
+- ✅ Core CS Tutorials and Quizzes
+- ✅ Backend Code Examples with live execution
+- ✅ Vlog/Blog System with comments
+- ✅ Job Preparation Resources (Resume templates, Interview questions, Remote tips)
+- ✅ Common UI Components (Layout, Header, Sidebar, Footer)
+- ✅ MongoDB Atlas Integration
+- ✅ Production-ready API endpoints
+
+## Features Coming Soon 🚀
+
+- Gamification (Badges, Leaderboards, Achievements)
+- Community Features (Forums, Q&A, Discussions)
+- User Progress Tracking
+- Certificate Generation
+- Live Coding Sessions
+- Video Tutorials Integration
+- Multiplayer DSA Contests
+- Advanced Analytics Dashboard
 
 ---
 
