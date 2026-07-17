@@ -1,405 +1,349 @@
 # Tech Fuel 🚀
 
-A modern AI-powered developer learning platform built with **Next.js 16**, **Tailwind CSS**, and **MongoDB**.
+> **The Ultimate Learning Platform for Developers & Computer Engineering Students**
 
-![GitHub License](https://img.shields.io/badge/license-MIT-green.svg)
-![Node Version](https://img.shields.io/badge/node-18%2B-brightgreen)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.0%2B-blue)
+A comprehensive **AI-powered learning platform** built with **Next.js 16**, **Tailwind CSS v4**, and **MongoDB**.
 
-> Master development with AI-powered learning tools, expert tutorials, and personalized career guidance.
+**Master AI, DSA, System Design, Core Computer Engineering, Backend Development, and Job Preparation - all in one place!**
 
-## ✨ Features
+---
 
-- **🤖 AI Tools** — Chat, code generator, mock interviews, project ideas, career roadmaps
-- **📚 Interactive Tutorials** — MDX-based tutorial system with categories and search
-- **📊 Dashboard** — User workspace with stats, activity tracking, and learning progress
-- **⚙️ Admin Panel** — Tutorial creation, user management, and analytics
-- **🔐 Authentication** — JWT-based auth with NextAuth Google OAuth support
-- **💬 Streaming Chat** — Real-time AI responses with streaming
-- **📱 Responsive Design** — Mobile-first UI with Tailwind CSS v4
+## 🌟 What Makes Tech Fuel Unique?
 
-## 🛠️ Tech Stack
+- AI-Powered Learning with chat, code generation, mock interviews, and career roadmaps
+- Structured Learning Paths for DSA, System Design, Core CS, and Backend Development
+- 1000+ DSA Practice Problems with multi-language solutions
+- System Design Case Studies (Twitter, Uber, Netflix, YouTube, etc.)
+- Core Computer Engineering Tutorials (OS, DBMS, CN, Compiler, COA)
+- Backend Code Examples with live execution
+- Vlog & Blog for latest tech updates
+- Job & Remote Job Preparation with resume building and interview practice
 
-| Layer             | Technology                                           |
-| ----------------- | ---------------------------------------------------- |
-| **Frontend**      | Next.js 16, React 19, Tailwind CSS v4, Framer Motion |
-| **Backend**       | Next.js API Routes, MongoDB, Mongoose                |
-| **AI**            | OpenAI SDK (gpt-4o-mini) with streaming              |
-| **Auth**          | JWT, bcryptjs, NextAuth.js (Google OAuth)            |
-| **Validation**    | Zod (with API validation utilities)                  |
-| **UI Components** | Lucide React, Recharts                               |
-| **Code Quality**  | ESLint, Prettier, TypeScript (strict mode)           |
+---
 
-## 🚀 Quick Start
+## 🎯 Learning Tracks
+
+### AI & LLM Track
+- Introduction to AI/ML
+- LLM Fundamentals (Transformers, Attention)
+- Prompt Engineering
+- Fine-tuning Models
+- Building AI Applications
+- Ethical AI
+- AI in Production
+
+### Data Structures & Algorithms Track
+**Data Structures:** Arrays, Linked Lists, Stacks, Queues, Trees, Graphs, Heaps, Hash Tables, DSU, Bloom Filters, LRU Cache
+
+**Algorithms:** Sorting, Searching, Graph Algorithms, Dynamic Programming, Greedy, Backtracking, Divide & Conquer, String Algorithms
+
+**Practice Platform:** 1000+ Problems, Multi-language Support, Company-wise Questions, Contests, Solutions with Complexity Analysis
+
+### System Design Track
+**Fundamentals:** Scalability, Availability, CAP Theorem, Load Balancing, Caching, Database Design
+
+**Case Studies:** TinyURL, Pastebin, Twitter, Facebook, Uber, Airbnb, Netflix, YouTube, WhatsApp, Zoom, Reddit, E-commerce, Payment Systems
+
+**Advanced:** Microservices, Event-Driven Architecture, Serverless, Service Mesh, API Gateway, Rate Limiting, Circuit Breakers, Distributed Transactions
+
+### Core Computer Engineering Track
+- **Operating Systems:** Processes, Memory Management, File Systems, Synchronization, Deadlocks
+- **Database Systems:** Relational Model, SQL, Normalization, Indexing, Transactions, Concurrency Control, NoSQL
+- **Computer Networks:** OSI Model, Physical Layer, Data Link Layer, Network Layer, Transport Layer, Application Layer, Security
+- **Compiler Design:** Lexical Analysis, Syntax Analysis, Semantic Analysis, Code Generation, Optimization
+- **Computer Organization:** Digital Logic, Combinational Circuits, Sequential Circuits, CPU Design, Pipelining, Parallel Processing
+- **Theory of Computation:** Finite Automata, Pushdown Automata, Turing Machines, Complexity Theory
+
+### Backend Development Track
+**Languages:** Node.js, Python, Java, Go, Rust
+
+**Concepts:** REST API Design, GraphQL, gRPC, WebSockets, Authentication, Rate Limiting, API Versioning
+
+**Code Lab:** Live Code Execution, API Testing, Debugging, Code Templates, Error Explanations
+
+### Job & Remote Job Preparation Track
+- Resume & Profile Building
+- Interview Preparation (DSA, System Design, Behavioral)
+- Remote Job Specifics
+- Company-wise Preparation (FAANG, Top Product Companies, Startups)
+- Success Stories & Vlog Updates
+
+---
+
+## Tech Stack
+
+**Frontend:** Next.js 16, React 19, TypeScript, Tailwind CSS v4, Framer Motion, MDX, Recharts, Lucide React
+
+**Backend:** Next.js API Routes, MongoDB, Mongoose, NextAuth.js, JWT, bcryptjs, OpenAI SDK
+
+**AI:** OpenAI GPT-4o-mini with Streaming
+
+**Quality:** Zod, ESLint, Prettier
+
+---
+
+## Quick Start
 
 ### Prerequisites
-
 - Node.js 18+
 - npm or yarn
 - MongoDB database
 - OpenAI API key
-- Google OAuth credentials
 
 ### Installation
-
 ```bash
-# Clone the repository
 git clone https://github.com/infovishal01/Tech-fuel.git
 cd Tech-fuel
-
-# Install dependencies
 npm install
-
-# Create environment file
 cp .env.local.example .env.local
-
-# Fill in your environment variables
-# Edit .env.local with your actual values
-```
-
-### Development
-
-```bash
-# Start development server
+# Edit .env.local with your values
 npm run dev
-
-# Run linting
-npm run lint
-
-# Format code
-npm run format
-
-# Build for production
-npm run build
-
-# Start production server
-npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-## 📋 Environment Variables
-
-Create a `.env.local` file in the root directory. See `.env.local.example` for template:
-
-```env
-# MongoDB Configuration
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/dbname
-
-# JWT Configuration
-JWT_SECRET=your_jwt_secret_min_32_chars
-
-# Google OAuth
-GOOGLE_CLIENT_ID=your_google_client_id
-GOOGLE_CLIENT_SECRET=your_google_client_secret
-NEXTAUTH_SECRET=your_nextauth_secret_min_32_chars
-NEXTAUTH_URL=http://localhost:3000
-
-# OpenAI API
-OPENAI_API_KEY=sk-your_openai_key
-
-# Optional
-NODE_ENV=development
-```
-
-## 📁 Project Structure
-
-```
-tech-fuel/
-├── app/                          # Next.js app directory
-│   ├── page.tsx                 # Home page
-│   ├── layout.tsx               # Root layout
-│   ├── login/                   # Login page
-│   ├── signup/                  # Signup page
-│   ├── dashboard/               # User dashboard
-│   ├── admin/                   # Admin panel
-│   ├── tutorials/               # Tutorial listing & details
-│   ├── ai-tools/                # AI tools hub
-│   ├── profile/                 # User profile
-│   ├── about/                   # About page
-│   └── api/                     # API routes
-│       ├── auth/                # Auth endpoints
-│       ├── tutorials/           # Tutorial CRUD
-│       ├── ai-chat/             # Chat endpoint
-│       ├── code-generator/      # Code gen
-│       ├── mock-interview/      # Mock interview
-│       ├── project-generator/   # Project ideas
-│       ├── roadmap/             # Career roadmap
-│       ├── profile/             # User profile endpoint
-│       └── admin/               # Admin endpoints
-├── components/
-│   ├── layout/                  # MainLayout, Footer, Navbar
-│   ├── home/                    # Hero, Features, Testimonials
-│   ├── dashboard/               # Dashboard components
-│   ├── tutorials/               # Tutorial display components
-│   └── tools/                   # AI tool components
-├── lib/
-│   ├── mongodb.ts              # MongoDB connection
-│   ├── api-validation.ts       # Request validation utilities
-│   └── tutorials.ts            # Tutorial utilities
-├── models/                      # Mongoose schemas
-│   ├── User.ts
-│   ├── Tutorial.ts
-│   └── Session.ts
-├── content/                     # MDX tutorial content
-├── public/                      # Static assets
-├── .github/
-│   └── workflows/              # CI/CD workflows
-├── .env.local.example          # Environment template
-├── .prettierrc.json            # Prettier config
-├── eslint.config.mjs           # ESLint config
-└── tsconfig.json               # TypeScript config
-```
-
-## 🔌 API Endpoints
-
-### Authentication
-
-| Endpoint                  | Method   | Description                |
-| ------------------------- | -------- | -------------------------- |
-| `/api/auth/[...nextauth]` | GET/POST | NextAuth Google OAuth flow |
-
-### Tutorials
-
-| Endpoint         | Method | Description        | Auth Required |
-| ---------------- | ------ | ------------------ | ------------- |
-| `/api/tutorials` | GET    | List all tutorials | ❌            |
-| `/api/tutorials` | POST   | Create tutorial    | ✅ (Admin)    |
-
-### AI Features
-
-| Endpoint                 | Method | Description              | Auth Required |
-| ------------------------ | ------ | ------------------------ | ------------- |
-| `/api/ai-chat`           | POST   | Chat with AI (streaming) | ✅            |
-| `/api/code-generator`    | POST   | Generate code snippets   | ✅            |
-| `/api/mock-interview`    | POST   | Mock interview feedback  | ✅            |
-| `/api/project-generator` | POST   | Generate project ideas   | ✅            |
-| `/api/roadmap`           | POST   | Generate career roadmap  | ✅            |
-
-### User
-
-| Endpoint           | Method | Description           | Auth Required |
-| ------------------ | ------ | --------------------- | ------------- |
-| `/api/profile`     | GET    | Get user profile      | ✅            |
-| `/api/admin/stats` | GET    | Admin dashboard stats | ✅ (Admin)    |
-
-## 📝 API Request Validation
-
-We use **Zod** for runtime type validation on all API endpoints. See `API_VALIDATION.md` for detailed documentation and examples.
-
-### Example API Usage
-
-```typescript
-// Using validated request
-import { validateRequest, schemas, errorResponse } from '@/lib/api-validation';
-import { z } from 'zod';
-
-export async function POST(req: Request) {
-  const validation = await validateRequest(
-    req,
-    z.object({ message: schemas.message })
-  );
-
-  if (!validation.success) {
-    return errorResponse(validation.error);
-  }
-
-  // validation.data is fully typed
-  const { message } = validation.data;
-  // ... rest of logic
-}
-```
-
-## 🎨 Design System
-
-- **Theme**: Dark mode (default)
-- **Primary Color**: `#09090b` (background)
-- **Accent Color**: `#22c55e` (green)
-- **Typography**: Inter font family
-- **Layout**: Responsive grid-based
-- **Components**: Card-based with subtle borders
-- **Animations**: Framer Motion for smooth transitions
-
-## 📊 Database Schema
-
-### User Model
-
-```typescript
-{
-  _id: ObjectId,
-  email: string,
-  name: string,
-  password: string (hashed),
-  role: 'student' | 'admin',
-  createdAt: Date,
-  updatedAt: Date
-}
-```
-
-### Tutorial Model
-
-```typescript
-{
-  _id: ObjectId,
-  title: string,
-  description: string,
-  content: string (MDX),
-  category: string,
-  author: ObjectId (ref: User),
-  published: boolean,
-  createdAt: Date,
-  updatedAt: Date
-}
-```
-
-## 🔐 Security Features
-
-- ✅ JWT token-based authentication
-- ✅ Password hashing with bcryptjs
-- ✅ Input validation with Zod
-- ✅ Environment variables for secrets
-- ✅ CORS headers configured
-- ✅ TypeScript strict mode enabled
-- ✅ ESLint for code quality
-- ✅ Rate limiting ready (can be added)
-
-## 🚀 Deployment
-
-### Vercel (Recommended)
-
-```bash
-# Push to GitHub
-git push origin main
-
-# Deploy from Vercel Dashboard
-# 1. Connect your GitHub repository
-# 2. Add environment variables in Vercel Settings
-# 3. Deploy!
-```
-
-### Other Platforms
-
-- Railway: See [Railway Deployment Guide](https://railway.app/docs)
-- Render: See [Render Deployment Guide](https://render.com/docs)
-- Heroku: See [Heroku Deployment Guide](https://devcenter.heroku.com/articles/getting-started-with-nodejs)
-
-## 📚 Documentation
-
-- **[CONTRIBUTING.md](./CONTRIBUTING.md)** — Development setup & contribution guidelines
-- **[API_VALIDATION.md](./API_VALIDATION.md)** — API validation patterns & examples
-- **[IMPROVEMENTS.md](./IMPROVEMENTS.md)** — Recent improvements & changelog
-
-## 🧪 Testing & Quality
-
-```bash
-# Run linting
-npm run lint
-
-# Check formatting
-npm run format:check
-
-# Format all files
-npm run format
-
-# Build production bundle
-npm run build
-```
-
-## 🐛 Troubleshooting
-
-### MongoDB Connection Issues
-
-```
-Error: "Please define MONGODB_URI in .env.local"
-Solution: Ensure MONGODB_URI is set in .env.local and is valid
-```
-
-### OpenAI API Errors
-
-```
-Error: "Invalid API key"
-Solution: Verify OPENAI_API_KEY in .env.local and has API credits
-```
-
-### Build Errors
-
-```bash
-# Clear cache and reinstall
-rm -rf .next node_modules
-npm install
-npm run build
-```
-
-### Linting Errors
-
-```bash
-# Fix linting issues automatically
-npm run lint -- --fix
-
-# Format code
-npm run format
-```
-
-## 📈 Performance
-
-- ⚡ Next.js 16 optimizations
-- 🎯 Streaming responses for AI features
-- 📦 Code splitting & lazy loading
-- 🗜️ Image optimization with Next.js Image
-- ⚙️ Caching strategies for MongoDB queries
-- 🔄 Automatic revalidation strategies
-
-## 🤝 Contributing
-
-We welcome contributions! Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for:
-
-- Code of conduct
-- Development setup
-- Pull request process
-- Commit conventions
-
-### Quick Contribution Steps
-
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/amazing-feature`)
-3. Make changes and commit (`git commit -m 'feat: add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📝 License
-
-This project is licensed under the MIT License - see [LICENSE](./LICENSE) file for details.
-
-## 🙌 Acknowledgments
-
-- Built with [Next.js](https://nextjs.org/)
-- Styled with [Tailwind CSS](https://tailwindcss.com/)
-- AI powered by [OpenAI](https://openai.com/)
-- Icons from [Lucide React](https://lucide.dev/)
-- Animations by [Framer Motion](https://www.framer.com/motion/)
-- Database by [MongoDB](https://www.mongodb.com/)
-
-## 📞 Support
-
-- 💬 [GitHub Discussions](https://github.com/infovishal01/Tech-fuel/discussions)
-- 🐛 [Report Issues](https://github.com/infovishal01/Tech-fuel/issues)
-- 📧 Email: support@techfuel.dev
-
-## 🎯 Roadmap
-
-- [ ] Unit & integration tests
-- [ ] WebSocket support for real-time chat
-- [ ] Video tutorials support
-- [ ] Gamification features (badges, points)
-- [ ] User progress tracking
-- [ ] Batch processing for code analysis
-- [ ] Advanced search & filtering
-- [ ] Community features (forums, comments)
+Open http://localhost:3000 in your browser.
 
 ---
 
-**Made with ❤️ by the Tech Fuel Team**
+## Environment Variables
 
-⭐ If you find this project helpful, please consider giving it a star!
+```env
+# Database
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/tech-fuel
 
-![Tech Fuel - AI Learning Platform](https://img.shields.io/badge/Tech%20Fuel-AI%20Learning%20Platform-brightgreen?style=for-the-badge)
+# Auth
+JWT_SECRET=your_jwt_secret_minimum_32_chars
+NEXTAUTH_SECRET=your_nextauth_secret_minimum_32_chars
+NEXTAUTH_URL=http://localhost:3000
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+
+# AI
+OPENAI_API_KEY=sk-your_openai_key
+AI_MODEL=gpt-4o-mini
+AI_MAX_TOKENS=4096
+AI_TEMPERATURE=0.7
+
+# App
+NODE_ENV=development
+PORT=3000
+```
+
+---
+
+## Project Structure
+
+```
+tech-fuel/
+├── app/
+│   ├── (auth)/              # Login, Signup
+│   ├── (main)/              # All main pages
+│   │   ├── dashboard/       # User dashboard
+│   │   │   └── learning/    # All learning modules
+│   │   │       ├── dsa/
+│   │   │       ├── system-design/
+│   │   │       ├── core-cs/
+│   │   │       └── backend-dev/
+│   │   ├── ai-tools/        # AI tools
+│   │   ├── tutorials/       # Tutorials
+│   │   ├── vlog/           # Vlog & Blog
+│   │   ├── job-prep/        # Job preparation
+│   │   └── admin/          # Admin panel
+│   └── api/                # All API routes
+│       ├── auth/
+│       ├── ai-chat/
+│       ├── code-generator/
+│       ├── mock-interview/
+│       ├── project-generator/
+│       ├── roadmap/
+│       ├── dsa/            # NEW: DSA APIs
+│       ├── system-design/  # NEW: System Design APIs
+│       ├── core-cs/        # NEW: Core CS APIs
+│       ├── backend-examples/ # NEW: Backend APIs
+│       ├── vlog/           # NEW: Vlog APIs
+│       └── job-prep/        # NEW: Job Prep APIs
+├── components/
+│   ├── learning/            # Learning components
+│   │   ├── DSA/
+│   │   ├── SystemDesign/
+│   │   ├── CoreCS/
+│   │   ├── BackendDev/
+│   │   └── AITools/
+│   └── vlog/
+│       ├── VlogPost.tsx
+│       └── CommentSection.tsx
+├── models/                  # MongoDB Models
+│   ├── User.ts
+│   ├── Tutorial.ts
+│   ├── DSAProblem.ts       # NEW
+│   ├── SystemDesignCase.ts  # NEW
+│   ├── CoreCSConcept.ts    # NEW
+│   ├── BackendExample.ts   # NEW
+│   ├── VlogPost.ts         # NEW
+│   └── JobPrepResource.ts  # NEW
+├── content/                 # All learning content
+│   ├── tutorials/
+│   ├── dsa/                # NEW: DSA problems
+│   ├── system-design/      # NEW: Case studies
+│   ├── core-cs/            # NEW: CS concepts
+│   ├── backend-examples/   # NEW: Code examples
+│   └── vlog/               # NEW: Vlog posts
+├── lib/                    # Utilities
+│   ├── ai/
+│   │   ├── openai.ts
+│   │   └── prompts.ts
+│   └── learning/
+│       ├── dsa.ts
+│       ├── system-design.ts
+│       ├── core-cs.ts
+│       └── backend-examples.ts
+├── types/                  # TypeScript types
+│   ├── learning.ts
+│   ├── ai.ts
+│   └── vlog.ts
+└── public/                 # Static assets
+```
+
+---
+
+## API Endpoints
+
+### AI Features (Existing)
+- POST `/api/ai-chat` - Chat with AI
+- POST `/api/code-generator` - Generate code
+- POST `/api/mock-interview` - Mock interview
+- POST `/api/project-generator` - Generate projects
+- POST `/api/roadmap` - Career roadmap
+
+### DSA Practice (NEW)
+- GET `/api/dsa/problems` - List problems
+- GET `/api/dsa/problems/[id]` - Get problem
+- POST `/api/dsa/solutions` - Submit solution
+- GET `/api/dsa/submissions` - Get submissions
+
+### System Design (NEW)
+- GET `/api/system-design/case-studies` - List case studies
+- GET `/api/system-design/case-studies/[id]` - Get case study
+
+### Core CS (NEW)
+- GET `/api/core-cs/concepts` - List concepts
+- GET `/api/core-cs/quizzes` - List quizzes
+
+### Backend Examples (NEW)
+- GET `/api/backend-examples` - List examples
+- POST `/api/backend-examples/[id]/run` - Run code
+
+### Vlog/Blog (NEW)
+- GET `/api/vlog/posts` - List posts
+- POST `/api/vlog/posts` - Create post
+- POST `/api/vlog/posts/[id]/comments` - Add comment
+
+### Job Preparation (NEW)
+- GET `/api/job-prep/resume-templates` - List templates
+- GET `/api/job-prep/interview-questions` - List questions
+- GET `/api/job-prep/remote-tips` - List tips
+
+---
+
+## Learning Paths
+
+### Full Stack Developer (6 months)
+1. Core CS Fundamentals (2 weeks)
+2. Programming Languages (4 weeks)
+3. Data Structures & Algorithms (6 weeks)
+4. Backend Development (6 weeks)
+5. Frontend Development (4 weeks)
+6. System Design (4 weeks)
+7. AI & LLM Integration (2 weeks)
+8. Job Preparation (2 weeks)
+
+### AI/ML Engineer (6 months)
+1. Mathematics for AI (4 weeks)
+2. Programming for AI (4 weeks)
+3. Machine Learning (6 weeks)
+4. Deep Learning (6 weeks)
+5. LLM Specialization (6 weeks)
+6. AI in Production (4 weeks)
+
+### Backend Engineer (6 months)
+1. Core CS (3 weeks)
+2. Programming (6 weeks)
+3. Databases (4 weeks)
+4. API Design (4 weeks)
+5. System Design (8 weeks)
+6. DevOps (4 weeks)
+
+### Frontend Engineer (6 months)
+1. Core CS & Web (4 weeks)
+2. HTML/CSS (3 weeks)
+3. JavaScript & TypeScript (4 weeks)
+4. React Ecosystem (6 weeks)
+5. UI/UX (4 weeks)
+6. Performance (3 weeks)
+7. Advanced Topics (3 weeks)
+
+---
+
+## Deployment
+
+### Vercel (Recommended)
+```bash
+git push origin main
+# Deploy from Vercel Dashboard
+```
+
+### Docker
+```bash
+docker build -t tech-fuel .
+docker run -d -p 3000:3000 --env-file .env.local tech-fuel
+```
+
+### Docker Compose
+```yaml
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.local
+```
+
+---
+
+## Features Coming Soon
+
+- DSA Practice Platform with 1000+ problems
+- System Design Case Studies
+- Core CS Tutorials
+- Backend Code Examples with live execution
+- Vlog/Blog System
+- Job Preparation Resources
+- Gamification (Badges, Leaderboards)
+- Community Features (Forums, Q&A)
+
+---
+
+## Contributing
+
+1. Fork the repository
+2. Create feature branch
+3. Commit your changes
+4. Push to branch
+5. Open a Pull Request
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for details.
+
+---
+
+## License
+
+MIT License - see [LICENSE](./LICENSE) for details.
+
+---
+
+**Made with by Tech Fuel Team**
+
+If you find this project helpful, please give it a star! ⭐
+
+[![GitHub Stars](https://img.shields.io/github/stars/infovishal01/Tech-fuel.svg?style=social)](https://github.com/infovishal01/Tech-fuel/stargazers)

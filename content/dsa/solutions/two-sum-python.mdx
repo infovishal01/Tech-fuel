@@ -1,0 +1,144 @@
+---
+title: Two Sum - Python Solution
+problem: two-sum
+language: Python
+difficulty: Easy
+timeComplexity: O(n)
+spaceComplexity: O(n)
+tags: [hash-map, one-pass]
+---
+
+# Two Sum - Python Solution
+
+## Solution Code
+
+```python
+from typing import List
+
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        # Create a hash map to store value and its index
+        num_map = {}
+        
+        # Iterate through the array
+        for i, num in enumerate(nums):
+            complement = target - num
+            
+            # Check if complement exists in the map
+            if complement in num_map:
+                return [num_map[complement], i]
+            
+            # Store the current number and its index
+            num_map[num] = i
+        
+        # According to the problem, there's exactly one solution
+        return []
+```
+
+## Explanation
+
+### Step-by-Step Walkthrough
+
+1. **Initialize Hash Map:** We create an empty dictionary `num_map` to store numbers and their indices.
+
+2. **Iterate Through Array:** We loop through each number in the array using `enumerate()` which gives us both the index `i` and the value `num`.
+
+3. **Calculate Complement:** For each number, we calculate its complement (the value needed to reach the target): `complement = target - num`
+
+4. **Check for Complement:** We check if this complement already exists in our hash map. If it does, we've found our pair!
+
+5. **Return Result:** We return the indices of the two numbers: the index stored in the map (from a previous iteration) and the current index.
+
+6. **Store Current Number:** If we don't find the complement, we store the current number and its index in the map for future lookups.
+
+### Why This Works
+
+The hash map allows us to check for the existence of the complement in constant time O(1). Since we're iterating through the array once and each lookup is O(1), the overall time complexity is O(n).
+
+### Complexity Analysis
+
+- **Time Complexity:** O(n) - We traverse the list containing n elements only once. Each lookup in the hash map is O(1).
+- **Space Complexity:** O(n) - The extra space required depends on the number of items stored in the hash map, which stores at most n elements.
+
+### Test Cases
+
+```python
+# Test Case 1
+solution = Solution()
+nums = [2, 7, 11, 15]
+target = 9
+print(solution.twoSum(nums, target))  # Output: [0, 1]
+
+# Test Case 2
+nums = [3, 2, 4]
+target = 6
+print(solution.twoSum(nums, target))  # Output: [1, 2]
+
+# Test Case 3
+nums = [3, 3]
+target = 6
+print(solution.twoSum(nums, target))  # Output: [0, 1]
+```
+
+### Alternative Approaches
+
+#### Two Pointers (For Sorted Array)
+
+```python
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        # Create a list of tuples (value, index)
+        indexed_nums = [(num, i) for i, num in enumerate(nums)]
+        # Sort based on the value
+        indexed_nums.sort()
+        
+        left, right = 0, len(indexed_nums) - 1
+        
+        while left < right:
+            current_sum = indexed_nums[left][0] + indexed_nums[right][0]
+            
+            if current_sum == target:
+                return [indexed_nums[left][1], indexed_nums[right][1]]
+            elif current_sum < target:
+                left += 1
+            else:
+                right -= 1
+        
+        return []
+```
+
+**Complexity:** Time: O(n log n) due to sorting, Space: O(n) for storing indexed values
+
+#### Brute Force
+
+```python
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        for i in range(len(nums)):
+            for j in range(i + 1, len(nums)):
+                if nums[j] == target - nums[i]:
+                    return [i, j]
+        return []
+```
+
+**Complexity:** Time: O(n²), Space: O(1)
+
+### Common Mistakes to Avoid
+
+1. **Returning values instead of indices:** The problem asks for indices, not the values themselves.
+2. **Using the same element twice:** Ensure `i != j` in your solution.
+3. **Not handling edge cases:** Consider empty array or array with one element (though constraints say there's exactly one solution).
+4. **Inefficient lookups:** Using `index()` method inside a loop leads to O(n²) time complexity.
+
+### Follow-up Questions
+
+- What if the input array is already sorted? How would you optimize your solution?
+- What if there are multiple solutions? How would you return all of them?
+- How would you handle the case where the same number can be used twice?
+- Can you solve it in O(n) time and O(1) space if the array is sorted?
+
+### Related LeetCode Problems
+- [Two Sum II - Input array is sorted](https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/)
+- [3Sum](https://leetcode.com/problems/3sum/)
+- [4Sum](https://leetcode.com/problems/4sum/)
+- [Two Sum III - Data structure design](https://leetcode.com/problems/two-sum-iii-data-structure-design/)
