@@ -1,8 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { GitHub, Twitter, LinkedIn, BookOpen, Heart } from 'lucide-react';
+// framer-motion removed — use plain HTML instead
+import { Code2, Share2, Globe, BookOpen, Heart } from 'lucide-react';
+// Note: lucide-react does not include social brand icons.
+// Using generic alternatives: Code2 = GitHub, Share2 = Twitter, Globe = LinkedIn.
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -41,7 +43,7 @@ export default function Footer() {
   };
 
   return (
-    <motion.footer
+    <footer
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay: 0.5, duration: 0.5 }}
@@ -162,7 +164,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
               >
-                <GitHub size={20} />
+                <Code2 size={20} />
               </Link>
               <Link
                 href="https://twitter.com/TechFuelHQ"
@@ -170,7 +172,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
               >
-                <Twitter size={20} />
+                <Share2 size={20} />
               </Link>
               <Link
                 href="https://linkedin.com/company/techfuel"
@@ -178,7 +180,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
               >
-                <LinkedIn size={20} />
+                <Globe size={20} />
               </Link>
             </div>
 
@@ -196,7 +198,7 @@ export default function Footer() {
 
           {/* Bottom Note */}
           <div className="mt-8 text-center">
-            <motion.p
+            <p
               whileHover={{ scale: 1.02 }}
               className="text-xs text-gray-500 dark:text-gray-500 flex items-center justify-center space-x-1"
             >
@@ -213,10 +215,10 @@ export default function Footer() {
                 </Link>{' '}
                 on GitHub
               </span>
-            </motion.p>
+            </p>
           </div>
         </div>
       </div>
-    </motion.footer>
+    </footer>
   );
 }

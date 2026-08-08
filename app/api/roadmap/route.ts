@@ -1,10 +1,45 @@
 import { NextResponse } from 'next/server';
 import { getOpenAI } from '@/lib/openai';
+import { z } from 'zod';
+
+const roadmapSchema = z.object({
+  role: z.string().min(1, 'Role is required').max(200),
+  experience: z.union([z.string(), z.number()]).transform((v) => String(v)),
+});
+
+const CORS_HEADERS = {
+  'Access-Control-Allow-Origin': process.env.NEXT_PUBLIC_APP_URL || '*',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+};
+
+export async function OPTIONS() {
+  return new Response(null, { status: 204, headers: CORS_HEADERS });
+}
 
 export async function POST(req: Request) {
   try {
+    let body: unknown;
+    try {
+      body = await req.json();
+    } catch {
+      return NextResponse.json(
+        { success: false, message: 'Invalid JSON in request body' },
+        { status: 400, headers: CORS_HEADERS }
+      );
+    }
+
+    const validation = roadmapSchema.safeParse(body);
+    if (!validation.success) {
+      return NextResponse.json(
+        { success: false, message: validation.error.issues[0].message },
+        { status: 400, headers: CORS_HEADERS }
+      );
+    }
+
+    const { role, experience } = validation.data;
+
     const openai = getOpenAI();
-    const { role, experience } = await req.json();
 
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
@@ -21,15 +56,18 @@ export async function POST(req: Request) {
       ],
     });
 
-    return NextResponse.json({
-      success: true,
-      roadmap: completion.choices[0].message.content,
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        roadmap: completion.choices[0].message.content,
+      },
+      { headers: CORS_HEADERS }
+    );
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({
-      success: false,
-      message: 'Roadmap generation failed',
-    });
+    console.error('ROADMAP ERROR:', error);
+    return NextResponse.json(
+      { success: false, message: 'AI service unavailable. Please try again.' },
+      { status: 503, headers: CORS_HEADERS }
+    );
   }
 }

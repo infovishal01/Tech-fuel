@@ -11,15 +11,25 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
+      lowercase: true,
+      trim: true,
     },
 
+    // Empty string for OAuth users (no password)
     password: {
       type: String,
-      required: true,
+      default: '',
+    },
+
+    // OAuth avatar URL
+    image: {
+      type: String,
+      default: '',
     },
 
     role: {
       type: String,
+      enum: ['user', 'admin'],
       default: 'user',
     },
 

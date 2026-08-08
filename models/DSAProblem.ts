@@ -74,7 +74,7 @@ export interface IDSAProblem extends Document {
 }
 
 // Interface for DSA Solution
-export interfaceIDSASolution extends Document {
+export interface IDSASolution extends Document {
   problem: Types.ObjectId;
   user: Types.ObjectId;
   code: string;
@@ -94,7 +94,7 @@ export interfaceIDSASolution extends Document {
 }
 
 // Interface for DSA Submission (user's code submission)
-export interfaceIDSASubmission extends Document {
+export interface IDSASubmission extends Document {
   problem: Types.ObjectId;
   user: Types.ObjectId;
   code: string;
