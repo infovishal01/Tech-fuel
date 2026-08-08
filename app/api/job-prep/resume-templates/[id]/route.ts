@@ -203,7 +203,7 @@ export async function PUT(
 // =======================
 // LIKE/UNLIKE TEMPLATE
 // =======================
-export async function PATCH(
+export async function POST(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {

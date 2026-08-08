@@ -53,7 +53,7 @@ export async function GET(
       userExecutions = await CodeExecution.find({
         example: id,
         user: userId,
-      })
+      } as any)
         .sort({ executedAt: -1 })
         .limit(10)
         .lean();
