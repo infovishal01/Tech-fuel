@@ -124,7 +124,7 @@ This project uses MongoDB Atlas for cloud-based database hosting.
 **Connection String:**
 
 ```
-mongodb+srv://infovishalkumar01_db_user:FACNXr7epX4ZqPsu@cluster0.n1no7sj.mongodb.net/
+mongodb+srv://<username>:<password>@cluster0.mongodb.net/tech-fuel?retryWrites=true&w=majority
 ```
 
 **Steps to connect:**
@@ -176,13 +176,24 @@ npm run dev
 
 Open http://localhost:3000 in your browser.
 
+### Available Scripts
+
+| Command                | Description                                               |
+| :--------------------- | :-------------------------------------------------------- |
+| `npm run dev`          | Starts local Next.js development server with hot-reload   |
+| `npm run build`        | Compiles optimized production build via Next.js Turbopack |
+| `npm run start`        | Boots production server                                   |
+| `npm run lint`         | Runs ESLint analysis across the project                   |
+| `npm run format`       | Auto-formats code with Prettier                           |
+| `npm run format:check` | Verifies code formatting without writing changes          |
+
 ---
 
 ## Environment Variables
 
 ```env
 # Database
-MONGODB_URI=mongodb+srv://infovishalkumar01_db_user:FACNXr7epX4ZqPsu@cluster0.n1no7sj.mongodb.net/tech-fuel
+MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/tech-fuel?retryWrites=true&w=majority
 
 # Auth
 JWT_SECRET=your_jwt_secret_minimum_32_chars
@@ -209,77 +220,73 @@ PORT=3000
 ```
 tech-fuel/
 ├── app/
-│   ├── (auth)/              # Login, Signup
-│   ├── (main)/              # All main pages
-│   │   ├── dashboard/       # User dashboard
-│   │   │   └── learning/    # All learning modules
-│   │   │       ├── dsa/
-│   │   │       ├── system-design/
-│   │   │       ├── core-cs/
-│   │   │       └── backend-dev/
-│   │   ├── ai-tools/        # AI tools
-│   │   ├── tutorials/       # Tutorials
-│   │   ├── vlog/           # Vlog & Blog
-│   │   ├── job-prep/        # Job preparation
-│   │   └── admin/          # Admin panel
-│   └── api/                # All API routes
-│       ├── auth/
-│       ├── ai-chat/
-│       ├── code-generator/
-│       ├── mock-interview/
-│       ├── project-generator/
-│       ├── roadmap/
-│       ├── dsa/            # NEW: DSA APIs
-│       ├── system-design/  # NEW: System Design APIs
-│       ├── core-cs/        # NEW: Core CS APIs
-│       ├── backend-examples/ # NEW: Backend APIs
-│       ├── vlog/           # NEW: Vlog APIs
-│       └── job-prep/        # NEW: Job Prep APIs
+│   ├── page.tsx               # Homepage with tracks, hero & CTA
+│   ├── tutorials/             # TakeUforward-style interactive learning tracks
+│   │   └── [slug]/            # Dynamic tutorial article / problem viewer
+│   ├── ai-tools/              # AI Suite: Chat, Codegen, Mock Interview, Roadmap
+│   ├── dashboard/             # Developer workspace & learning tracker
+│   ├── admin/                 # Management panel (Users, Stats, Content, Settings)
+│   │   ├── backend/           # Manage backend examples
+│   │   ├── core-cs/           # Manage core CS notes
+│   │   ├── dsa/               # Manage DSA sheets & problems
+│   │   ├── settings/          # System configuration
+│   │   ├── stats/             # Platform metrics & analytics
+│   │   ├── system-design/     # Manage case studies
+│   │   ├── tutorials/         # Manage tutorial catalog
+│   │   └── users/             # Manage user accounts & roles
+│   ├── about/                 # About TechFuel, team & open-source mission
+│   ├── profile/               # User profile & progress
+│   ├── login/                 # User authentication
+│   ├── signup/                # Account registration
+│   └── api/                   # RESTful route handlers
+│       ├── ai-chat/           # OpenAI streaming chat
+│       ├── code-generator/    # Production code generator
+│       ├── mock-interview/    # AI technical & behavioral interview
+│       ├── roadmap/           # Structured learning paths
+│       ├── project-generator/ # AI project spec generator
+│       ├── auth/              # NextAuth credentials & session
+│       ├── tutorials/         # Tutorial endpoints
+│       ├── dsa/               # DSA problems, solutions & submissions
+│       ├── system-design/     # Case studies & architecture reviews
+│       ├── core-cs/           # CS concepts & quizzes
+│       ├── backend-examples/  # Backend code examples & runner
+│       ├── vlog/              # Vlog posts & community comments
+│       └── job-prep/          # Interview questions & resume guides
 ├── components/
-│   ├── common/              # Common layout components
-│   │   ├── Layout.tsx       # Main layout wrapper
-│   │   ├── Header.tsx       # Responsive header with nav
-│   │   ├── Sidebar.tsx      # Collapsible sidebar
-│   │   └── Footer.tsx       # Footer component
-│   ├── learning/            # Learning components
-│   │   ├── DSA/
-│   │   ├── SystemDesign/
-│   │   ├── CoreCS/
-│   │   ├── BackendDev/
-│   │   └── AITools/
-│   └── vlog/
-│       ├── VlogPost.tsx
-│       └── CommentSection.tsx
-├── models/                  # MongoDB Models
-│   ├── User.ts
-│   ├── Tutorial.ts
-│   ├── DSAProblem.ts       # NEW
-│   ├── SystemDesignCase.ts  # NEW
-│   ├── CoreCSConcept.ts    # NEW
-│   ├── BackendExample.ts   # NEW
-│   ├── VlogPost.ts         # NEW
-│   └── JobPrepResource.ts  # NEW
-├── content/                 # All learning content
-│   ├── tutorials/
-│   ├── dsa/                # NEW: DSA problems
-│   ├── system-design/      # NEW: Case studies
-│   ├── core-cs/            # NEW: CS concepts
-│   ├── backend-examples/   # NEW: Code examples
-│   └── vlog/               # NEW: Vlog posts
-├── lib/                    # Utilities
-│   ├── ai/
-│   │   ├── openai.ts
-│   │   └── prompts.ts
-│   └── learning/
-│       ├── dsa.ts
-│       ├── system-design.ts
-│       ├── core-cs.ts
-│       └── backend-examples.ts
-├── types/                  # TypeScript types
-│   ├── learning.ts
-│   ├── ai.ts
-│   └── vlog.ts
-└── public/                 # Static assets
+│   ├── admin/                 # Admin layout & management components
+│   ├── common/                # Header, Footer, Sidebar, Layout
+│   ├── dashboard/             # Analytics charts, activity feeds, tool cards
+│   ├── home/                  # Hero, Feature grid, Testimonials, Newsletter
+│   ├── layout/                # Global wrapper & navigation
+│   ├── tools/                 # AI tools interface & code runners
+│   └── tutorials/             # Tutorial cards, search & category filters
+├── models/                    # Mongoose schemas & centralized index
+│   ├── index.ts               # Central model registry & typed model exports
+│   ├── User.ts                # User account schema
+│   ├── Tutorial.ts            # Tutorial document schema
+│   ├── DSAProblem.ts          # DSA problem & solution models
+│   ├── SystemDesignCase.ts    # System architecture models
+│   ├── CoreCSConcept.ts       # OS, DBMS, CN concepts & quiz schemas
+│   ├── BackendExample.ts      # Backend code execution models
+│   ├── VlogPost.ts            # Blog & discussion schemas
+│   └── JobPrepResource.ts     # Career resources & interview schemas
+├── content/                   # Markdown & MDX learning material
+│   ├── tutorials/             # Interactive tutorials
+│   ├── dsa/                   # LeetCode-style problem sheets & solutions
+│   ├── system-design/         # Architecture case studies
+│   ├── core-cs/               # OS, DBMS, Network deep-dives
+│   ├── backend-examples/      # Hands-on backend guides
+│   ├── job-prep/              # Interview prep & resume guides
+│   └── vlog/                  # Announcements & developer posts
+├── lib/                       # Core utilities
+│   ├── mongodb.ts             # Cached MongoDB Mongoose connection
+│   ├── openai.ts              # OpenAI SDK client configuration
+│   ├── api-validation.ts      # Zod validation schemas & API helpers
+│   └── tutorials.ts           # Tutorial content loaders
+└── types/                     # TypeScript interfaces & types
+    ├── ai.ts                  # AI tool payload & state interfaces
+    ├── learning.ts            # Track & problem data types
+    └── vlog.ts                # Post & comment types
 ```
 
 ---
@@ -436,15 +443,16 @@ services:
 
 ## Features Implemented ✅
 
-- ✅ DSA Practice Platform with CRUD operations
-- ✅ System Design Case Studies with submissions
-- ✅ Core CS Tutorials and Quizzes
-- ✅ Backend Code Examples with live execution
-- ✅ Vlog/Blog System with comments
-- ✅ Job Preparation Resources (Resume templates, Interview questions, Remote tips)
-- ✅ Common UI Components (Layout, Header, Sidebar, Footer)
-- ✅ MongoDB Atlas Integration
-- ✅ Production-ready API endpoints
+- ✅ **Interactive Learning Hub (`/tutorials`)**: TakeUforward-style structured sheets and learning tracks across DSA, System Design, Core CS, and Backend.
+- ✅ **Integrated AI Suite (`/ai-tools`)**: AI Chat tutor, Code Generator, Mock Interview simulator, and Career Roadmap builder with streaming responses.
+- ✅ **Comprehensive Admin Panel (`/admin`)**: Dedicated dashboard for monitoring stats and performing full CRUD on DSA problems, tutorials, backend examples, core CS concepts, system design cases, and user roles.
+- ✅ **DSA Practice Platform**: 1000+ problem catalog with multi-language solutions, difficulty tags, and company filters.
+- ✅ **System Design Case Studies**: Architecture breakdowns (TinyURL, Twitter, Netflix, etc.) with submission capabilities.
+- ✅ **Core CS Engineering**: Curated modules for OS, DBMS, Computer Networks, and interactive concept quizzes.
+- ✅ **Backend Code Lab**: Real-world backend templates and execution runner across Node.js, Python, Go, and Java.
+- ✅ **Job & Interview Preparation**: Curated FAANG & startup interview questions, resume templates, and remote work guides.
+- ✅ **MongoDB Atlas & NextAuth**: Cloud database integration with Mongoose and authentication with JWT / OAuth.
+- ✅ **Quality & CI/CD**: Zod API schema validation, Prettier formatting, ESLint rules, TypeScript strict typing, and GitHub Actions CI pipelines.
 
 ## Features Coming Soon 🚀
 
