@@ -56,16 +56,14 @@ export async function GET(
 
     if (userId && mongoose.Types.ObjectId.isValid(userId)) {
       const postObj = await VlogPost.findById(id);
-      isLikedByUser = postObj?.likes?.includes(new mongoose.Types.ObjectId(userId)) || false;
+      isLikedByUser =
+        postObj?.likes?.includes(new mongoose.Types.ObjectId(userId)) || false;
     }
 
     // Get related posts
     const related = await VlogPost.find({
       _id: { $ne: id },
-      $or: [
-        { category: post.category },
-        { tags: { $in: post.tags } },
-      ],
+      $or: [{ category: post.category }, { tags: { $in: post.tags } }],
       isPublished: true,
     })
       .sort({ viewCount: -1 })

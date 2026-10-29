@@ -4,45 +4,52 @@
 // DSA Types
 // ============================================
 
-export type Difficulty = "Easy" | "Medium" | "Hard";
+export type Difficulty = 'Easy' | 'Medium' | 'Hard';
 
-export type ProblemCategory = 
-  | "Array"
-  | "String"
-  | "Linked List"
-  | "Stack"
-  | "Queue"
-  | "Tree"
-  | "Graph"
-  | "Heap"
-  | "Hash Table"
-  | "Dynamic Programming"
-  | "Greedy"
-  | "Backtracking"
-  | "Divide and Conquer"
-  | "Sorting"
-  | "Searching"
-  | "Mathematical"
-  | "Bit Manipulation"
-  | "Recursion";
+export type ProblemCategory =
+  | 'Array'
+  | 'String'
+  | 'Linked List'
+  | 'Stack'
+  | 'Queue'
+  | 'Tree'
+  | 'Graph'
+  | 'Heap'
+  | 'Hash Table'
+  | 'Dynamic Programming'
+  | 'Greedy'
+  | 'Backtracking'
+  | 'Divide and Conquer'
+  | 'Sorting'
+  | 'Searching'
+  | 'Mathematical'
+  | 'Bit Manipulation'
+  | 'Recursion';
 
-export type ProgrammingLanguage = "Python" | "Java" | "C++" | "JavaScript" | "TypeScript" | "Go" | "Rust";
+export type ProgrammingLanguage =
+  | 'Python'
+  | 'Java'
+  | 'C++'
+  | 'JavaScript'
+  | 'TypeScript'
+  | 'Go'
+  | 'Rust';
 
-export type CompanyTag = 
-  | "FAANG"
-  | "Google"
-  | "Amazon"
-  | "Apple"
-  | "Netflix"
-  | "Meta"
-  | "Microsoft"
-  | "Uber"
-  | "Lyft"
-  | "Airbnb"
-  | "Dropbox"
-  | "Stripe"
-  | "Startups"
-  | "Top 100";
+export type CompanyTag =
+  | 'FAANG'
+  | 'Google'
+  | 'Amazon'
+  | 'Apple'
+  | 'Netflix'
+  | 'Meta'
+  | 'Microsoft'
+  | 'Uber'
+  | 'Lyft'
+  | 'Airbnb'
+  | 'Dropbox'
+  | 'Stripe'
+  | 'Startups'
+  | 'Top 100';
 
 export interface DSAProblem {
   _id: string;
@@ -99,7 +106,13 @@ export interface DSASubmission {
   user: string;
   code: string;
   language: ProgrammingLanguage;
-  status: "Accepted" | "Wrong Answer" | "Time Limit Exceeded" | "Memory Limit Exceeded" | "Runtime Error" | "Compilation Error";
+  status:
+    | 'Accepted'
+    | 'Wrong Answer'
+    | 'Time Limit Exceeded'
+    | 'Memory Limit Exceeded'
+    | 'Runtime Error'
+    | 'Compilation Error';
   runtime: number;
   memoryUsage: number;
   submittedAt: string;
@@ -123,24 +136,24 @@ export interface DSAStats {
 // System Design Types
 // ============================================
 
-export type SystemDesignCategory = 
-  | "Basics"
-  | "Scalability"
-  | "Performance"
-  | "Database Design"
-  | "Caching"
-  | "Load Balancing"
-  | "Microservices"
-  | "Real-time Systems"
-  | "Social Network"
-  | "E-commerce"
-  | "Messaging"
-  | "Streaming"
-  | "Search"
-  | "Payment Systems"
-  | "Analytics";
+export type SystemDesignCategory =
+  | 'Basics'
+  | 'Scalability'
+  | 'Performance'
+  | 'Database Design'
+  | 'Caching'
+  | 'Load Balancing'
+  | 'Microservices'
+  | 'Real-time Systems'
+  | 'Social Network'
+  | 'E-commerce'
+  | 'Messaging'
+  | 'Streaming'
+  | 'Search'
+  | 'Payment Systems'
+  | 'Analytics';
 
-export type SystemDesignDifficulty = "Beginner" | "Intermediate" | "Advanced";
+export type SystemDesignDifficulty = 'Beginner' | 'Intermediate' | 'Advanced';
 
 export interface SystemDesignCase {
   _id: string;
@@ -203,19 +216,25 @@ export interface DesignSubmission {
 // Core CS Types
 // ============================================
 
-export type CoreCSSubject = 
-  | "Operating Systems"
-  | "Database Systems"
-  | "Computer Networks"
-  | "Compiler Design"
-  | "Computer Organization"
-  | "Theory of Computation"
-  | "Algorithms"
-  | "Data Structures";
+export type CoreCSSubject =
+  | 'Operating Systems'
+  | 'Database Systems'
+  | 'Computer Networks'
+  | 'Compiler Design'
+  | 'Computer Organization'
+  | 'Theory of Computation'
+  | 'Algorithms'
+  | 'Data Structures';
 
-export type ConceptDifficulty = "Beginner" | "Intermediate" | "Advanced";
+export type ConceptDifficulty = 'Beginner' | 'Intermediate' | 'Advanced';
 
-export type ContentType = "Tutorial" | "Concept" | "Example" | "Quiz" | "Exercise" | "Project";
+export type ContentType =
+  | 'Tutorial'
+  | 'Concept'
+  | 'Example'
+  | 'Quiz'
+  | 'Exercise'
+  | 'Project';
 
 export interface CoreCSConcept {
   _id: string;
@@ -301,40 +320,40 @@ export interface CoreCSStats {
 // Backend Example Types
 // ============================================
 
-export type BackendTechnology = 
-  | "Node.js"
-  | "Express"
-  | "NestJS"
-  | "Python"
-  | "Django"
-  | "Flask"
-  | "FastAPI"
-  | "Java"
-  | "Spring Boot"
-  | "Go"
-  | "Gin"
-  | "Echo"
-  | "Rust"
-  | "Actix"
-  | "Rocket";
+export type BackendTechnology =
+  | 'Node.js'
+  | 'Express'
+  | 'NestJS'
+  | 'Python'
+  | 'Django'
+  | 'Flask'
+  | 'FastAPI'
+  | 'Java'
+  | 'Spring Boot'
+  | 'Go'
+  | 'Gin'
+  | 'Echo'
+  | 'Rust'
+  | 'Actix'
+  | 'Rocket';
 
-export type ExampleCategory = 
-  | "CRUD"
-  | "Authentication"
-  | "Database"
-  | "API Design"
-  | "Microservices"
-  | "Caching"
-  | "File Upload"
-  | "WebSockets"
-  | "GraphQL"
-  | "gRPC"
-  | "Testing"
-  | "Deployment"
-  | "Security"
-  | "Performance";
+export type ExampleCategory =
+  | 'CRUD'
+  | 'Authentication'
+  | 'Database'
+  | 'API Design'
+  | 'Microservices'
+  | 'Caching'
+  | 'File Upload'
+  | 'WebSockets'
+  | 'GraphQL'
+  | 'gRPC'
+  | 'Testing'
+  | 'Deployment'
+  | 'Security'
+  | 'Performance';
 
-export type ExampleDifficulty = "Beginner" | "Intermediate" | "Advanced";
+export type ExampleDifficulty = 'Beginner' | 'Intermediate' | 'Advanced';
 
 export interface BackendExample {
   _id: string;
@@ -380,7 +399,13 @@ export interface CodeExecution {
   input: string;
   code: string;
   language: string;
-  status: "Pending" | "Running" | "Success" | "Error" | "Timeout" | "Memory Limit Exceeded";
+  status:
+    | 'Pending'
+    | 'Running'
+    | 'Success'
+    | 'Error'
+    | 'Timeout'
+    | 'Memory Limit Exceeded';
   output: string;
   error: string;
   runtime: number;

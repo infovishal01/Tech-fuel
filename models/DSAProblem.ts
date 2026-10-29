@@ -1,48 +1,55 @@
-import { Schema, model, models, Document, Types } from "mongoose";
+import { Schema, model, models, Document, Types } from 'mongoose';
 
 // Difficulty levels for DSA problems
-export type Difficulty = "Easy" | "Medium" | "Hard";
+export type Difficulty = 'Easy' | 'Medium' | 'Hard';
 
 // Problem category
-export type ProblemCategory = 
-  | "Array"
-  | "String"
-  | "Linked List"
-  | "Stack"
-  | "Queue"
-  | "Tree"
-  | "Graph"
-  | "Heap"
-  | "Hash Table"
-  | "Dynamic Programming"
-  | "Greedy"
-  | "Backtracking"
-  | "Divide and Conquer"
-  | "Sorting"
-  | "Searching"
-  | "Mathematical"
-  | "Bit Manipulation"
-  | "Recursion";
+export type ProblemCategory =
+  | 'Array'
+  | 'String'
+  | 'Linked List'
+  | 'Stack'
+  | 'Queue'
+  | 'Tree'
+  | 'Graph'
+  | 'Heap'
+  | 'Hash Table'
+  | 'Dynamic Programming'
+  | 'Greedy'
+  | 'Backtracking'
+  | 'Divide and Conquer'
+  | 'Sorting'
+  | 'Searching'
+  | 'Mathematical'
+  | 'Bit Manipulation'
+  | 'Recursion';
 
 // Programming language support
-export type ProgrammingLanguage = "Python" | "Java" | "C++" | "JavaScript" | "TypeScript" | "Go" | "Rust";
+export type ProgrammingLanguage =
+  | 'Python'
+  | 'Java'
+  | 'C++'
+  | 'JavaScript'
+  | 'TypeScript'
+  | 'Go'
+  | 'Rust';
 
 // Company tags for problems
-export type CompanyTag = 
-  | "FAANG"
-  | "Google"
-  | "Amazon"
-  | "Apple"
-  | "Netflix"
-  | "Meta"
-  | "Microsoft"
-  | "Uber"
-  | "Lyft"
-  | "Airbnb"
-  | "Dropbox"
-  | "Stripe"
-  | "Startups"
-  | "Top 100";
+export type CompanyTag =
+  | 'FAANG'
+  | 'Google'
+  | 'Amazon'
+  | 'Apple'
+  | 'Netflix'
+  | 'Meta'
+  | 'Microsoft'
+  | 'Uber'
+  | 'Lyft'
+  | 'Airbnb'
+  | 'Dropbox'
+  | 'Stripe'
+  | 'Startups'
+  | 'Top 100';
 
 // Interface for DSA Problem
 export interface IDSAProblem extends Document {
@@ -99,7 +106,13 @@ export interface IDSASubmission extends Document {
   user: Types.ObjectId;
   code: string;
   language: ProgrammingLanguage;
-  status: "Accepted" | "Wrong Answer" | "Time Limit Exceeded" | "Memory Limit Exceeded" | "Runtime Error" | "Compilation Error";
+  status:
+    | 'Accepted'
+    | 'Wrong Answer'
+    | 'Time Limit Exceeded'
+    | 'Memory Limit Exceeded'
+    | 'Runtime Error'
+    | 'Compilation Error';
   runtime: number;
   memoryUsage: number;
   submittedAt: Date;
@@ -110,18 +123,18 @@ const DSAProblemSchema = new Schema<IDSAProblem>(
   {
     title: {
       type: String,
-      required: [true, "Title is required"],
+      required: [true, 'Title is required'],
       trim: true,
-      maxlength: [200, "Title cannot exceed 200 characters"],
+      maxlength: [200, 'Title cannot exceed 200 characters'],
     },
     description: {
       type: String,
-      required: [true, "Description is required"],
+      required: [true, 'Description is required'],
       trim: true,
     },
     problemStatement: {
       type: String,
-      required: [true, "Problem statement is required"],
+      required: [true, 'Problem statement is required'],
       trim: true,
     },
     examples: [
@@ -134,31 +147,31 @@ const DSAProblemSchema = new Schema<IDSAProblem>(
     constraints: [{ type: String }],
     difficulty: {
       type: String,
-      enum: ["Easy", "Medium", "Hard"],
-      default: "Medium",
+      enum: ['Easy', 'Medium', 'Hard'],
+      default: 'Medium',
     },
     categories: [
       {
         type: String,
         enum: [
-          "Array",
-          "String",
-          "Linked List",
-          "Stack",
-          "Queue",
-          "Tree",
-          "Graph",
-          "Heap",
-          "Hash Table",
-          "Dynamic Programming",
-          "Greedy",
-          "Backtracking",
-          "Divide and Conquer",
-          "Sorting",
-          "Searching",
-          "Mathematical",
-          "Bit Manipulation",
-          "Recursion",
+          'Array',
+          'String',
+          'Linked List',
+          'Stack',
+          'Queue',
+          'Tree',
+          'Graph',
+          'Heap',
+          'Hash Table',
+          'Dynamic Programming',
+          'Greedy',
+          'Backtracking',
+          'Divide and Conquer',
+          'Sorting',
+          'Searching',
+          'Mathematical',
+          'Bit Manipulation',
+          'Recursion',
         ],
       },
     ],
@@ -167,20 +180,20 @@ const DSAProblemSchema = new Schema<IDSAProblem>(
       {
         type: String,
         enum: [
-          "FAANG",
-          "Google",
-          "Amazon",
-          "Apple",
-          "Netflix",
-          "Meta",
-          "Microsoft",
-          "Uber",
-          "Lyft",
-          "Airbnb",
-          "Dropbox",
-          "Stripe",
-          "Startups",
-          "Top 100",
+          'FAANG',
+          'Google',
+          'Amazon',
+          'Apple',
+          'Netflix',
+          'Meta',
+          'Microsoft',
+          'Uber',
+          'Lyft',
+          'Airbnb',
+          'Dropbox',
+          'Stripe',
+          'Startups',
+          'Top 100',
         ],
       },
     ],
@@ -194,8 +207,8 @@ const DSAProblemSchema = new Schema<IDSAProblem>(
       type: Boolean,
       default: false,
     },
-    likes: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    dislikes: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    likes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    dislikes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     viewCount: {
       type: Number,
       default: 0,
@@ -212,7 +225,7 @@ const DSAProblemSchema = new Schema<IDSAProblem>(
     },
     createdBy: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
     },
   },
@@ -228,12 +241,12 @@ const DSASolutionSchema = new Schema<IDSASolution>(
   {
     problem: {
       type: Schema.Types.ObjectId,
-      ref: "DSAProblem",
+      ref: 'DSAProblem',
       required: true,
     },
     user: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
     },
     code: {
@@ -243,7 +256,7 @@ const DSASolutionSchema = new Schema<IDSASolution>(
     },
     language: {
       type: String,
-      enum: ["Python", "Java", "C++", "JavaScript", "TypeScript", "Go", "Rust"],
+      enum: ['Python', 'Java', 'C++', 'JavaScript', 'TypeScript', 'Go', 'Rust'],
       required: true,
     },
     explanation: {
@@ -281,7 +294,7 @@ const DSASolutionSchema = new Schema<IDSASolution>(
       type: Number,
       default: 0,
     },
-    likes: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    likes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   },
   {
     timestamps: true,
@@ -293,12 +306,12 @@ const DSASubmissionSchema = new Schema<IDSASubmission>(
   {
     problem: {
       type: Schema.Types.ObjectId,
-      ref: "DSAProblem",
+      ref: 'DSAProblem',
       required: true,
     },
     user: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
     },
     code: {
@@ -308,13 +321,20 @@ const DSASubmissionSchema = new Schema<IDSASubmission>(
     },
     language: {
       type: String,
-      enum: ["Python", "Java", "C++", "JavaScript", "TypeScript", "Go", "Rust"],
+      enum: ['Python', 'Java', 'C++', 'JavaScript', 'TypeScript', 'Go', 'Rust'],
       required: true,
     },
     status: {
       type: String,
-      enum: ["Accepted", "Wrong Answer", "Time Limit Exceeded", "Memory Limit Exceeded", "Runtime Error", "Compilation Error"],
-      default: "Compilation Error",
+      enum: [
+        'Accepted',
+        'Wrong Answer',
+        'Time Limit Exceeded',
+        'Memory Limit Exceeded',
+        'Runtime Error',
+        'Compilation Error',
+      ],
+      default: 'Compilation Error',
     },
     runtime: {
       type: Number,
@@ -335,9 +355,13 @@ const DSASubmissionSchema = new Schema<IDSASubmission>(
 );
 
 // Export models
-const DSAProblem = models.DSAProblem || model<IDSAProblem>("DSAProblem", DSAProblemSchema);
-const DSASolution = models.DSASolution || model<IDSASolution>("DSASolution", DSASolutionSchema);
-const DSASubmission = models.DSASubmission || model<IDSASubmission>("DSASubmission", DSASubmissionSchema);
+const DSAProblem =
+  models.DSAProblem || model<IDSAProblem>('DSAProblem', DSAProblemSchema);
+const DSASolution =
+  models.DSASolution || model<IDSASolution>('DSASolution', DSASolutionSchema);
+const DSASubmission =
+  models.DSASubmission ||
+  model<IDSASubmission>('DSASubmission', DSASubmissionSchema);
 
 export { DSAProblem, DSASolution, DSASubmission };
 export default DSAProblem;

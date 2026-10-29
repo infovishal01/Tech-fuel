@@ -1,4 +1,6 @@
 // AI-related types for Tech Fuel
+import type { ExperienceLevel } from './vlog';
+export type { ExperienceLevel };
 
 // ============================================
 // AI Chat Types
@@ -6,7 +8,7 @@
 
 export interface ChatMessage {
   _id?: string;
-  role: "system" | "user" | "assistant";
+  role: 'system' | 'user' | 'assistant';
   content: string;
   timestamp?: Date;
   metadata?: {
@@ -52,17 +54,27 @@ export interface ChatResponse {
 // Code Generation Types
 // ============================================
 
-export type CodeLanguage = "Python" | "JavaScript" | "TypeScript" | "Java" | "C++" | "Go" | "Rust" | "C#" | "PHP" | "Ruby";
+export type CodeLanguage =
+  | 'Python'
+  | 'JavaScript'
+  | 'TypeScript'
+  | 'Java'
+  | 'C++'
+  | 'Go'
+  | 'Rust'
+  | 'C#'
+  | 'PHP'
+  | 'Ruby';
 
-export type CodeTemplateType = 
-  | "function"
-  | "class"
-  | "algorithm"
-  | "api"
-  | "database"
-  | "auth"
-  | "middleware"
-  | "utility";
+export type CodeTemplateType =
+  | 'function'
+  | 'class'
+  | 'algorithm'
+  | 'api'
+  | 'database'
+  | 'auth'
+  | 'middleware'
+  | 'utility';
 
 export interface CodeGenerationRequest {
   prompt: string;
@@ -88,9 +100,14 @@ export interface CodeGenerationResponse {
 // Mock Interview Types
 // ============================================
 
-export type InterviewMode = "technical" | "behavioral" | "system-design" | "dsa" | "mixed";
+export type InterviewMode =
+  | 'technical'
+  | 'behavioral'
+  | 'system-design'
+  | 'dsa'
+  | 'mixed';
 
-export type InterviewDifficulty = "Easy" | "Medium" | "Hard";
+export type InterviewDifficulty = 'Easy' | 'Medium' | 'Hard';
 
 export interface MockInterviewRequest {
   mode: InterviewMode;
@@ -103,7 +120,7 @@ export interface MockInterviewRequest {
 export interface InterviewQuestion {
   _id?: string;
   question: string;
-  type: "coding" | "theoretical" | "design" | "behavioral";
+  type: 'coding' | 'theoretical' | 'design' | 'behavioral';
   difficulty: InterviewDifficulty;
   topic: string;
   expectedAnswer: string;
@@ -142,23 +159,23 @@ export interface MockInterviewResponse {
 // Project Generation Types
 // ============================================
 
-export type ProjectDifficulty = "Beginner" | "Intermediate" | "Advanced";
+export type ProjectDifficulty = 'Beginner' | 'Intermediate' | 'Advanced';
 
-export type ProjectCategory = 
-  | "Web Development"
-  | "Mobile App"
-  | "Backend Service"
-  | "API"
-  | "CLI Tool"
-  | "Library"
-  | "Framework"
-  | "Game"
-  | "AI/ML"
-  | "Data Analysis"
-  | "Automation"
-  | "DevOps"
-  | "Blockchain"
-  | "Open Source";
+export type ProjectCategory =
+  | 'Web Development'
+  | 'Mobile App'
+  | 'Backend Service'
+  | 'API'
+  | 'CLI Tool'
+  | 'Library'
+  | 'Framework'
+  | 'Game'
+  | 'AI/ML'
+  | 'Data Analysis'
+  | 'Automation'
+  | 'DevOps'
+  | 'Blockchain'
+  | 'Open Source';
 
 export interface ProjectIdea {
   title: string;
@@ -195,22 +212,27 @@ export interface ProjectGenerationResponse {
 // Career Roadmap Types
 // ============================================
 
-export type CareerGoal = 
-  | "Frontend Developer"
-  | "Backend Developer"
-  | "Full Stack Developer"
-  | "DevOps Engineer"
-  | "Data Scientist"
-  | "ML Engineer"
-  | "AI Engineer"
-  | "Mobile Developer"
-  | "QA Engineer"
-  | "Product Manager"
-  | "Data Engineer"
-  | "Software Architect"
-  | "CTO";
+export type CareerGoal =
+  | 'Frontend Developer'
+  | 'Backend Developer'
+  | 'Full Stack Developer'
+  | 'DevOps Engineer'
+  | 'Data Scientist'
+  | 'ML Engineer'
+  | 'AI Engineer'
+  | 'Mobile Developer'
+  | 'QA Engineer'
+  | 'Product Manager'
+  | 'Data Engineer'
+  | 'Software Architect'
+  | 'CTO';
 
-export type RoadmapDuration = "1 month" | "3 months" | "6 months" | "1 year" | "2 years";
+export type RoadmapDuration =
+  | '1 month'
+  | '3 months'
+  | '6 months'
+  | '1 year'
+  | '2 years';
 
 export interface RoadmapStep {
   title: string;
@@ -219,7 +241,7 @@ export interface RoadmapStep {
   resources: {
     title: string;
     url: string;
-    type: "course" | "book" | "video" | "article" | "project";
+    type: 'course' | 'book' | 'video' | 'article' | 'project';
   }[];
   milestones: string[];
   prerequisites: string[];
@@ -248,7 +270,7 @@ export interface RoadmapRequest {
 export interface AIModelConfig {
   id: string;
   name: string;
-  provider: "OpenAI" | "Anthropic" | "Google" | "Local";
+  provider: 'OpenAI' | 'Anthropic' | 'Google' | 'Local';
   maxTokens: number;
   pricePer1KTokens: {
     prompt: number;
@@ -284,13 +306,16 @@ export interface AIUsage {
     prompt: number;
     completion: number;
   };
-  byModel: Record<string, {
-    requests: number;
-    tokens: {
-      prompt: number;
-      completion: number;
-    };
-  }>;
+  byModel: Record<
+    string,
+    {
+      requests: number;
+      tokens: {
+        prompt: number;
+        completion: number;
+      };
+    }
+  >;
   byFeature: {
     chat: number;
     code: number;

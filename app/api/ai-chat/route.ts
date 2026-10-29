@@ -3,7 +3,10 @@ import { getOpenAI } from '@/lib/openai';
 import { z } from 'zod';
 
 const chatSchema = z.object({
-  message: z.string().min(1, 'Message is required').max(10000, 'Message too long'),
+  message: z
+    .string()
+    .min(1, 'Message is required')
+    .max(10000, 'Message too long'),
 });
 
 const CORS_HEADERS = {

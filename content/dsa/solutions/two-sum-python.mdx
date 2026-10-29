@@ -19,18 +19,18 @@ class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
         # Create a hash map to store value and its index
         num_map = {}
-        
+
         # Iterate through the array
         for i, num in enumerate(nums):
             complement = target - num
-            
+
             # Check if complement exists in the map
             if complement in num_map:
                 return [num_map[complement], i]
-            
+
             # Store the current number and its index
             num_map[num] = i
-        
+
         # According to the problem, there's exactly one solution
         return []
 ```
@@ -91,19 +91,19 @@ class Solution:
         indexed_nums = [(num, i) for i, num in enumerate(nums)]
         # Sort based on the value
         indexed_nums.sort()
-        
+
         left, right = 0, len(indexed_nums) - 1
-        
+
         while left < right:
             current_sum = indexed_nums[left][0] + indexed_nums[right][0]
-            
+
             if current_sum == target:
                 return [indexed_nums[left][1], indexed_nums[right][1]]
             elif current_sum < target:
                 left += 1
             else:
                 right -= 1
-        
+
         return []
 ```
 
@@ -138,6 +138,7 @@ class Solution:
 - Can you solve it in O(n) time and O(1) space if the array is sorted?
 
 ### Related LeetCode Problems
+
 - [Two Sum II - Input array is sorted](https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/)
 - [3Sum](https://leetcode.com/problems/3sum/)
 - [4Sum](https://leetcode.com/problems/4sum/)

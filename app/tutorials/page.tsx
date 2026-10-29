@@ -33,7 +33,18 @@ const TABS = [
 type TabId = (typeof TABS)[number]['id'];
 
 // ─── Content data per tab ─────────────────────────────────────────────────────
-const CONTENT: Record<TabId, { title: string; desc: string; tags: string[]; href: string; badge?: string; badgeColor?: string; accent: string }[]> = {
+const CONTENT: Record<
+  TabId,
+  {
+    title: string;
+    desc: string;
+    tags: string[];
+    href: string;
+    badge?: string;
+    badgeColor?: string;
+    accent: string;
+  }[]
+> = {
   dsa: [
     {
       title: 'A2Z DSA Sheet',
@@ -183,12 +194,50 @@ const CONTENT: Record<TabId, { title: string; desc: string; tags: string[]; href
     },
   ],
   playlists: [
-    { title: 'Arrays — Basics to Advanced', desc: 'Complete array series with every pattern and problem type.', tags: ['30+ videos'], href: '/tutorials?cat=dsa', accent: 'from-green-500/10 to-transparent' },
-    { title: 'Binary Search Mastery', desc: 'Every binary search variant — from sorted arrays to answer space problems.', tags: ['20+ videos'], href: '/tutorials?cat=dsa', accent: 'from-sky-500/10 to-transparent' },
-    { title: 'Graphs — Full Series', desc: 'BFS, DFS, shortest paths, MST, topological sort and more.', tags: ['40+ videos'], href: '/tutorials?cat=dsa', accent: 'from-violet-500/10 to-transparent' },
-    { title: 'Dynamic Programming', desc: 'Every DP pattern from 1D/2D DP to partition, knapsack, and LCS.', tags: ['56+ videos'], href: '/tutorials?cat=dsa', badge: 'Most Loved', badgeColor: 'text-rose-400 bg-rose-400/10 border-rose-400/20', accent: 'from-rose-500/10 to-transparent' },
-    { title: 'Trees & BST', desc: 'Binary trees, BSTs, AVL trees, and segment trees from scratch.', tags: ['35+ videos'], href: '/tutorials?cat=dsa', accent: 'from-amber-500/10 to-transparent' },
-    { title: 'Recursion & Backtracking', desc: 'Build strong recursion intuition with 30+ curated problems.', tags: ['30+ videos'], href: '/tutorials?cat=dsa', accent: 'from-teal-500/10 to-transparent' },
+    {
+      title: 'Arrays — Basics to Advanced',
+      desc: 'Complete array series with every pattern and problem type.',
+      tags: ['30+ videos'],
+      href: '/tutorials?cat=dsa',
+      accent: 'from-green-500/10 to-transparent',
+    },
+    {
+      title: 'Binary Search Mastery',
+      desc: 'Every binary search variant — from sorted arrays to answer space problems.',
+      tags: ['20+ videos'],
+      href: '/tutorials?cat=dsa',
+      accent: 'from-sky-500/10 to-transparent',
+    },
+    {
+      title: 'Graphs — Full Series',
+      desc: 'BFS, DFS, shortest paths, MST, topological sort and more.',
+      tags: ['40+ videos'],
+      href: '/tutorials?cat=dsa',
+      accent: 'from-violet-500/10 to-transparent',
+    },
+    {
+      title: 'Dynamic Programming',
+      desc: 'Every DP pattern from 1D/2D DP to partition, knapsack, and LCS.',
+      tags: ['56+ videos'],
+      href: '/tutorials?cat=dsa',
+      badge: 'Most Loved',
+      badgeColor: 'text-rose-400 bg-rose-400/10 border-rose-400/20',
+      accent: 'from-rose-500/10 to-transparent',
+    },
+    {
+      title: 'Trees & BST',
+      desc: 'Binary trees, BSTs, AVL trees, and segment trees from scratch.',
+      tags: ['35+ videos'],
+      href: '/tutorials?cat=dsa',
+      accent: 'from-amber-500/10 to-transparent',
+    },
+    {
+      title: 'Recursion & Backtracking',
+      desc: 'Build strong recursion intuition with 30+ curated problems.',
+      tags: ['30+ videos'],
+      href: '/tutorials?cat=dsa',
+      accent: 'from-teal-500/10 to-transparent',
+    },
   ],
   interview: [
     {
@@ -225,25 +274,74 @@ const CONTENT: Record<TabId, { title: string; desc: string; tags: string[]; href
     },
   ],
   blogs: [
-    { title: 'Mastering DSA in 2026', desc: 'A complete roadmap to mastering data structures and algorithms from scratch.', tags: ['Roadmap', 'DSA'], href: '/tutorials', accent: 'from-green-500/10 to-transparent', badge: 'Trending', badgeColor: 'text-green-400 bg-green-400/10 border-green-400/20' },
-    { title: 'Welcome to TechFuel', desc: 'What is TechFuel, who it is for, and how to make the most of the platform.', tags: ['Guide', 'Getting Started'], href: '/about', accent: 'from-sky-500/10 to-transparent' },
-    { title: 'How to Crack FAANG', desc: 'The exact preparation strategy used by engineers who cracked Google & Amazon.', tags: ['FAANG', 'Strategy'], href: '/tutorials', accent: 'from-violet-500/10 to-transparent' },
-    { title: 'System Design Interview Prep', desc: 'A 30-day plan to go from zero to confident in system design interviews.', tags: ['30-day Plan', 'HLD'], href: '/tutorials?cat=system-design', accent: 'from-orange-500/10 to-transparent' },
-    { title: 'Top 10 DSA Patterns', desc: 'The 10 algorithmic patterns that cover 90% of coding interview problems.', tags: ['Patterns', 'Tips'], href: '/tutorials?cat=dsa', accent: 'from-rose-500/10 to-transparent' },
-    { title: 'AI Tools for Developers', desc: 'How to 10x your productivity using ChatGPT, Copilot, and other AI tools.', tags: ['AI', 'Productivity'], href: '/ai-tools', accent: 'from-amber-500/10 to-transparent' },
+    {
+      title: 'Mastering DSA in 2026',
+      desc: 'A complete roadmap to mastering data structures and algorithms from scratch.',
+      tags: ['Roadmap', 'DSA'],
+      href: '/tutorials',
+      accent: 'from-green-500/10 to-transparent',
+      badge: 'Trending',
+      badgeColor: 'text-green-400 bg-green-400/10 border-green-400/20',
+    },
+    {
+      title: 'Welcome to TechFuel',
+      desc: 'What is TechFuel, who it is for, and how to make the most of the platform.',
+      tags: ['Guide', 'Getting Started'],
+      href: '/about',
+      accent: 'from-sky-500/10 to-transparent',
+    },
+    {
+      title: 'How to Crack FAANG',
+      desc: 'The exact preparation strategy used by engineers who cracked Google & Amazon.',
+      tags: ['FAANG', 'Strategy'],
+      href: '/tutorials',
+      accent: 'from-violet-500/10 to-transparent',
+    },
+    {
+      title: 'System Design Interview Prep',
+      desc: 'A 30-day plan to go from zero to confident in system design interviews.',
+      tags: ['30-day Plan', 'HLD'],
+      href: '/tutorials?cat=system-design',
+      accent: 'from-orange-500/10 to-transparent',
+    },
+    {
+      title: 'Top 10 DSA Patterns',
+      desc: 'The 10 algorithmic patterns that cover 90% of coding interview problems.',
+      tags: ['Patterns', 'Tips'],
+      href: '/tutorials?cat=dsa',
+      accent: 'from-rose-500/10 to-transparent',
+    },
+    {
+      title: 'AI Tools for Developers',
+      desc: 'How to 10x your productivity using ChatGPT, Copilot, and other AI tools.',
+      tags: ['AI', 'Productivity'],
+      href: '/ai-tools',
+      accent: 'from-amber-500/10 to-transparent',
+    },
   ],
 };
 
 // ─── Card component ───────────────────────────────────────────────────────────
 function ContentCard({
-  title, desc, tags, href, badge, badgeColor, accent, index,
+  title,
+  desc,
+  tags,
+  href,
+  badge,
+  badgeColor,
+  accent,
+  index,
 }: (typeof CONTENT.dsa)[0] & { index: number }) {
   return (
-    <div className={`group relative border border-white/5 rounded-2xl overflow-hidden bg-gradient-to-br ${accent} hover:border-white/10 transition-all`}>
+    <div
+      className={`group relative border border-white/5 rounded-2xl overflow-hidden bg-gradient-to-br ${accent} hover:border-white/10 transition-all`}
+    >
       <div className="p-5">
         {/* Badge */}
         {badge && (
-          <span className={`inline-flex items-center text-[10px] font-semibold px-2 py-0.5 rounded-full border mb-3 ${badgeColor}`}>
+          <span
+            className={`inline-flex items-center text-[10px] font-semibold px-2 py-0.5 rounded-full border mb-3 ${badgeColor}`}
+          >
             {badge}
           </span>
         )}
@@ -265,7 +363,10 @@ function ContentCard({
         {/* Tags */}
         <div className="flex flex-wrap gap-1.5 ml-8 mb-4">
           {tags.map((tag) => (
-            <span key={tag} className="text-[10px] px-2 py-0.5 rounded-md bg-white/5 text-zinc-500">
+            <span
+              key={tag}
+              className="text-[10px] px-2 py-0.5 rounded-md bg-white/5 text-zinc-500"
+            >
               {tag}
             </span>
           ))}
@@ -310,7 +411,6 @@ export default function LearnPage() {
   return (
     <MainLayout>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
-
         {/* ── Page header ──────────────────────────────────────────────── */}
         <div className="mb-8">
           <div className="flex items-center gap-2 text-xs text-green-500 font-medium uppercase tracking-widest mb-3">
@@ -321,19 +421,25 @@ export default function LearnPage() {
             Everything you need to crack your dream job
           </h1>
           <p className="text-zinc-500 mt-2 text-sm sm:text-base max-w-2xl">
-            Pick a track, follow the sheet, and use our AI tools to accelerate your preparation — all in one place.
+            Pick a track, follow the sheet, and use our AI tools to accelerate
+            your preparation — all in one place.
           </p>
         </div>
 
         {/* ── Stats bar ────────────────────────────────────────────────── */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
           {STATS.map(({ value, label, icon: Icon }) => (
-            <div key={label} className="flex items-center gap-3 border border-white/5 rounded-xl p-3 bg-white/[0.02]">
+            <div
+              key={label}
+              className="flex items-center gap-3 border border-white/5 rounded-xl p-3 bg-white/[0.02]"
+            >
               <div className="w-8 h-8 rounded-lg bg-green-500/10 text-green-400 flex items-center justify-center flex-shrink-0">
                 <Icon className="w-4 h-4" />
               </div>
               <div>
-                <p className="text-base font-bold text-white leading-none">{value}</p>
+                <p className="text-base font-bold text-white leading-none">
+                  {value}
+                </p>
                 <p className="text-xs text-zinc-600 mt-0.5">{label}</p>
               </div>
             </div>
@@ -371,7 +477,8 @@ export default function LearnPage() {
             Use AI to learn 10x faster
           </h2>
           <p className="text-zinc-500 text-sm mb-5 max-w-md mx-auto">
-            Our AI Chat Tutor, Mock Interview, and Code Generator are built specifically to accelerate your preparation.
+            Our AI Chat Tutor, Mock Interview, and Code Generator are built
+            specifically to accelerate your preparation.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link

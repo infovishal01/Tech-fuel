@@ -20,10 +20,14 @@ import VlogPost from './VlogPost';
 import JobPrepResource from './JobPrepResource';
 
 // ─── Stub helper: creates a basic schema if the model doesn't exist yet ───────
-function stubModel(name: string) {
-  if (mongoose.models[name]) return mongoose.models[name];
-  const schema = new mongoose.Schema({ data: mongoose.Schema.Types.Mixed }, { timestamps: true, strict: false });
-  return mongoose.model(name, schema);
+function stubModel(name: string): mongoose.Model<any> {
+  if (mongoose.models[name])
+    return mongoose.models[name] as mongoose.Model<any>;
+  const schema = new mongoose.Schema(
+    { data: mongoose.Schema.Types.Mixed },
+    { timestamps: true, strict: false }
+  );
+  return mongoose.model(name, schema) as mongoose.Model<any>;
 }
 
 // ─── Stub models (replace with real schemas as features are implemented) ──────
@@ -70,7 +74,7 @@ export {
   QuizSubmission,
 };
 
-export default {
+const models = {
   User,
   Tutorial,
   DSAProblem,
@@ -80,3 +84,5 @@ export default {
   VlogPost,
   JobPrepResource,
 };
+
+export default models;

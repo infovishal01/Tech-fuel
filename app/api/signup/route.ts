@@ -17,9 +17,7 @@ export async function POST(req: NextRequest) {
     // Validate input
     const validation = signupSchema.safeParse(body);
     if (!validation.success) {
-      const errors = validation.error.issues
-        .map((e) => e.message)
-        .join(', ');
+      const errors = validation.error.issues.map((e) => e.message).join(', ');
       return NextResponse.json(
         { success: false, message: errors },
         { status: 400 }
@@ -34,7 +32,10 @@ export async function POST(req: NextRequest) {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return NextResponse.json(
-        { success: false, message: 'An account with this email already exists' },
+        {
+          success: false,
+          message: 'An account with this email already exists',
+        },
         { status: 409 }
       );
     }

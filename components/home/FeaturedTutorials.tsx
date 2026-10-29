@@ -69,12 +69,12 @@ const TUTORIALS: Tutorial[] = [
 ];
 
 const CATEGORY_COLORS: Record<string, string> = {
-  AI:            'text-emerald-400 bg-emerald-400/8',
-  Backend:       'text-sky-400    bg-sky-400/8',
-  DSA:           'text-orange-400 bg-orange-400/8',
-  'System Design':'text-violet-400 bg-violet-400/8',
-  'Core CS':     'text-rose-400   bg-rose-400/8',
-  DBMS:          'text-amber-400  bg-amber-400/8',
+  AI: 'text-emerald-400 bg-emerald-400/8',
+  Backend: 'text-sky-400    bg-sky-400/8',
+  DSA: 'text-orange-400 bg-orange-400/8',
+  'System Design': 'text-violet-400 bg-violet-400/8',
+  'Core CS': 'text-rose-400   bg-rose-400/8',
+  DBMS: 'text-amber-400  bg-amber-400/8',
 };
 
 export default function FeaturedTutorials() {
@@ -91,8 +91,8 @@ export default function FeaturedTutorials() {
               Featured Tutorials
             </h2>
             <p className="text-zinc-500 mt-2 text-sm sm:text-base max-w-lg">
-              Structured guides crafted for developers preparing for
-              interviews and levelling up their skills.
+              Structured guides crafted for developers preparing for interviews
+              and levelling up their skills.
             </p>
           </div>
           <Link

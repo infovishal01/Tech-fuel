@@ -104,8 +104,16 @@ export default function Footer() {
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      target={(link as { external?: boolean }).external ? '_blank' : undefined}
-                      rel={(link as { external?: boolean }).external ? 'noopener noreferrer' : undefined}
+                      target={
+                        (link as { external?: boolean }).external
+                          ? '_blank'
+                          : undefined
+                      }
+                      rel={
+                        (link as { external?: boolean }).external
+                          ? 'noopener noreferrer'
+                          : undefined
+                      }
                       className="text-sm text-zinc-500 hover:text-white transition-colors"
                     >
                       {link.label}

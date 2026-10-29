@@ -1,39 +1,51 @@
-import { Schema, model, models, Document, Types } from "mongoose";
+import { Schema, model, models, Document, Types } from 'mongoose';
 
 // Resource type
-export type ResourceType = 
-  | "Resume Template"
-  | "Cover Letter"
-  | "Interview Question"
-  | "Company Guide"
-  | "Remote Job Tip"
-  | "Negotiation Guide"
-  | "Portfolio Tip"
-  | "LinkedIn Guide"
-  | "GitHub Guide"
-  | "Behavioral Question"
-  | "Technical Question"
-  | "Coding Challenge";
+export type ResourceType =
+  | 'Resume Template'
+  | 'Cover Letter'
+  | 'Interview Question'
+  | 'Company Guide'
+  | 'Remote Job Tip'
+  | 'Negotiation Guide'
+  | 'Portfolio Tip'
+  | 'LinkedIn Guide'
+  | 'GitHub Guide'
+  | 'Behavioral Question'
+  | 'Technical Question'
+  | 'Coding Challenge';
 
 // Job category
-export type JobCategory = 
-  | "Frontend"
-  | "Backend"
-  | "Full Stack"
-  | "DevOps"
-  | "Data Science"
-  | "ML Engineer"
-  | "AI Engineer"
-  | "Mobile Developer"
-  | "QA Engineer"
-  | "Product Manager"
-  | "Data Engineer";
+export type JobCategory =
+  | 'Frontend'
+  | 'Backend'
+  | 'Full Stack'
+  | 'DevOps'
+  | 'Data Science'
+  | 'ML Engineer'
+  | 'AI Engineer'
+  | 'Mobile Developer'
+  | 'QA Engineer'
+  | 'Product Manager'
+  | 'Data Engineer';
 
 // Experience level
-export type ExperienceLevel = "Fresher" | "Junior" | "Mid Level" | "Senior" | "Lead" | "Manager";
+export type ExperienceLevel =
+  | 'Fresher'
+  | 'Junior'
+  | 'Mid Level'
+  | 'Senior'
+  | 'Lead'
+  | 'Manager';
 
 // Company tier
-export type CompanyTier = "FAANG" | "Unicorn" | "Startup" | "MNC" | "Product Based" | "Service Based";
+export type CompanyTier =
+  | 'FAANG'
+  | 'Unicorn'
+  | 'Startup'
+  | 'MNC'
+  | 'Product Based'
+  | 'Service Based';
 
 // Interface for Job Preparation Resource
 export interface IJobPrepResource extends Document {
@@ -47,7 +59,7 @@ export interface IJobPrepResource extends Document {
   companyName?: string;
   content: string;
   tags: string[];
-  difficulty?: "Easy" | "Medium" | "Hard";
+  difficulty?: 'Easy' | 'Medium' | 'Hard';
   frequency?: number; // How often this is asked (1-10)
   importance?: number; // How important this is (1-10)
   sampleAnswer?: string;
@@ -85,7 +97,7 @@ export interface IUserPractice extends Document {
     notes?: string;
   }[];
   lastAttempted: Date;
-  masteryLevel: "Beginner" | "Intermediate" | "Advanced" | "Expert";
+  masteryLevel: 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert';
   createdAt: Date;
   updatedAt: Date;
 }
@@ -95,68 +107,75 @@ const JobPrepResourceSchema = new Schema<IJobPrepResource>(
   {
     title: {
       type: String,
-      required: [true, "Title is required"],
+      required: [true, 'Title is required'],
       trim: true,
-      maxlength: [200, "Title cannot exceed 200 characters"],
+      maxlength: [200, 'Title cannot exceed 200 characters'],
       unique: true,
     },
     slug: {
       type: String,
-      required: [true, "Slug is required"],
+      required: [true, 'Slug is required'],
       trim: true,
       lowercase: true,
-      match: [/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Slug must be URL-friendly"],
+      match: [/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'Slug must be URL-friendly'],
       unique: true,
     },
     description: {
       type: String,
-      required: [true, "Description is required"],
+      required: [true, 'Description is required'],
       trim: true,
-      maxlength: [1000, "Description cannot exceed 1000 characters"],
+      maxlength: [1000, 'Description cannot exceed 1000 characters'],
     },
     resourceType: {
       type: String,
       enum: [
-        "Resume Template",
-        "Cover Letter",
-        "Interview Question",
-        "Company Guide",
-        "Remote Job Tip",
-        "Negotiation Guide",
-        "Portfolio Tip",
-        "LinkedIn Guide",
-        "GitHub Guide",
-        "Behavioral Question",
-        "Technical Question",
-        "Coding Challenge",
+        'Resume Template',
+        'Cover Letter',
+        'Interview Question',
+        'Company Guide',
+        'Remote Job Tip',
+        'Negotiation Guide',
+        'Portfolio Tip',
+        'LinkedIn Guide',
+        'GitHub Guide',
+        'Behavioral Question',
+        'Technical Question',
+        'Coding Challenge',
       ],
-      required: [true, "Resource type is required"],
+      required: [true, 'Resource type is required'],
     },
     category: {
       type: String,
       enum: [
-        "Frontend",
-        "Backend",
-        "Full Stack",
-        "DevOps",
-        "Data Science",
-        "ML Engineer",
-        "AI Engineer",
-        "Mobile Developer",
-        "QA Engineer",
-        "Product Manager",
-        "Data Engineer",
+        'Frontend',
+        'Backend',
+        'Full Stack',
+        'DevOps',
+        'Data Science',
+        'ML Engineer',
+        'AI Engineer',
+        'Mobile Developer',
+        'QA Engineer',
+        'Product Manager',
+        'Data Engineer',
       ],
-      required: [true, "Category is required"],
+      required: [true, 'Category is required'],
     },
     experienceLevel: {
       type: String,
-      enum: ["Fresher", "Junior", "Mid Level", "Senior", "Lead", "Manager"],
-      default: "Fresher",
+      enum: ['Fresher', 'Junior', 'Mid Level', 'Senior', 'Lead', 'Manager'],
+      default: 'Fresher',
     },
     companyTier: {
       type: String,
-      enum: ["FAANG", "Unicorn", "Startup", "MNC", "Product Based", "Service Based"],
+      enum: [
+        'FAANG',
+        'Unicorn',
+        'Startup',
+        'MNC',
+        'Product Based',
+        'Service Based',
+      ],
     },
     companyName: {
       type: String,
@@ -164,13 +183,13 @@ const JobPrepResourceSchema = new Schema<IJobPrepResource>(
     },
     content: {
       type: String,
-      required: [true, "Content is required"],
+      required: [true, 'Content is required'],
       trim: true,
     },
     tags: [{ type: String, lowercase: true, trim: true, maxlength: 50 }],
     difficulty: {
       type: String,
-      enum: ["Easy", "Medium", "Hard"],
+      enum: ['Easy', 'Medium', 'Hard'],
     },
     frequency: {
       type: Number,
@@ -191,7 +210,7 @@ const JobPrepResourceSchema = new Schema<IJobPrepResource>(
       {
         type: String,
         trim: true,
-        match: [/^https?:\/\/.+/i, "Reference must be a valid URL"],
+        match: [/^https?:\/\/.+/i, 'Reference must be a valid URL'],
       },
     ],
     isPremium: {
@@ -202,8 +221,8 @@ const JobPrepResourceSchema = new Schema<IJobPrepResource>(
       type: Boolean,
       default: false,
     },
-    likes: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    bookmarks: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    likes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    bookmarks: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     viewCount: {
       type: Number,
       default: 0,
@@ -220,12 +239,12 @@ const JobPrepResourceSchema = new Schema<IJobPrepResource>(
     },
     createdBy: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
     },
     reviewedBy: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
     },
   },
   {
@@ -240,7 +259,7 @@ const UserBookmarkSchema = new Schema<IUserBookmark>(
   {
     user: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
     },
     resource: {
@@ -266,7 +285,7 @@ const UserPracticeSchema = new Schema<IUserPractice>(
   {
     user: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
     },
     resource: {
@@ -283,8 +302,8 @@ const UserPracticeSchema = new Schema<IUserPractice>(
     lastAttempted: { type: Date },
     masteryLevel: {
       type: String,
-      enum: ["Beginner", "Intermediate", "Advanced", "Expert"],
-      default: "Beginner",
+      enum: ['Beginner', 'Intermediate', 'Advanced', 'Expert'],
+      default: 'Beginner',
     },
   },
   {
@@ -293,9 +312,15 @@ const UserPracticeSchema = new Schema<IUserPractice>(
 );
 
 // Export models
-const JobPrepResource = models.JobPrepResource || model<IJobPrepResource>("JobPrepResource", JobPrepResourceSchema);
-const UserBookmark = models.UserBookmark || model<IUserBookmark>("UserBookmark", UserBookmarkSchema);
-const UserPractice = models.UserPractice || model<IUserPractice>("UserPractice", UserPracticeSchema);
+const JobPrepResource =
+  models.JobPrepResource ||
+  model<IJobPrepResource>('JobPrepResource', JobPrepResourceSchema);
+const UserBookmark =
+  models.UserBookmark ||
+  model<IUserBookmark>('UserBookmark', UserBookmarkSchema);
+const UserPractice =
+  models.UserPractice ||
+  model<IUserPractice>('UserPractice', UserPracticeSchema);
 
 export { JobPrepResource, UserBookmark, UserPractice };
 export default JobPrepResource;

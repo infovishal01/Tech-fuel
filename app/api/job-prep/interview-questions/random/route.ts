@@ -37,9 +37,13 @@ export async function GET(req: NextRequest) {
     }
 
     if (exclude) {
-      const excludeIds = exclude.split(',').filter((id: string) => mongoose.Types.ObjectId.isValid(id));
+      const excludeIds = exclude
+        .split(',')
+        .filter((id: string) => mongoose.Types.ObjectId.isValid(id));
       if (excludeIds.length > 0) {
-        query._id = { $nin: excludeIds.map((id: string) => new mongoose.Types.ObjectId(id)) };
+        query._id = {
+          $nin: excludeIds.map((id: string) => new mongoose.Types.ObjectId(id)),
+        };
       }
     }
 

@@ -4,7 +4,7 @@ import { connectDB } from '@/lib/mongodb';
 import User from '@/models/User';
 import Tutorial from '@/models/Tutorial';
 
-export async function GET(req: NextRequest) {
+export async function GET(_req: NextRequest) {
   try {
     // Auth guard — only admins can access stats
     const session = await getServerSession();
@@ -18,7 +18,9 @@ export async function GET(req: NextRequest) {
     await connectDB();
 
     // Verify the calling user has admin role
-    const adminUser = await User.findOne({ email: session.user.email }).select('role');
+    const adminUser = await User.findOne({ email: session.user.email }).select(
+      'role'
+    );
     if (!adminUser || adminUser.role !== 'admin') {
       return NextResponse.json(
         { success: false, message: 'Forbidden — admin only' },

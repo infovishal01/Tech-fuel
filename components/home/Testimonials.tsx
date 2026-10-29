@@ -16,7 +16,7 @@ const TESTIMONIALS: Testimonial[] = [
     company: 'Startup',
     avatar: 'RS',
     rating: 5,
-    text: 'Tech Fuel is the most practical learning platform I\'ve found. The AI chat tutor helped me understand complex React patterns in minutes, not hours.',
+    text: "Tech Fuel is the most practical learning platform I've found. The AI chat tutor helped me understand complex React patterns in minutes, not hours.",
   },
   {
     name: 'Anjali Patel',
@@ -40,7 +40,7 @@ const TESTIMONIALS: Testimonial[] = [
     company: 'E-commerce Co.',
     avatar: 'PS',
     rating: 5,
-    text: 'The system design tutorials are the best I\'ve read. Clear diagrams, real-world constraints, and structured walk-throughs that actually prepare you for interviews.',
+    text: "The system design tutorials are the best I've read. Clear diagrams, real-world constraints, and structured walk-throughs that actually prepare you for interviews.",
   },
   {
     name: 'Arjun Mehta',
@@ -56,7 +56,7 @@ const TESTIMONIALS: Testimonial[] = [
     company: 'Cloud Company',
     avatar: 'KR',
     rating: 5,
-    text: 'Finally a platform that treats developers as professionals. The content quality and depth is something you\'d pay hundreds for on other platforms.',
+    text: "Finally a platform that treats developers as professionals. The content quality and depth is something you'd pay hundreds for on other platforms.",
   },
 ];
 
@@ -86,7 +86,8 @@ export default function Testimonials() {
             ))}
           </div>
           <span className="text-sm text-zinc-400">
-            <span className="text-white font-semibold">4.9 / 5</span> from 500+ developers
+            <span className="text-white font-semibold">4.9 / 5</span> from 500+
+            developers
           </span>
         </div>
 
@@ -103,7 +104,10 @@ export default function Testimonials() {
               {/* Stars */}
               <div className="flex gap-0.5 mb-3">
                 {Array.from({ length: t.rating }).map((_, i) => (
-                  <Star key={i} className="w-3.5 h-3.5 fill-green-500 text-green-500" />
+                  <Star
+                    key={i}
+                    className="w-3.5 h-3.5 fill-green-500 text-green-500"
+                  />
                 ))}
               </div>
 

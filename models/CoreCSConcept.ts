@@ -1,21 +1,27 @@
-import { Schema, model, models, Document, Types } from "mongoose";
+import { Schema, model, models, Document, Types } from 'mongoose';
 
 // Core CS subjects
-export type CoreCSSubject = 
-  | "Operating Systems"
-  | "Database Systems"
-  | "Computer Networks"
-  | "Compiler Design"
-  | "Computer Organization"
-  | "Theory of Computation"
-  | "Algorithms"
-  | "Data Structures";
+export type CoreCSSubject =
+  | 'Operating Systems'
+  | 'Database Systems'
+  | 'Computer Networks'
+  | 'Compiler Design'
+  | 'Computer Organization'
+  | 'Theory of Computation'
+  | 'Algorithms'
+  | 'Data Structures';
 
 // Difficulty level
-export type ConceptDifficulty = "Beginner" | "Intermediate" | "Advanced";
+export type ConceptDifficulty = 'Beginner' | 'Intermediate' | 'Advanced';
 
 // Content type
-export type ContentType = "Tutorial" | "Concept" | "Example" | "Quiz" | "Exercise" | "Project";
+export type ContentType =
+  | 'Tutorial'
+  | 'Concept'
+  | 'Example'
+  | 'Quiz'
+  | 'Exercise'
+  | 'Project';
 
 // Interface for Core CS Concept
 export interface ICoreCSConcept extends Document {
@@ -94,57 +100,57 @@ const CoreCSConceptSchema = new Schema<ICoreCSConcept>(
   {
     title: {
       type: String,
-      required: [true, "Title is required"],
+      required: [true, 'Title is required'],
       trim: true,
-      maxlength: [200, "Title cannot exceed 200 characters"],
+      maxlength: [200, 'Title cannot exceed 200 characters'],
       unique: true,
     },
     slug: {
       type: String,
-      required: [true, "Slug is required"],
+      required: [true, 'Slug is required'],
       trim: true,
       lowercase: true,
-      match: [/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Slug must be URL-friendly"],
+      match: [/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'Slug must be URL-friendly'],
       unique: true,
     },
     subject: {
       type: String,
       enum: [
-        "Operating Systems",
-        "Database Systems",
-        "Computer Networks",
-        "Compiler Design",
-        "Computer Organization",
-        "Theory of Computation",
-        "Algorithms",
-        "Data Structures",
+        'Operating Systems',
+        'Database Systems',
+        'Computer Networks',
+        'Compiler Design',
+        'Computer Organization',
+        'Theory of Computation',
+        'Algorithms',
+        'Data Structures',
       ],
-      required: [true, "Subject is required"],
+      required: [true, 'Subject is required'],
     },
     description: {
       type: String,
-      required: [true, "Description is required"],
+      required: [true, 'Description is required'],
       trim: true,
-      maxlength: [1000, "Description cannot exceed 1000 characters"],
+      maxlength: [1000, 'Description cannot exceed 1000 characters'],
     },
     content: {
       type: String,
-      required: [true, "Content is required"],
+      required: [true, 'Content is required'],
       trim: true,
     },
     contentType: {
       type: String,
-      enum: ["Tutorial", "Concept", "Example", "Quiz", "Exercise", "Project"],
-      default: "Tutorial",
+      enum: ['Tutorial', 'Concept', 'Example', 'Quiz', 'Exercise', 'Project'],
+      default: 'Tutorial',
     },
     difficulty: {
       type: String,
-      enum: ["Beginner", "Intermediate", "Advanced"],
-      default: "Beginner",
+      enum: ['Beginner', 'Intermediate', 'Advanced'],
+      default: 'Beginner',
     },
     tags: [{ type: String, lowercase: true, trim: true, maxlength: 50 }],
-    prerequisites: [{ type: Schema.Types.ObjectId, ref: "CoreCSConcept" }],
-    relatedConcepts: [{ type: Schema.Types.ObjectId, ref: "CoreCSConcept" }],
+    prerequisites: [{ type: Schema.Types.ObjectId, ref: 'CoreCSConcept' }],
+    relatedConcepts: [{ type: Schema.Types.ObjectId, ref: 'CoreCSConcept' }],
     examples: [
       {
         title: { type: String, required: true },
@@ -165,10 +171,7 @@ const CoreCSConceptSchema = new Schema<ICoreCSConcept>(
       {
         type: String,
         trim: true,
-        match: [
-          /^https?:\/\/.+/i,
-          "Reference must be a valid URL",
-        ],
+        match: [/^https?:\/\/.+/i, 'Reference must be a valid URL'],
       },
     ],
     diagramUrl: {
@@ -176,7 +179,7 @@ const CoreCSConceptSchema = new Schema<ICoreCSConcept>(
       trim: true,
       match: [
         /^https?:\/\/.+\.(png|jpg|jpeg|gif|svg|webp)$/i,
-        "Diagram URL must be a valid image URL",
+        'Diagram URL must be a valid image URL',
       ],
     },
     videoUrl: {
@@ -184,7 +187,7 @@ const CoreCSConceptSchema = new Schema<ICoreCSConcept>(
       trim: true,
       match: [
         /^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/|vimeo\.com\/)/i,
-        "Video URL must be a valid YouTube or Vimeo URL",
+        'Video URL must be a valid YouTube or Vimeo URL',
       ],
     },
     durationMinutes: {
@@ -201,8 +204,8 @@ const CoreCSConceptSchema = new Schema<ICoreCSConcept>(
       type: Boolean,
       default: false,
     },
-    likes: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    bookmarks: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    likes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    bookmarks: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     viewCount: {
       type: Number,
       default: 0,
@@ -223,12 +226,12 @@ const CoreCSConceptSchema = new Schema<ICoreCSConcept>(
     },
     createdBy: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
     },
     reviewedBy: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
     },
   },
   {
@@ -243,12 +246,12 @@ const QuizSubmissionSchema = new Schema<IQuizSubmission>(
   {
     concept: {
       type: Schema.Types.ObjectId,
-      ref: "CoreCSConcept",
+      ref: 'CoreCSConcept',
       required: true,
     },
     user: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
     },
     answers: [
@@ -290,25 +293,25 @@ const UserProgressSchema = new Schema<IUserProgress>(
   {
     user: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
     },
     concept: {
       type: Schema.Types.ObjectId,
-      ref: "CoreCSConcept",
+      ref: 'CoreCSConcept',
       required: true,
     },
     subject: {
       type: String,
       enum: [
-        "Operating Systems",
-        "Database Systems",
-        "Computer Networks",
-        "Compiler Design",
-        "Computer Organization",
-        "Theory of Computation",
-        "Algorithms",
-        "Data Structures",
+        'Operating Systems',
+        'Database Systems',
+        'Computer Networks',
+        'Compiler Design',
+        'Computer Organization',
+        'Theory of Computation',
+        'Algorithms',
+        'Data Structures',
       ],
       required: true,
     },
@@ -329,9 +332,15 @@ const UserProgressSchema = new Schema<IUserProgress>(
 );
 
 // Export models
-const CoreCSConcept = models.CoreCSConcept || model<ICoreCSConcept>("CoreCSConcept", CoreCSConceptSchema);
-const QuizSubmission = models.QuizSubmission || model<IQuizSubmission>("QuizSubmission", QuizSubmissionSchema);
-const UserProgress = models.UserProgress || model<IUserProgress>("UserProgress", UserProgressSchema);
+const CoreCSConcept =
+  models.CoreCSConcept ||
+  model<ICoreCSConcept>('CoreCSConcept', CoreCSConceptSchema);
+const QuizSubmission =
+  models.QuizSubmission ||
+  model<IQuizSubmission>('QuizSubmission', QuizSubmissionSchema);
+const UserProgress =
+  models.UserProgress ||
+  model<IUserProgress>('UserProgress', UserProgressSchema);
 
 export { CoreCSConcept, QuizSubmission, UserProgress };
 export default CoreCSConcept;

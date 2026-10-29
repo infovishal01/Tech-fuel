@@ -10,7 +10,16 @@ const HIGHLIGHTS = [
   'Career roadmap generator',
 ];
 
-const TECH_STACK = ['React', 'Node.js', 'Python', 'TypeScript', 'Next.js', 'PostgreSQL', 'Docker', 'AWS'];
+const TECH_STACK = [
+  'React',
+  'Node.js',
+  'Python',
+  'TypeScript',
+  'Next.js',
+  'PostgreSQL',
+  'Docker',
+  'AWS',
+];
 
 export default function Hero() {
   return (
@@ -21,7 +30,6 @@ export default function Hero() {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 pt-20 pb-16 sm:pt-28 sm:pb-24">
         <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
-
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-green-500/20 bg-green-500/5 text-green-400 text-xs font-medium mb-8 hover:border-green-500/40 transition-colors cursor-default">
             <Sparkles className="w-3.5 h-3.5" />

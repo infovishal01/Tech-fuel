@@ -4,19 +4,19 @@
 // Vlog Types
 // ============================================
 
-export type VlogCategory = 
-  | "Tech Updates"
-  | "Tutorials"
-  | "Learning Resources"
-  | "Success Stories"
-  | "Interviews"
-  | "Career Advice"
-  | "Industry News"
-  | "Product Releases"
-  | "Community"
-  | "Events";
+export type VlogCategory =
+  | 'Tech Updates'
+  | 'Tutorials'
+  | 'Learning Resources'
+  | 'Success Stories'
+  | 'Interviews'
+  | 'Career Advice'
+  | 'Industry News'
+  | 'Product Releases'
+  | 'Community'
+  | 'Events';
 
-export type VlogStatus = "Draft" | "Published" | "Archived";
+export type VlogStatus = 'Draft' | 'Published' | 'Archived';
 
 export interface VlogPost {
   _id: string;
@@ -84,36 +84,48 @@ export interface VlogStats {
 // Job Prep Types
 // ============================================
 
-export type ResourceType = 
-  | "Resume Template"
-  | "Cover Letter"
-  | "Interview Question"
-  | "Company Guide"
-  | "Remote Job Tip"
-  | "Negotiation Guide"
-  | "Portfolio Tip"
-  | "LinkedIn Guide"
-  | "GitHub Guide"
-  | "Behavioral Question"
-  | "Technical Question"
-  | "Coding Challenge";
+export type ResourceType =
+  | 'Resume Template'
+  | 'Cover Letter'
+  | 'Interview Question'
+  | 'Company Guide'
+  | 'Remote Job Tip'
+  | 'Negotiation Guide'
+  | 'Portfolio Tip'
+  | 'LinkedIn Guide'
+  | 'GitHub Guide'
+  | 'Behavioral Question'
+  | 'Technical Question'
+  | 'Coding Challenge';
 
-export type JobCategory = 
-  | "Frontend"
-  | "Backend"
-  | "Full Stack"
-  | "DevOps"
-  | "Data Science"
-  | "ML Engineer"
-  | "AI Engineer"
-  | "Mobile Developer"
-  | "QA Engineer"
-  | "Product Manager"
-  | "Data Engineer";
+export type JobCategory =
+  | 'Frontend'
+  | 'Backend'
+  | 'Full Stack'
+  | 'DevOps'
+  | 'Data Science'
+  | 'ML Engineer'
+  | 'AI Engineer'
+  | 'Mobile Developer'
+  | 'QA Engineer'
+  | 'Product Manager'
+  | 'Data Engineer';
 
-export type ExperienceLevel = "Fresher" | "Junior" | "Mid Level" | "Senior" | "Lead" | "Manager";
+export type ExperienceLevel =
+  | 'Fresher'
+  | 'Junior'
+  | 'Mid Level'
+  | 'Senior'
+  | 'Lead'
+  | 'Manager';
 
-export type CompanyTier = "FAANG" | "Unicorn" | "Startup" | "MNC" | "Product Based" | "Service Based";
+export type CompanyTier =
+  | 'FAANG'
+  | 'Unicorn'
+  | 'Startup'
+  | 'MNC'
+  | 'Product Based'
+  | 'Service Based';
 
 export interface JobPrepResource {
   _id: string;
@@ -127,7 +139,7 @@ export interface JobPrepResource {
   companyName?: string;
   content: string;
   tags: string[];
-  difficulty?: "Easy" | "Medium" | "Hard";
+  difficulty?: 'Easy' | 'Medium' | 'Hard';
   frequency?: number;
   importance?: number;
   sampleAnswer?: string;
@@ -165,7 +177,7 @@ export interface UserPractice {
     notes?: string;
   }[];
   lastAttempted?: string;
-  masteryLevel: "Beginner" | "Intermediate" | "Advanced" | "Expert";
+  masteryLevel: 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert';
   createdAt: string;
   updatedAt: string;
 }
@@ -203,6 +215,6 @@ export interface JobPrepDashboard {
   progress: {
     bookmarked: number;
     practiced: number;
-    masteryLevel: "Beginner" | "Intermediate" | "Advanced" | "Expert";
+    masteryLevel: 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert';
   };
 }

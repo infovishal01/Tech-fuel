@@ -24,6 +24,7 @@ A comprehensive **AI-powered learning platform** built with **Next.js 16**, **Ta
 ## 🎯 Learning Tracks
 
 ### AI & LLM Track
+
 - Introduction to AI/ML
 - LLM Fundamentals (Transformers, Attention)
 - Prompt Engineering
@@ -33,6 +34,7 @@ A comprehensive **AI-powered learning platform** built with **Next.js 16**, **Ta
 - AI in Production
 
 ### Data Structures & Algorithms Track
+
 **Data Structures:** Arrays, Linked Lists, Stacks, Queues, Trees, Graphs, Heaps, Hash Tables, DSU, Bloom Filters, LRU Cache
 
 **Algorithms:** Sorting, Searching, Graph Algorithms, Dynamic Programming, Greedy, Backtracking, Divide & Conquer, String Algorithms
@@ -40,6 +42,7 @@ A comprehensive **AI-powered learning platform** built with **Next.js 16**, **Ta
 **Practice Platform:** 1000+ Problems, Multi-language Support, Company-wise Questions, Contests, Solutions with Complexity Analysis
 
 ### System Design Track
+
 **Fundamentals:** Scalability, Availability, CAP Theorem, Load Balancing, Caching, Database Design
 
 **Case Studies:** TinyURL, Pastebin, Twitter, Facebook, Uber, Airbnb, Netflix, YouTube, WhatsApp, Zoom, Reddit, E-commerce, Payment Systems
@@ -47,6 +50,7 @@ A comprehensive **AI-powered learning platform** built with **Next.js 16**, **Ta
 **Advanced:** Microservices, Event-Driven Architecture, Serverless, Service Mesh, API Gateway, Rate Limiting, Circuit Breakers, Distributed Transactions
 
 ### Core Computer Engineering Track
+
 - **Operating Systems:** Processes, Memory Management, File Systems, Synchronization, Deadlocks
 - **Database Systems:** Relational Model, SQL, Normalization, Indexing, Transactions, Concurrency Control, NoSQL
 - **Computer Networks:** OSI Model, Physical Layer, Data Link Layer, Network Layer, Transport Layer, Application Layer, Security
@@ -55,6 +59,7 @@ A comprehensive **AI-powered learning platform** built with **Next.js 16**, **Ta
 - **Theory of Computation:** Finite Automata, Pushdown Automata, Turing Machines, Complexity Theory
 
 ### Backend Development Track
+
 **Languages:** Node.js, Python, Java, Go, Rust
 
 **Concepts:** REST API Design, GraphQL, gRPC, WebSockets, Authentication, Rate Limiting, API Versioning
@@ -62,6 +67,7 @@ A comprehensive **AI-powered learning platform** built with **Next.js 16**, **Ta
 **Code Lab:** Live Code Execution, API Testing, Debugging, Code Templates, Error Explanations
 
 ### Job & Remote Job Preparation Track
+
 - Resume & Profile Building
 - Interview Preparation (DSA, System Design, Behavioral)
 - Remote Job Specifics
@@ -73,6 +79,7 @@ A comprehensive **AI-powered learning platform** built with **Next.js 16**, **Ta
 ## Tech Stack
 
 ### Frontend
+
 - **Framework:** Next.js 16 (App Router)
 - **Language:** TypeScript
 - **UI:** React 19, Tailwind CSS v4
@@ -83,6 +90,7 @@ A comprehensive **AI-powered learning platform** built with **Next.js 16**, **Ta
 - **Components:** Custom Layout, Header, Sidebar, Footer
 
 ### Backend
+
 - **API:** Next.js API Routes (RESTful)
 - **Database:** MongoDB Atlas (Cloud-based NoSQL)
 - **ODM:** Mongoose for MongoDB schema modeling
@@ -91,15 +99,18 @@ A comprehensive **AI-powered learning platform** built with **Next.js 16**, **Ta
 - **AI Integration:** OpenAI SDK for LLM interactions
 
 ### AI & Machine Learning
+
 - **Model:** OpenAI GPT-4o-mini with Streaming
 - **Features:** AI Chat, Code Generation, Mock Interviews, Project Generation, Career Roadmaps
 
 ### Quality & Developer Experience
+
 - **Validation:** Zod for schema validation
 - **Linting:** ESLint for code quality
 - **Formatting:** Prettier for consistent code style
 
 ### DevOps
+
 - **Deployment:** Vercel (recommended)
 - **Containerization:** Docker & Docker Compose support
 - **Environment:** Node.js 18+
@@ -111,11 +122,13 @@ A comprehensive **AI-powered learning platform** built with **Next.js 16**, **Ta
 This project uses MongoDB Atlas for cloud-based database hosting.
 
 **Connection String:**
+
 ```
 mongodb+srv://infovishalkumar01_db_user:FACNXr7epX4ZqPsu@cluster0.n1no7sj.mongodb.net/
 ```
 
 **Steps to connect:**
+
 1. Create a free MongoDB Atlas account at https://www.mongodb.com/atlas
 2. Create a new cluster (or use existing)
 3. Whitelist your IP address in Network Access
@@ -123,6 +136,7 @@ mongodb+srv://infovishalkumar01_db_user:FACNXr7epX4ZqPsu@cluster0.n1no7sj.mongod
 5. Update the `MONGODB_URI` in your `.env.local` file
 
 **Collections Required:**
+
 - `users` - User accounts and profiles
 - `dsa-problems` - DSA practice problems
 - `dsa-solutions` - Solutions to problems
@@ -143,12 +157,14 @@ mongodb+srv://infovishalkumar01_db_user:FACNXr7epX4ZqPsu@cluster0.n1no7sj.mongod
 ## Quick Start
 
 ### Prerequisites
+
 - Node.js 18+
 - npm or yarn
 - MongoDB database
 - OpenAI API key
 
 ### Installation
+
 ```bash
 git clone https://github.com/infovishal01/Tech-fuel.git
 cd Tech-fuel
@@ -271,6 +287,7 @@ tech-fuel/
 ## API Endpoints
 
 ### AI Features (Existing)
+
 - POST `/api/ai-chat` - Chat with AI
 - POST `/api/code-generator` - Generate code
 - POST `/api/mock-interview` - Mock interview
@@ -278,6 +295,7 @@ tech-fuel/
 - POST `/api/roadmap` - Career roadmap
 
 ### DSA Practice (NEW)
+
 - GET `/api/dsa/problems` - List all problems
 - GET `/api/dsa/problems/[id]` - Get specific problem
 - POST `/api/dsa/problems` - Create problem
@@ -289,6 +307,7 @@ tech-fuel/
 - GET `/api/dsa/submissions/[id]` - Get specific submission
 
 ### System Design (NEW)
+
 - GET `/api/system-design/case-studies` - List all case studies
 - GET `/api/system-design/case-studies/[id]` - Get specific case study
 - POST `/api/system-design/case-studies` - Create case study
@@ -298,6 +317,7 @@ tech-fuel/
 - GET `/api/system-design/submissions/[id]` - Get specific submission
 
 ### Core CS (NEW)
+
 - GET `/api/core-cs/concepts` - List all concepts
 - GET `/api/core-cs/concepts/[id]` - Get specific concept
 - POST `/api/core-cs/concepts` - Create concept
@@ -307,6 +327,7 @@ tech-fuel/
 - GET `/api/core-cs/quizzes/[id]` - Get quiz with answer submission
 
 ### Backend Examples (NEW)
+
 - GET `/api/backend-examples` - List all examples
 - GET `/api/backend-examples/[id]` - Get specific example
 - POST `/api/backend-examples` - Create example
@@ -315,6 +336,7 @@ tech-fuel/
 - POST `/api/backend-examples/run` - Run code execution
 
 ### Vlog/Blog (NEW)
+
 - GET `/api/vlog/posts` - List all posts
 - GET `/api/vlog/posts/[id]` - Get specific post
 - POST `/api/vlog/posts` - Create post
@@ -327,6 +349,7 @@ tech-fuel/
 - DELETE `/api/vlog/comments/[id]` - Delete comment
 
 ### Job Preparation (NEW)
+
 - GET `/api/job-prep/resume-templates` - List resume templates
 - GET `/api/job-prep/resume-templates/[id]` - Get single template
 - GET `/api/job-prep/interview-questions` - List interview questions
@@ -340,6 +363,7 @@ tech-fuel/
 ## Learning Paths
 
 ### Full Stack Developer (6 months)
+
 1. Core CS Fundamentals (2 weeks)
 2. Programming Languages (4 weeks)
 3. Data Structures & Algorithms (6 weeks)
@@ -350,6 +374,7 @@ tech-fuel/
 8. Job Preparation (2 weeks)
 
 ### AI/ML Engineer (6 months)
+
 1. Mathematics for AI (4 weeks)
 2. Programming for AI (4 weeks)
 3. Machine Learning (6 weeks)
@@ -358,6 +383,7 @@ tech-fuel/
 6. AI in Production (4 weeks)
 
 ### Backend Engineer (6 months)
+
 1. Core CS (3 weeks)
 2. Programming (6 weeks)
 3. Databases (4 weeks)
@@ -366,6 +392,7 @@ tech-fuel/
 6. DevOps (4 weeks)
 
 ### Frontend Engineer (6 months)
+
 1. Core CS & Web (4 weeks)
 2. HTML/CSS (3 weeks)
 3. JavaScript & TypeScript (4 weeks)
@@ -379,25 +406,28 @@ tech-fuel/
 ## Deployment
 
 ### Vercel (Recommended)
+
 ```bash
 git push origin main
 # Deploy from Vercel Dashboard
 ```
 
 ### Docker
+
 ```bash
 docker build -t tech-fuel .
 docker run -d -p 3000:3000 --env-file .env.local tech-fuel
 ```
 
 ### Docker Compose
+
 ```yaml
 version: '3.8'
 services:
   app:
     build: .
     ports:
-      - "3000:3000"
+      - '3000:3000'
     env_file:
       - .env.local
 ```

@@ -72,7 +72,14 @@ export async function POST(req: NextRequest) {
     } = body;
 
     // Validation
-    if (!problem || !user || !code || !language || !timeComplexity || !spaceComplexity) {
+    if (
+      !problem ||
+      !user ||
+      !code ||
+      !language ||
+      !timeComplexity ||
+      !spaceComplexity
+    ) {
       return NextResponse.json(
         {
           success: false,

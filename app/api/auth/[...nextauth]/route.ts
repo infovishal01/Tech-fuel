@@ -61,7 +61,9 @@ export const authOptions: NextAuthOptions = {
       if (user?.email) {
         try {
           await connectDB();
-          const dbUser = await User.findOne({ email: user.email }).select('_id role');
+          const dbUser = await User.findOne({ email: user.email }).select(
+            '_id role'
+          );
           if (dbUser) {
             token.userId = String(dbUser._id);
             token.role = dbUser.role as string;
@@ -78,8 +80,12 @@ export const authOptions: NextAuthOptions = {
      */
     async session({ session, token }) {
       if (token && session.user) {
-        (session.user as typeof session.user & { id?: string; role?: string }).id = token.userId as string;
-        (session.user as typeof session.user & { id?: string; role?: string }).role = token.role as string;
+        (
+          session.user as typeof session.user & { id?: string; role?: string }
+        ).id = token.userId as string;
+        (
+          session.user as typeof session.user & { id?: string; role?: string }
+        ).role = token.role as string;
       }
       return session;
     },

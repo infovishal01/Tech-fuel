@@ -13,6 +13,7 @@ isRunnable: true
 ## Overview
 
 This tutorial will guide you through building a complete RESTful CRUD API using:
+
 - **Node.js** - JavaScript runtime
 - **Express.js** - Web framework for Node.js
 - **MongoDB** - NoSQL database
@@ -113,56 +114,59 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Please add a product name'],
       trim: true,
-      maxlength: [100, 'Product name cannot be more than 100 characters']
+      maxlength: [100, 'Product name cannot be more than 100 characters'],
     },
     description: {
       type: String,
       required: [true, 'Please add a product description'],
-      maxlength: [500, 'Product description cannot be more than 500 characters']
+      maxlength: [
+        500,
+        'Product description cannot be more than 500 characters',
+      ],
     },
     price: {
       type: Number,
       required: [true, 'Please add a product price'],
-      min: [0, 'Product price cannot be negative']
+      min: [0, 'Product price cannot be negative'],
     },
     quantity: {
       type: Number,
       required: [true, 'Please add a product quantity'],
       min: [0, 'Product quantity cannot be negative'],
-      default: 0
+      default: 0,
     },
     category: {
       type: String,
       required: [true, 'Please add a product category'],
-      enum: ['Electronics', 'Clothing', 'Books', 'Food', 'Other']
+      enum: ['Electronics', 'Clothing', 'Books', 'Food', 'Other'],
     },
     inStock: {
       type: Boolean,
-      default: true
+      default: true,
     },
     createdAt: {
       type: Date,
-      default: Date.now
+      default: Date.now,
     },
     updatedAt: {
       type: Date,
-      default: Date.now
-    }
+      default: Date.now,
+    },
   },
   {
     timestamps: true,
     toJSON: { virtuals: true },
-    toObject: { virtuals: true }
+    toObject: { virtuals: true },
   }
 );
 
 // Virtual for formatted price
-productSchema.virtual('formattedPrice').get(function() {
+productSchema.virtual('formattedPrice').get(function () {
   return `$${this.price.toFixed(2)}`;
 });
 
 // Pre-save middleware to update updatedAt
-productSchema.pre('save', function(next) {
+productSchema.pre('save', function (next) {
   this.updatedAt = Date.now();
   next();
 });
@@ -182,20 +186,27 @@ const asyncHandler = require('express-async-handler');
 // @route   GET /api/products
 // @access  Public
 const getProducts = asyncHandler(async (req, res) => {
-  const { page = 1, limit = 10, category, inStock, sortBy, sortOrder } = req.query;
-  
+  const {
+    page = 1,
+    limit = 10,
+    category,
+    inStock,
+    sortBy,
+    sortOrder,
+  } = req.query;
+
   const query = {};
-  
+
   // Filter by category
   if (category) {
     query.category = category;
   }
-  
+
   // Filter by stock status
   if (inStock) {
     query.inStock = inStock === 'true';
   }
-  
+
   // Sorting
   const sort = {};
   if (sortBy) {
@@ -203,28 +214,28 @@ const getProducts = asyncHandler(async (req, res) => {
   } else {
     sort.createdAt = -1; // Default: newest first
   }
-  
+
   // Pagination
   const pageNumber = parseInt(page);
   const limitNumber = parseInt(limit);
   const skip = (pageNumber - 1) * limitNumber;
-  
+
   // Get total count for pagination
   const total = await Product.countDocuments(query);
-  
+
   // Get products
   const products = await Product.find(query)
     .sort(sort)
     .skip(skip)
     .limit(limitNumber);
-  
+
   res.json({
     success: true,
     count: products.length,
     total,
     pages: Math.ceil(total / limitNumber),
     page: pageNumber,
-    data: products
+    data: products,
   });
 });
 
@@ -233,15 +244,15 @@ const getProducts = asyncHandler(async (req, res) => {
 // @access  Public
 const getProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
-  
+
   if (!product) {
     res.status(404);
     throw new Error('Product not found');
   }
-  
+
   res.json({
     success: true,
-    data: product
+    data: product,
   });
 });
 
@@ -250,13 +261,13 @@ const getProduct = asyncHandler(async (req, res) => {
 // @access  Public
 const createProduct = asyncHandler(async (req, res) => {
   const { name, description, price, quantity, category } = req.body;
-  
+
   // Validate required fields
   if (!name || !description || !price || !quantity || !category) {
     res.status(400);
     throw new Error('Please fill in all fields');
   }
-  
+
   // Create product
   const product = await Product.create({
     name,
@@ -264,13 +275,13 @@ const createProduct = asyncHandler(async (req, res) => {
     price,
     quantity,
     category,
-    inStock: quantity > 0
+    inStock: quantity > 0,
   });
-  
+
   res.status(201).json({
     success: true,
     message: 'Product created successfully',
-    data: product
+    data: product,
   });
 });
 
@@ -279,14 +290,14 @@ const createProduct = asyncHandler(async (req, res) => {
 // @access  Public
 const updateProduct = asyncHandler(async (req, res) => {
   const { name, description, price, quantity, category, inStock } = req.body;
-  
+
   const product = await Product.findById(req.params.id);
-  
+
   if (!product) {
     res.status(404);
     throw new Error('Product not found');
   }
-  
+
   // Update fields if provided
   if (name) product.name = name;
   if (description) product.description = description;
@@ -294,18 +305,18 @@ const updateProduct = asyncHandler(async (req, res) => {
   if (quantity) product.quantity = quantity;
   if (category) product.category = category;
   if (inStock !== undefined) product.inStock = inStock;
-  
+
   // Update inStock based on quantity
   if (quantity !== undefined) {
     product.inStock = quantity > 0;
   }
-  
+
   const updatedProduct = await product.save();
-  
+
   res.json({
     success: true,
     message: 'Product updated successfully',
-    data: updatedProduct
+    data: updatedProduct,
   });
 });
 
@@ -314,17 +325,17 @@ const updateProduct = asyncHandler(async (req, res) => {
 // @access  Public
 const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
-  
+
   if (!product) {
     res.status(404);
     throw new Error('Product not found');
   }
-  
+
   await product.remove();
-  
+
   res.json({
     success: true,
-    message: 'Product deleted successfully'
+    message: 'Product deleted successfully',
   });
 });
 
@@ -333,7 +344,7 @@ module.exports = {
   getProduct,
   createProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
 };
 ```
 
@@ -349,7 +360,7 @@ const {
   getProduct,
   createProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
 } = require('../controllers/product.controller');
 
 // GET /api/products - Get all products
@@ -408,8 +419,8 @@ app.get('/', (req, res) => {
     message: 'Welcome to CRUD API',
     endpoints: {
       products: '/api/products',
-      health: '/api/health'
-    }
+      health: '/api/health',
+    },
   });
 });
 
@@ -417,11 +428,11 @@ app.get('/', (req, res) => {
 app.use((err, req, res, next) => {
   const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
   res.status(statusCode);
-  
+
   res.json({
     success: false,
     message: err.message,
-    stack: process.env.NODE_ENV === 'production' ? null : err.stack
+    stack: process.env.NODE_ENV === 'production' ? null : err.stack,
   });
 });
 
@@ -459,9 +470,11 @@ The server will start on `http://localhost:3000`
 ## API Endpoints
 
 ### GET /api/products
+
 Get all products with pagination, filtering, and sorting.
 
 **Query Parameters:**
+
 - `page` - Page number (default: 1)
 - `limit` - Items per page (default: 10)
 - `category` - Filter by category
@@ -470,11 +483,13 @@ Get all products with pagination, filtering, and sorting.
 - `sortOrder` - Sort order (asc/desc, default: desc)
 
 **Example:**
+
 ```
 GET /api/products?page=1&limit=5&category=Electronics&inStock=true&sortBy=price&sortOrder=asc
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -494,21 +509,24 @@ GET /api/products?page=1&limit=5&category=Electronics&inStock=true&sortBy=price&
       "createdAt": "2024-01-15T10:00:00.000Z",
       "updatedAt": "2024-01-15T10:00:00.000Z",
       "formattedPrice": "$599.99"
-    },
+    }
     // ... more products
   ]
 }
 ```
 
 ### GET /api/products/:id
+
 Get a single product by ID.
 
 **Example:**
+
 ```
 GET /api/products/65a1b2c3d4e5f6a7b8c9d0e1
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -528,9 +546,11 @@ GET /api/products/65a1b2c3d4e5f6a7b8c9d0e1
 ```
 
 ### POST /api/products
+
 Create a new product.
 
 **Request Body:**
+
 ```json
 {
   "name": "Smartphone",
@@ -542,6 +562,7 @@ Create a new product.
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -562,9 +583,11 @@ Create a new product.
 ```
 
 ### PUT /api/products/:id
+
 Update an existing product.
 
 **Request Body:**
+
 ```json
 {
   "name": "Smartphone Pro",
@@ -574,6 +597,7 @@ Update an existing product.
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -594,9 +618,11 @@ Update an existing product.
 ```
 
 ### DELETE /api/products/:id
+
 Delete a product.
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -632,6 +658,7 @@ curl -X DELETE http://localhost:3000/api/products/<product-id>
 ```
 
 ### Postman
+
 Import the following Postman collection:
 
 ```json
@@ -763,28 +790,33 @@ Import the following Postman collection:
 ## Best Practices
 
 ### 1. Error Handling
+
 - Always handle errors gracefully
 - Provide meaningful error messages
 - Use appropriate HTTP status codes
 
 ### 2. Validation
+
 - Validate input data
 - Use mongoose schema validation
 - Add custom validation logic
 
 ### 3. Security
+
 - Sanitize user input
 - Prevent NoSQL injection
 - Use environment variables for sensitive data
 - Implement rate limiting
 
 ### 4. Performance
+
 - Use indexing for frequently queried fields
 - Implement caching
 - Optimize database queries
 - Use pagination for large datasets
 
 ### 5. Code Organization
+
 - Separate concerns (routes, controllers, models)
 - Use middleware for common functionality
 - Keep controllers thin
@@ -801,6 +833,7 @@ Import the following Postman collection:
 ## Extensions
 
 ### 1. Authentication
+
 Add JWT authentication for protected routes:
 
 ```bash
@@ -808,6 +841,7 @@ npm install jsonwebtoken bcryptjs cookie-parser
 ```
 
 ### 2. File Upload
+
 Add file upload support:
 
 ```bash
@@ -815,6 +849,7 @@ npm install multer
 ```
 
 ### 3. Swagger Documentation
+
 Add API documentation:
 
 ```bash
@@ -822,6 +857,7 @@ npm install swagger-jsdoc swagger-ui-express
 ```
 
 ### 4. Testing
+
 Add unit and integration tests:
 
 ```bash
@@ -831,30 +867,35 @@ npm install --save-dev jest supertest @babel/core @babel/preset-env
 ## Key Concepts
 
 ### REST API
+
 - **REpresentational State Transfer** architecture
 - Uses HTTP methods (GET, POST, PUT, DELETE)
 - Stateless (each request contains all information)
 - Resource-based (URLs represent resources)
 
 ### CRUD
+
 - **Create** - POST /products
 - **Read** - GET /products, GET /products/:id
 - **Update** - PUT /products/:id, PATCH /products/:id
 - **Delete** - DELETE /products/:id
 
 ### Express.js
+
 - Web framework for Node.js
 - Middleware-based architecture
 - Routing system
 - Request/Response handling
 
 ### MongoDB
+
 - NoSQL database
 - Document-oriented
 - Flexible schema
 - Horizontal scaling
 
 ### Mongoose
+
 - MongoDB object modeling
 - Schema validation
 - Middleware support

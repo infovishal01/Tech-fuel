@@ -42,7 +42,6 @@ export default function DashboardLayout({ children }: Props) {
 
   return (
     <div className="min-h-screen bg-[#09090b] flex">
-
       {/* ── Sidebar ──────────────────────────────────────────────────────── */}
       {/* Mobile overlay */}
       {mobileOpen && (
@@ -72,7 +71,9 @@ export default function DashboardLayout({ children }: Props) {
               <p className="text-base font-bold tracking-tight">
                 Tech<span className="text-green-500">Fuel</span>
               </p>
-              <p className="text-[10px] text-zinc-600 leading-none">Workspace</p>
+              <p className="text-[10px] text-zinc-600 leading-none">
+                Workspace
+              </p>
             </div>
           </Link>
         </div>
@@ -129,7 +130,6 @@ export default function DashboardLayout({ children }: Props) {
 
       {/* ── Right panel: topbar + content ────────────────────────────────── */}
       <div className="flex-1 flex flex-col min-w-0 lg:ml-0">
-
         {/* Top bar */}
         <header className="h-16 flex-shrink-0 border-b border-white/5 bg-[#09090b]/80 backdrop-blur-xl flex items-center justify-between px-4 sm:px-6 gap-4 sticky top-0 z-20">
           {/* Left: hamburger (mobile) + page title */}
@@ -162,7 +162,9 @@ export default function DashboardLayout({ children }: Props) {
             <div className="hidden md:flex items-center gap-2 h-9 px-3 rounded-lg bg-white/[0.04] border border-white/8 text-zinc-500 text-sm hover:border-white/15 transition-colors cursor-text">
               <Search className="w-3.5 h-3.5" />
               <span className="text-xs">Search...</span>
-              <kbd className="ml-2 text-[10px] border border-white/10 rounded px-1 py-0.5 text-zinc-600">⌘K</kbd>
+              <kbd className="ml-2 text-[10px] border border-white/10 rounded px-1 py-0.5 text-zinc-600">
+                ⌘K
+              </kbd>
             </div>
 
             {/* Notifications */}

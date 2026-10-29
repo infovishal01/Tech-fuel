@@ -16,6 +16,7 @@
 ### First Normal Form (1NF)
 
 A table is in 1NF if:
+
 - All attributes contain atomic (indivisible) values
 - There are no repeating groups
 - Each column contains only one value
@@ -46,6 +47,7 @@ After (1NF):
 ### Second Normal Form (2NF)
 
 A table is in 2NF if:
+
 - It is in 1NF
 - All non-key attributes are **fully functionally dependent** on the entire primary key
 - No partial dependencies (dependencies on part of the composite key)
@@ -85,6 +87,7 @@ Items table:
 ### Third Normal Form (3NF)
 
 A table is in 3NF if:
+
 - It is in 2NF
 - There are no **transitive dependencies** (non-key attributes depending on other non-key attributes)
 
@@ -128,6 +131,7 @@ Suppliers table:
 ### Boyce-Codd Normal Form (BCNF)
 
 A stronger version of 3NF. A table is in BCNF if:
+
 - It is in 3NF
 - For every functional dependency X → Y, X is a **superkey** (can uniquely identify a row)
 
@@ -170,11 +174,13 @@ Courses table:
 While normalization is generally good, sometimes **denormalization** is used:
 
 **Reasons to denormalize**:
+
 - Improve query performance (reduce joins)
 - Simplify complex queries
 - Support specific access patterns
 
 **Trade-offs**:
+
 - Increases data redundancy
 - Can lead to data inconsistencies
 - More storage required
@@ -342,7 +348,8 @@ Deleting a student who is the only one taking a course also deletes the course i
 
 ### Q1: What is the difference between 2NF and 3NF?
 
-**Answer**: 
+**Answer**:
+
 - 2NF eliminates partial dependencies (non-key attributes depending on part of a composite primary key)
 - 3NF eliminates transitive dependencies (non-key attributes depending on other non-key attributes)
 
@@ -357,6 +364,7 @@ Deleting a student who is the only one taking a course also deletes the course i
 ### Q4: Explain the difference between a primary key and a foreign key.
 
 **Answer**:
+
 - **Primary Key**: Uniquely identifies each row in a table
 - **Foreign Key**: References a primary key in another table, creating a relationship between tables
 
@@ -367,6 +375,7 @@ Deleting a student who is the only one taking a course also deletes the course i
 ## Exercises
 
 1. Normalize the following table to 3NF:
+
    ```
    Orders(OrderID, CustomerName, CustomerAddress, Product1, Product2, Product3, Total)
    ```
@@ -374,6 +383,7 @@ Deleting a student who is the only one taking a course also deletes the course i
 2. Create SQL statements to implement your normalized design.
 
 3. Identify the functional dependencies in this table:
+
    ```
    Employees(EmpID, Name, Department, DepartmentLocation, Skill1, Skill2, Skill3)
    ```

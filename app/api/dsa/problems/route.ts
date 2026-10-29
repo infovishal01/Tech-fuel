@@ -99,7 +99,13 @@ export async function POST(req: NextRequest) {
     } = body;
 
     // Validation
-    if (!title || !description || !problemStatement || !examples || !constraints) {
+    if (
+      !title ||
+      !description ||
+      !problemStatement ||
+      !examples ||
+      !constraints
+    ) {
       return NextResponse.json(
         {
           success: false,

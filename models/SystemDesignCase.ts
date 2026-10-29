@@ -1,25 +1,25 @@
-import { Schema, model, models, Document, Types } from "mongoose";
+import { Schema, model, models, Document, Types } from 'mongoose';
 
 // System design category
-export type SystemDesignCategory = 
-  | "Basics"
-  | "Scalability"
-  | "Performance"
-  | "Database Design"
-  | "Caching"
-  | "Load Balancing"
-  | "Microservices"
-  | "Real-time Systems"
-  | "Social Network"
-  | "E-commerce"
-  | "Messaging"
-  | "Streaming"
-  | "Search"
-  | "Payment Systems"
-  | "Analytics";
+export type SystemDesignCategory =
+  | 'Basics'
+  | 'Scalability'
+  | 'Performance'
+  | 'Database Design'
+  | 'Caching'
+  | 'Load Balancing'
+  | 'Microservices'
+  | 'Real-time Systems'
+  | 'Social Network'
+  | 'E-commerce'
+  | 'Messaging'
+  | 'Streaming'
+  | 'Search'
+  | 'Payment Systems'
+  | 'Analytics';
 
 // Difficulty level
-export type SystemDesignDifficulty = "Beginner" | "Intermediate" | "Advanced";
+export type SystemDesignDifficulty = 'Beginner' | 'Intermediate' | 'Advanced';
 
 // Interface for System Design Case Study
 export interface ISystemDesignCase extends Document {
@@ -83,50 +83,50 @@ const SystemDesignCaseSchema = new Schema<ISystemDesignCase>(
   {
     title: {
       type: String,
-      required: [true, "Title is required"],
+      required: [true, 'Title is required'],
       trim: true,
-      maxlength: [200, "Title cannot exceed 200 characters"],
+      maxlength: [200, 'Title cannot exceed 200 characters'],
       unique: true,
     },
     slug: {
       type: String,
-      required: [true, "Slug is required"],
+      required: [true, 'Slug is required'],
       trim: true,
       lowercase: true,
-      match: [/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Slug must be URL-friendly"],
+      match: [/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'Slug must be URL-friendly'],
       unique: true,
     },
     description: {
       type: String,
-      required: [true, "Description is required"],
+      required: [true, 'Description is required'],
       trim: true,
-      maxlength: [1000, "Description cannot exceed 1000 characters"],
+      maxlength: [1000, 'Description cannot exceed 1000 characters'],
     },
     category: {
       type: String,
       enum: [
-        "Basics",
-        "Scalability",
-        "Performance",
-        "Database Design",
-        "Caching",
-        "Load Balancing",
-        "Microservices",
-        "Real-time Systems",
-        "Social Network",
-        "E-commerce",
-        "Messaging",
-        "Streaming",
-        "Search",
-        "Payment Systems",
-        "Analytics",
+        'Basics',
+        'Scalability',
+        'Performance',
+        'Database Design',
+        'Caching',
+        'Load Balancing',
+        'Microservices',
+        'Real-time Systems',
+        'Social Network',
+        'E-commerce',
+        'Messaging',
+        'Streaming',
+        'Search',
+        'Payment Systems',
+        'Analytics',
       ],
-      default: "Basics",
+      default: 'Basics',
     },
     difficulty: {
       type: String,
-      enum: ["Beginner", "Intermediate", "Advanced"],
-      default: "Intermediate",
+      enum: ['Beginner', 'Intermediate', 'Advanced'],
+      default: 'Intermediate',
     },
     tags: [{ type: String, lowercase: true, trim: true, maxlength: 50 }],
     requirements: [{ type: String, trim: true }],
@@ -136,12 +136,12 @@ const SystemDesignCaseSchema = new Schema<ISystemDesignCase>(
       users: { type: Number, default: 0 },
       readsPerSecond: { type: Number, default: 0 },
       writesPerSecond: { type: Number, default: 0 },
-      storage: { type: String, default: "" },
-      bandwidth: { type: String, default: "" },
+      storage: { type: String, default: '' },
+      bandwidth: { type: String, default: '' },
     },
     highLevelDesign: {
       type: String,
-      required: [true, "High level design is required"],
+      required: [true, 'High level design is required'],
       trim: true,
     },
     detailedDesign: {
@@ -167,17 +167,14 @@ const SystemDesignCaseSchema = new Schema<ISystemDesignCase>(
       trim: true,
       match: [
         /^https?:\/\/.+\.(png|jpg|jpeg|gif|svg|webp)$/i,
-        "Diagram URL must be a valid image URL",
+        'Diagram URL must be a valid image URL',
       ],
     },
     references: [
       {
         type: String,
         trim: true,
-        match: [
-          /^https?:\/\/.+/i,
-          "Reference must be a valid URL",
-        ],
+        match: [/^https?:\/\/.+/i, 'Reference must be a valid URL'],
       },
     ],
     isPremium: {
@@ -188,20 +185,20 @@ const SystemDesignCaseSchema = new Schema<ISystemDesignCase>(
       type: Boolean,
       default: false,
     },
-    likes: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    bookmarks: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    likes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    bookmarks: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     viewCount: {
       type: Number,
       default: 0,
     },
     createdBy: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
     },
     reviewedBy: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
     },
   },
   {
@@ -216,17 +213,17 @@ const DesignSubmissionSchema = new Schema<IDesignSubmission>(
   {
     caseStudy: {
       type: Schema.Types.ObjectId,
-      ref: "SystemDesignCase",
+      ref: 'SystemDesignCase',
       required: true,
     },
     user: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
     },
     highLevelDesign: {
       type: String,
-      required: [true, "High level design is required"],
+      required: [true, 'High level design is required'],
       trim: true,
     },
     detailedDesign: {
@@ -249,7 +246,7 @@ const DesignSubmissionSchema = new Schema<IDesignSubmission>(
     },
     reviewedBy: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
     },
     reviewedAt: { type: Date },
   },
@@ -259,8 +256,12 @@ const DesignSubmissionSchema = new Schema<IDesignSubmission>(
 );
 
 // Export models
-const SystemDesignCase = models.SystemDesignCase || model<ISystemDesignCase>("SystemDesignCase", SystemDesignCaseSchema);
-const DesignSubmission = models.DesignSubmission || model<IDesignSubmission>("DesignSubmission", DesignSubmissionSchema);
+const SystemDesignCase =
+  models.SystemDesignCase ||
+  model<ISystemDesignCase>('SystemDesignCase', SystemDesignCaseSchema);
+const DesignSubmission =
+  models.DesignSubmission ||
+  model<IDesignSubmission>('DesignSubmission', DesignSubmissionSchema);
 
 export { SystemDesignCase, DesignSubmission };
 export default SystemDesignCase;

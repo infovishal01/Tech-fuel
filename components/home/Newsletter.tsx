@@ -12,7 +12,9 @@ const PERKS = [
 
 export default function Newsletter() {
   const [email, setEmail] = useState('');
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [status, setStatus] = useState<
+    'idle' | 'loading' | 'success' | 'error'
+  >('idle');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,15 +47,18 @@ export default function Newsletter() {
                 Stay Ahead of the Curve
               </h2>
               <p className="text-zinc-500 mt-3 text-sm sm:text-base">
-                Get weekly tutorials, AI tool updates, and career tips
-                delivered straight to your inbox.
+                Get weekly tutorials, AI tool updates, and career tips delivered
+                straight to your inbox.
               </p>
             </div>
 
             {/* Perks */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-8">
               {PERKS.map((perk) => (
-                <div key={perk} className="flex items-center gap-2 text-sm text-zinc-400">
+                <div
+                  key={perk}
+                  className="flex items-center gap-2 text-sm text-zinc-400"
+                >
                   <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" />
                   {perk}
                 </div>

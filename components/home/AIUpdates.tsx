@@ -1,5 +1,12 @@
 import Link from 'next/link';
-import { Bot, Code2, Briefcase, Lightbulb, MapPin, ArrowRight } from 'lucide-react';
+import {
+  Bot,
+  Code2,
+  Briefcase,
+  Lightbulb,
+  MapPin,
+  ArrowRight,
+} from 'lucide-react';
 
 interface AITool {
   icon: React.ComponentType<{ className?: string }>;
@@ -41,7 +48,7 @@ const AI_TOOLS: AITool[] = [
   {
     icon: Lightbulb,
     title: 'Project Ideas',
-    desc: 'Tell us your skills. We\'ll suggest projects that close your knowledge gaps and build your portfolio.',
+    desc: "Tell us your skills. We'll suggest projects that close your knowledge gaps and build your portfolio.",
     href: '/dashboard',
     accentColor: 'text-rose-400 bg-rose-400/10',
   },
@@ -67,8 +74,8 @@ export default function AIUpdates() {
             Your AI-Powered Dev Toolkit
           </h2>
           <p className="text-zinc-500 mt-3 max-w-lg mx-auto text-sm sm:text-base">
-            Five tools designed to accelerate how you learn, code, and land
-            your next role.
+            Five tools designed to accelerate how you learn, code, and land your
+            next role.
           </p>
         </div>
 

@@ -26,18 +26,26 @@ export async function GET(req: NextRequest) {
 
     // 1. Try Authorization header (custom JWT login)
     const authHeader = req.headers.get('authorization');
-    const token = authHeader?.startsWith('Bearer ') ? authHeader.split(' ')[1] : null;
+    const token = authHeader?.startsWith('Bearer ')
+      ? authHeader.split(' ')[1]
+      : null;
 
     if (token) {
       const secret = process.env.JWT_SECRET;
       if (!secret) {
-        return NextResponse.json({ message: 'Server misconfiguration' }, { status: 500 });
+        return NextResponse.json(
+          { message: 'Server misconfiguration' },
+          { status: 500 }
+        );
       }
       try {
         const decoded = jwt.verify(token, secret) as DecodedToken;
         userId = decoded.userId;
       } catch {
-        return NextResponse.json({ message: 'Invalid or expired token' }, { status: 401 });
+        return NextResponse.json(
+          { message: 'Invalid or expired token' },
+          { status: 401 }
+        );
       }
     } else {
       // 2. Fall back to NextAuth session
@@ -86,16 +94,25 @@ export async function PATCH(req: NextRequest) {
     let userEmail: string | null = null;
 
     const authHeader = req.headers.get('authorization');
-    const token = authHeader?.startsWith('Bearer ') ? authHeader.split(' ')[1] : null;
+    const token = authHeader?.startsWith('Bearer ')
+      ? authHeader.split(' ')[1]
+      : null;
 
     if (token) {
       const secret = process.env.JWT_SECRET;
-      if (!secret) return NextResponse.json({ message: 'Server misconfiguration' }, { status: 500 });
+      if (!secret)
+        return NextResponse.json(
+          { message: 'Server misconfiguration' },
+          { status: 500 }
+        );
       try {
         const decoded = jwt.verify(token, secret) as DecodedToken;
         userId = decoded.userId;
       } catch {
-        return NextResponse.json({ message: 'Invalid or expired token' }, { status: 401 });
+        return NextResponse.json(
+          { message: 'Invalid or expired token' },
+          { status: 401 }
+        );
       }
     } else {
       const session = await getServerSession();
@@ -110,7 +127,10 @@ export async function PATCH(req: NextRequest) {
     const { name } = body;
 
     if (!name || typeof name !== 'string' || name.trim().length === 0) {
-      return NextResponse.json({ message: 'Name is required' }, { status: 400 });
+      return NextResponse.json(
+        { message: 'Name is required' },
+        { status: 400 }
+      );
     }
 
     const query = userId ? { _id: userId } : { email: userEmail };
@@ -126,7 +146,12 @@ export async function PATCH(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      user: { id: user._id, name: user.name, email: user.email, role: user.role },
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
     });
   } catch (error) {
     console.error('PROFILE UPDATE ERROR:', error);

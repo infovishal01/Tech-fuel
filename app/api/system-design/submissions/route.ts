@@ -68,7 +68,14 @@ export async function POST(req: NextRequest) {
     await connectDB();
 
     const body = await req.json();
-    const { caseStudy, user, highLevelDesign, detailedDesign, dataModel, apiDesign } = body;
+    const {
+      caseStudy,
+      user,
+      highLevelDesign,
+      detailedDesign,
+      dataModel,
+      apiDesign,
+    } = body;
 
     // Validation
     if (!caseStudy || !user || !highLevelDesign) {

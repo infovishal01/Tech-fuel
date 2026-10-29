@@ -51,7 +51,9 @@ export async function GET(
 
     if (userId && mongoose.Types.ObjectId.isValid(userId)) {
       const tipObj = await RemoteTip.findById(id);
-      isBookmarkedByUser = tipObj?.bookmarks?.includes(new mongoose.Types.ObjectId(userId)) || false;
+      isBookmarkedByUser =
+        tipObj?.bookmarks?.includes(new mongoose.Types.ObjectId(userId)) ||
+        false;
     }
 
     // Get related tips

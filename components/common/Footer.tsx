@@ -30,25 +30,32 @@ export default function Footer() {
       { name: 'Project Generator', href: '/ai-tools/project-generator' },
     ],
     resources: [
-      { name: 'Documentation', href: 'https://github.com/infovishal01/Tech-fuel' },
+      {
+        name: 'Documentation',
+        href: 'https://github.com/infovishal01/Tech-fuel',
+      },
       { name: 'GitHub', href: 'https://github.com/infovishal01/Tech-fuel' },
-      { name: 'Contributing', href: 'https://github.com/infovishal01/Tech-fuel/blob/main/CONTRIBUTING.md' },
-      { name: 'Issues', href: 'https://github.com/infovishal01/Tech-fuel/issues' },
+      {
+        name: 'Contributing',
+        href: 'https://github.com/infovishal01/Tech-fuel/blob/main/CONTRIBUTING.md',
+      },
+      {
+        name: 'Issues',
+        href: 'https://github.com/infovishal01/Tech-fuel/issues',
+      },
     ],
     legal: [
       { name: 'Privacy Policy', href: '/privacy' },
       { name: 'Terms of Service', href: '/terms' },
-      { name: 'License', href: 'https://github.com/infovishal01/Tech-fuel/blob/main/LICENSE' },
+      {
+        name: 'License',
+        href: 'https://github.com/infovishal01/Tech-fuel/blob/main/LICENSE',
+      },
     ],
   };
 
   return (
-    <footer
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay: 0.5, duration: 0.5 }}
-      className="bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800"
-    >
+    <footer className="bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Main Footer Content */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-8">
@@ -120,7 +127,9 @@ export default function Footer() {
                   <Link
                     href={link.href}
                     target={link.href.startsWith('http') ? '_blank' : '_self'}
-                    rel={link.href.startsWith('http') ? 'noopener noreferrer' : ''}
+                    rel={
+                      link.href.startsWith('http') ? 'noopener noreferrer' : ''
+                    }
                     className="text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
                   >
                     {link.name}
@@ -190,18 +199,15 @@ export default function Footer() {
                 © {currentYear} Tech Fuel. All rights reserved.
               </p>
               <p className="text-sm text-gray-500 dark:text-gray-500 mt-1">
-                Made with <Heart size={14} className="inline text-red-500" /> for 
-                developers worldwide
+                Made with <Heart size={14} className="inline text-red-500" />{' '}
+                for developers worldwide
               </p>
             </div>
           </div>
 
           {/* Bottom Note */}
           <div className="mt-8 text-center">
-            <p
-              whileHover={{ scale: 1.02 }}
-              className="text-xs text-gray-500 dark:text-gray-500 flex items-center justify-center space-x-1"
-            >
+            <p className="text-xs text-gray-500 dark:text-gray-500 flex items-center justify-center space-x-1">
               <BookOpen size={12} />
               <span>
                 Check out our{' '}

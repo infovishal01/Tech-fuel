@@ -23,25 +23,63 @@ import Footer from './Footer';
 // ─── Navigation structure ─────────────────────────────────────────────────────
 
 const LEARN_DROPDOWN = [
-  { href: '/tutorials', label: 'All Tutorials', icon: BookOpen, desc: 'Browse all guides' },
-  { href: '/tutorials?cat=dsa', label: 'DSA Practice', icon: Code2, desc: 'Data structures & algorithms' },
-  { href: '/tutorials?cat=system-design', label: 'System Design', icon: Brain, desc: 'Design scalable systems' },
-  { href: '/tutorials?cat=core-cs', label: 'Core CS', icon: BookOpen, desc: 'OS, DBMS, Networks' },
-  { href: '/tutorials?cat=backend', label: 'Backend Dev', icon: Code2, desc: 'Node.js, APIs & more' },
+  {
+    href: '/tutorials',
+    label: 'All Tutorials',
+    icon: BookOpen,
+    desc: 'Browse all guides',
+  },
+  {
+    href: '/tutorials?cat=dsa',
+    label: 'DSA Practice',
+    icon: Code2,
+    desc: 'Data structures & algorithms',
+  },
+  {
+    href: '/tutorials?cat=system-design',
+    label: 'System Design',
+    icon: Brain,
+    desc: 'Design scalable systems',
+  },
+  {
+    href: '/tutorials?cat=core-cs',
+    label: 'Core CS',
+    icon: BookOpen,
+    desc: 'OS, DBMS, Networks',
+  },
+  {
+    href: '/tutorials?cat=backend',
+    label: 'Backend Dev',
+    icon: Code2,
+    desc: 'Node.js, APIs & more',
+  },
 ];
 
 const AI_DROPDOWN = [
-  { href: '/ai-tools', label: 'AI Chat', icon: Brain, desc: 'Ask your AI tutor' },
-  { href: '/dashboard#code-gen', label: 'Code Generator', icon: Code2, desc: 'Generate production code' },
-  { href: '/dashboard#mock', label: 'Mock Interview', icon: Briefcase, desc: 'Practice interviews with AI' },
-  { href: '/dashboard#roadmap', label: 'Roadmap Generator', icon: LayoutDashboard, desc: 'Build your career plan' },
-];
-
-const PRIMARY_NAV = [
-  { href: '/tutorials', label: 'Learn' },
-  { href: '/ai-tools', label: 'AI Tools' },
-  { href: '/about', label: 'Blog', icon: Rss },
-  { href: '/about', label: 'Job Prep', icon: Briefcase },
+  {
+    href: '/ai-tools',
+    label: 'AI Chat',
+    icon: Brain,
+    desc: 'Ask your AI tutor',
+  },
+  {
+    href: '/dashboard#code-gen',
+    label: 'Code Generator',
+    icon: Code2,
+    desc: 'Generate production code',
+  },
+  {
+    href: '/dashboard#mock',
+    label: 'Mock Interview',
+    icon: Briefcase,
+    desc: 'Practice interviews with AI',
+  },
+  {
+    href: '/dashboard#roadmap',
+    label: 'Roadmap Generator',
+    icon: LayoutDashboard,
+    desc: 'Build your career plan',
+  },
 ];
 
 // ─── Dropdown component ───────────────────────────────────────────────────────

@@ -1,20 +1,20 @@
-import { Schema, model, models, Document, Types } from "mongoose";
+import { Schema, model, models, Document, Types } from 'mongoose';
 
 // Vlog category
-export type VlogCategory = 
-  | "Tech Updates"
-  | "Tutorials"
-  | "Learning Resources"
-  | "Success Stories"
-  | "Interviews"
-  | "Career Advice"
-  | "Industry News"
-  | "Product Releases"
-  | "Community"
-  | "Events";
+export type VlogCategory =
+  | 'Tech Updates'
+  | 'Tutorials'
+  | 'Learning Resources'
+  | 'Success Stories'
+  | 'Interviews'
+  | 'Career Advice'
+  | 'Industry News'
+  | 'Product Releases'
+  | 'Community'
+  | 'Events';
 
 // Vlog status
-export type VlogStatus = "Draft" | "Published" | "Archived";
+export type VlogStatus = 'Draft' | 'Published' | 'Archived';
 
 // Interface for Vlog Post
 export interface IVlogPost extends Document {
@@ -62,44 +62,44 @@ const VlogPostSchema = new Schema<IVlogPost>(
   {
     title: {
       type: String,
-      required: [true, "Title is required"],
+      required: [true, 'Title is required'],
       trim: true,
-      maxlength: [200, "Title cannot exceed 200 characters"],
+      maxlength: [200, 'Title cannot exceed 200 characters'],
     },
     slug: {
       type: String,
-      required: [true, "Slug is required"],
+      required: [true, 'Slug is required'],
       trim: true,
       lowercase: true,
-      match: [/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Slug must be URL-friendly"],
+      match: [/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'Slug must be URL-friendly'],
       unique: true,
     },
     excerpt: {
       type: String,
-      required: [true, "Excerpt is required"],
+      required: [true, 'Excerpt is required'],
       trim: true,
-      maxlength: [300, "Excerpt cannot exceed 300 characters"],
+      maxlength: [300, 'Excerpt cannot exceed 300 characters'],
     },
     content: {
       type: String,
-      required: [true, "Content is required"],
+      required: [true, 'Content is required'],
       trim: true,
     },
     category: {
       type: String,
       enum: [
-        "Tech Updates",
-        "Tutorials",
-        "Learning Resources",
-        "Success Stories",
-        "Interviews",
-        "Career Advice",
-        "Industry News",
-        "Product Releases",
-        "Community",
-        "Events",
+        'Tech Updates',
+        'Tutorials',
+        'Learning Resources',
+        'Success Stories',
+        'Interviews',
+        'Career Advice',
+        'Industry News',
+        'Product Releases',
+        'Community',
+        'Events',
       ],
-      default: "Tech Updates",
+      default: 'Tech Updates',
     },
     tags: [{ type: String, lowercase: true, trim: true, maxlength: 50 }],
     featuredImage: {
@@ -107,18 +107,18 @@ const VlogPostSchema = new Schema<IVlogPost>(
       trim: true,
       match: [
         /^https?:\/\/.+\.(png|jpg|jpeg|gif|svg|webp|avif)$/i,
-        "Featured image must be a valid image URL",
+        'Featured image must be a valid image URL',
       ],
     },
     author: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
     },
     status: {
       type: String,
-      enum: ["Draft", "Published", "Archived"],
-      default: "Draft",
+      enum: ['Draft', 'Published', 'Archived'],
+      default: 'Draft',
     },
     publishedAt: { type: Date },
     isFeatured: {
@@ -148,12 +148,12 @@ const VlogPostSchema = new Schema<IVlogPost>(
     metaTitle: {
       type: String,
       trim: true,
-      maxlength: [100, "Meta title cannot exceed 100 characters"],
+      maxlength: [100, 'Meta title cannot exceed 100 characters'],
     },
     metaDescription: {
       type: String,
       trim: true,
-      maxlength: [200, "Meta description cannot exceed 200 characters"],
+      maxlength: [200, 'Meta description cannot exceed 200 characters'],
     },
     metaKeywords: [{ type: String, trim: true }],
     seoScore: {
@@ -174,26 +174,26 @@ const VlogCommentSchema = new Schema<IVlogComment>(
   {
     post: {
       type: Schema.Types.ObjectId,
-      ref: "VlogPost",
+      ref: 'VlogPost',
       required: true,
     },
     user: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
     },
     parent: {
       type: Schema.Types.ObjectId,
-      ref: "VlogComment",
+      ref: 'VlogComment',
     },
     content: {
       type: String,
-      required: [true, "Content is required"],
+      required: [true, 'Content is required'],
       trim: true,
-      maxlength: [2000, "Comment cannot exceed 2000 characters"],
+      maxlength: [2000, 'Comment cannot exceed 2000 characters'],
     },
-    likes: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    dislikes: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    likes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    dislikes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     isEdited: {
       type: Boolean,
       default: false,
@@ -210,8 +210,10 @@ const VlogCommentSchema = new Schema<IVlogComment>(
 );
 
 // Export models
-const VlogPost = models.VlogPost || model<IVlogPost>("VlogPost", VlogPostSchema);
-const VlogComment = models.VlogComment || model<IVlogComment>("VlogComment", VlogCommentSchema);
+const VlogPost =
+  models.VlogPost || model<IVlogPost>('VlogPost', VlogPostSchema);
+const VlogComment =
+  models.VlogComment || model<IVlogComment>('VlogComment', VlogCommentSchema);
 
 export { VlogPost, VlogComment };
 export default VlogPost;

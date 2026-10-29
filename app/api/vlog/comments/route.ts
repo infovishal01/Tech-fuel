@@ -103,9 +103,10 @@ export async function POST(req: NextRequest) {
       post: new mongoose.Types.ObjectId(postId),
       author: new mongoose.Types.ObjectId(author),
       content,
-      parent: parent && mongoose.Types.ObjectId.isValid(parent)
-        ? new mongoose.Types.ObjectId(parent)
-        : null,
+      parent:
+        parent && mongoose.Types.ObjectId.isValid(parent)
+          ? new mongoose.Types.ObjectId(parent)
+          : null,
       likeCount: 0,
     });
 

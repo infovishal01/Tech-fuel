@@ -1,11 +1,11 @@
 'use client';
 
+import Link from 'next/link';
 import DashboardLayout from '@/components/dashboard/DashboardLayout';
 import {
   BookOpen,
   Bot,
   FolderKanban,
-  TrendingUp,
   ArrowRight,
   CheckCircle2,
   PlayCircle,
@@ -81,10 +81,30 @@ const recentActivity = [
 ];
 
 const quickActions = [
-  { label: 'Continue Learning', desc: 'Pick up where you left off', href: '/tutorials', icon: BookOpen },
-  { label: 'Ask AI Tutor', desc: 'Get instant code help', href: '/ai-tools', icon: Bot },
-  { label: 'Mock Interview', desc: 'Practice with AI feedback', href: '/dashboard', icon: Brain },
-  { label: 'Generate Code', desc: 'Scaffold your next project', href: '/dashboard', icon: Code2 },
+  {
+    label: 'Continue Learning',
+    desc: 'Pick up where you left off',
+    href: '/tutorials',
+    icon: BookOpen,
+  },
+  {
+    label: 'Ask AI Tutor',
+    desc: 'Get instant code help',
+    href: '/ai-tools',
+    icon: Bot,
+  },
+  {
+    label: 'Mock Interview',
+    desc: 'Practice with AI feedback',
+    href: '/dashboard',
+    icon: Brain,
+  },
+  {
+    label: 'Generate Code',
+    desc: 'Scaffold your next project',
+    href: '/dashboard',
+    icon: Code2,
+  },
 ];
 
 export default function DashboardPage() {
@@ -102,16 +122,18 @@ export default function DashboardPage() {
               Welcome back to your workspace
             </h2>
             <p className="text-sm text-zinc-500 mt-1">
-              You&apos;re on a <span className="text-green-400 font-medium">7-day streak</span> — keep the momentum going!
+              You&apos;re on a{' '}
+              <span className="text-green-400 font-medium">7-day streak</span> —
+              keep the momentum going!
             </p>
           </div>
-          <a
+          <Link
             href="/tutorials"
             className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-400 text-black text-sm font-semibold px-4 py-2.5 rounded-xl transition-all hover:shadow-[0_0_20px_rgba(34,197,94,0.3)] whitespace-nowrap"
           >
             Continue Learning
             <ArrowRight className="w-4 h-4" />
-          </a>
+          </Link>
         </div>
       </div>
 
@@ -123,8 +145,12 @@ export default function DashboardPage() {
             className="border border-white/5 rounded-xl p-4 bg-white/[0.02] hover:bg-white/[0.04] hover:border-white/10 transition-all"
           >
             <div className="flex items-center justify-between mb-3">
-              <span className="text-xs text-zinc-500 leading-tight">{stat.label}</span>
-              <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${stat.accent}`}>
+              <span className="text-xs text-zinc-500 leading-tight">
+                {stat.label}
+              </span>
+              <div
+                className={`w-8 h-8 rounded-lg flex items-center justify-center ${stat.accent}`}
+              >
                 <stat.icon className="w-4 h-4" />
               </div>
             </div>
@@ -136,11 +162,12 @@ export default function DashboardPage() {
 
       {/* ── Bottom row: activity + quick actions ───────────────────────── */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
-
         {/* Recent Activity — 3 cols */}
         <div className="lg:col-span-3 border border-white/5 rounded-xl bg-white/[0.02]">
           <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b border-white/5">
-            <h3 className="text-sm font-semibold text-white">Recent Activity</h3>
+            <h3 className="text-sm font-semibold text-white">
+              Recent Activity
+            </h3>
             <span className="text-xs text-zinc-600">Last 7 days</span>
           </div>
           <div className="divide-y divide-white/5">
@@ -149,12 +176,16 @@ export default function DashboardPage() {
                 key={i}
                 className="flex items-center gap-3 px-5 py-3.5 hover:bg-white/[0.02] transition-colors"
               >
-                <div className={`w-8 h-8 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0 ${activity.color}`}>
+                <div
+                  className={`w-8 h-8 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0 ${activity.color}`}
+                >
                   <activity.icon className="w-4 h-4" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm text-white truncate">{activity.item}</p>
-                  <p className={`text-xs font-medium ${activity.color}`}>{activity.action}</p>
+                  <p className={`text-xs font-medium ${activity.color}`}>
+                    {activity.action}
+                  </p>
                 </div>
                 <span className="text-xs text-zinc-600 whitespace-nowrap flex-shrink-0">
                   {activity.time}
@@ -200,7 +231,9 @@ export default function DashboardPage() {
       {/* ── Progress section ───────────────────────────────────────────── */}
       <div className="mt-4 border border-white/5 rounded-xl p-5 bg-white/[0.02]">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-sm font-semibold text-white">Learning Progress</h3>
+          <h3 className="text-sm font-semibold text-white">
+            Learning Progress
+          </h3>
           <span className="text-xs text-zinc-600">This month</span>
         </div>
         <div className="space-y-3">
